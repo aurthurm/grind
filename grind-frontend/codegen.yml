@@ -1,0 +1,20 @@
+overwrite: true
+schema: "http://localhost:3000/graphql"
+documents: "graphql/**/*.ts"
+generates:
+  generated/graphql.tsx:
+    config:
+      reactApolloVersion: 3.6.9
+      withHooks: true
+    plugins:
+      - add:
+          content: "// THIS IS A GENERATED FILE, use `yarn codegwn` to regenerate"
+      - add:
+          content: '/* tslint:disable */' 
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+      - "fragment-matcher"
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"

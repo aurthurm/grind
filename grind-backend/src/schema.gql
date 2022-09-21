@@ -1,0 +1,617 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Board {
+  _id: ID!
+
+  """Created By"""
+  createdBy: User
+
+  """Board Description"""
+  description: String
+
+  """Board Scheme"""
+  scheme: Scheme
+
+  """Board Title"""
+  title: String!
+}
+
+type Community {
+  _id: ID!
+
+  """Community Creator"""
+  createdBy: User!
+
+  """Community Description"""
+  description: String!
+
+  """Community Errands"""
+  errands: [Errand!]!
+
+  """Community Members"""
+  members: [User!]!
+
+  """Community Title"""
+  title: String!
+}
+
+input CreateBoardInput {
+  """Created By"""
+  createdBy: String
+
+  """Board Description"""
+  description: String
+
+  """Board Scheme"""
+  scheme: String
+
+  """Board Title"""
+  title: String!
+}
+
+input CreateCommunityInput {
+  """Community Creator"""
+  createdBy: String!
+
+  """Community Description"""
+  description: String!
+
+  """Community Title"""
+  title: String!
+}
+
+input CreateDiscussionInput {
+  """Discusion Body"""
+  content: String!
+
+  """Discusion By"""
+  createdBy: String
+
+  """Discusion Errand"""
+  errand: String!
+}
+
+input CreateErrandInput {
+  """Assigned To"""
+  assignedTo: String
+
+  """Errand category"""
+  category: ErrandCategory
+
+  """Created By"""
+  createdBy: String
+
+  """Errand description"""
+  description: String
+
+  """Errand Milestone"""
+  milestones: [String!]
+
+  """Errand Poster"""
+  poster: String
+
+  """Errand status"""
+  status: String
+
+  """Errand Title"""
+  title: String!
+}
+
+input CreateLabelInput {
+  """Created By"""
+  createdBy: String!
+
+  """Label title"""
+  title: String!
+}
+
+input CreateMediaInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateMilestoneInput {
+  """Created By"""
+  createdBy: String!
+
+  """Milestone Description"""
+  description: String!
+
+  """Milestone Errand"""
+  errand: String!
+
+  """Milestone Title"""
+  title: String!
+}
+
+input CreatePosterInput {
+  """Assigned To"""
+  assignedTo: String!
+
+  """Poster category"""
+  category: PosterCategory!
+
+  """Poster Communities"""
+  communities: [String!]!
+
+  """Created By"""
+  createdBy: String!
+
+  """Poster description"""
+  description: String!
+
+  """Poster Members"""
+  members: [String!]!
+
+  """Poster label"""
+  stamps: String!
+
+  """Poster status"""
+  status: String!
+
+  """Poster Title"""
+  title: String!
+}
+
+input CreateSchemeInput {
+  """Scheme Boards"""
+  boards: [String!]!
+
+  """Created By"""
+  createdBy: String!
+
+  """Scheme Description"""
+  description: String!
+
+  """Scheme Members"""
+  members: [String!]!
+
+  """Scheme Title"""
+  title: String!
+}
+
+input CreateStampInput {
+  """Created By"""
+  createdBy: String!
+
+  """Stamp title"""
+  title: String!
+}
+
+input CreateUserInput {
+  address: String!
+  completeness: Float!
+  createdBy: String!
+  email: String!
+  firstName: String!
+  lastLogin: DateTime!
+  lastName: String!
+  lastPasswordReset: DateTime!
+  middleName: String!
+  name: String!
+  password: String!
+  phone: String!
+  pin: String!
+  requirePasswordChange: Boolean!
+  requirePinChange: Boolean!
+  resetPasswordKey: String!
+  resetPinKey: String!
+  roles: [UserRole!]!
+  status: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Discussion {
+  _id: ID!
+
+  """Discusion Body"""
+  content: String!
+
+  """Created At"""
+  createdAt: DateTime!
+
+  """Discusion By"""
+  createdBy: User
+
+  """Discusion Errand"""
+  errand: Errand!
+
+  """Updated At"""
+  updatedAt: DateTime!
+}
+
+type Errand {
+  _id: ID!
+
+  """Assigned To"""
+  assignedTo: User
+
+  """Errand category"""
+  category: ErrandCategory
+
+  """Created By"""
+  createdBy: User
+
+  """Errand description"""
+  description: String
+
+  """Errand Members"""
+  members: [User!]
+
+  """Errand Poster"""
+  poster: Poster
+
+  """Errand stamps"""
+  stamps: [Stamp!]
+
+  """Errand status"""
+  status: String
+
+  """Errand Title"""
+  title: String!
+}
+
+enum ErrandCategory {
+  ENGAGEMENT
+  MESSAGE
+  PROJECT
+  TICKET
+  TODO
+}
+
+type Label {
+  _id: ID!
+
+  """Created By"""
+  createdBy: User!
+
+  """Label title"""
+  title: String!
+}
+
+type Media {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Milestone {
+  _id: ID!
+
+  """Created By"""
+  createdBy: User!
+
+  """Milestone Description"""
+  description: String!
+
+  """Milestone Errand"""
+  errand: Errand!
+
+  """Milestone Title"""
+  title: String!
+}
+
+type Mutation {
+  createBoard(createBoardInput: CreateBoardInput!): Board!
+  createCommunity(createCommunityInput: CreateCommunityInput!): Community!
+  createDiscussion(createDiscussionInput: CreateDiscussionInput!): Discussion!
+  createErrand(createErrandInput: CreateErrandInput!): Errand!
+  createLabel(createLabelInput: CreateLabelInput!): Label!
+  createMedia(createMediaInput: CreateMediaInput!): Media!
+  createMilestone(createMilestoneInput: CreateMilestoneInput!): Milestone!
+  createPoster(createPosterInput: CreatePosterInput!): Poster!
+  createScheme(createSchemeInput: CreateSchemeInput!): Scheme!
+  createStamp(createStampInput: CreateStampInput!): Stamp!
+  createUser(createUserInput: CreateUserInput!): User!
+  removeBoard(id: Int!): Board!
+  removeCommunity(id: Int!): Community!
+  removeDiscussion(id: Int!): Discussion!
+  removeErrand(id: Int!): Errand!
+  removeLabel(id: Int!): Label!
+  removeMedia(id: Int!): Media!
+  removeMilestone(id: Int!): Milestone!
+  removePoster(id: Int!): Poster!
+  removeScheme(id: Int!): Scheme!
+  removeStamp(id: Int!): Stamp!
+  removeUser(id: Int!): User!
+  updateBoard(updateBoardInput: UpdateBoardInput!): Board!
+  updateCommunity(updateCommunityInput: UpdateCommunityInput!): Community!
+  updateDiscussion(updateDiscussionInput: UpdateDiscussionInput!): Discussion!
+  updateErrand(updateErrandInput: UpdateErrandInput!): Errand!
+  updateLabel(updateLabelInput: UpdateLabelInput!): Label!
+  updateMedia(updateMediaInput: UpdateMediaInput!): Media!
+  updateMilestone(updateMilestoneInput: UpdateMilestoneInput!): Milestone!
+  updatePoster(updatePosterInput: UpdatePosterInput!): Poster!
+  updateScheme(updateSchemeInput: UpdateSchemeInput!): Scheme!
+  updateStamp(updateStampInput: UpdateStampInput!): Stamp!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+}
+
+type Poster {
+  _id: ID!
+
+  """Assigned To"""
+  assignedTo: User!
+
+  """Poster category"""
+  category: PosterCategory!
+
+  """Created By"""
+  createdBy: User!
+
+  """Poster description"""
+  description: String!
+
+  """Poster Members"""
+  members: [User!]!
+
+  """Poster label"""
+  stamps: [Stamp!]!
+
+  """Poster status"""
+  status: String!
+
+  """Poster Title"""
+  title: String!
+}
+
+enum PosterCategory {
+  ENGAGEMENT
+  LISTING
+  MESAGE
+  TODO
+}
+
+type Query {
+  board(id: Int!): Board!
+  boards: [Board!]!
+  communities: [Community!]!
+  community(id: Int!): Community!
+  discussion(id: String!): Discussion!
+  discussions(id: String): [Discussion!]!
+  errand(id: String!): Errand!
+  errands: [Errand!]!
+  label(id: Int!): Label!
+  media(id: Int!): Media!
+  milestone(id: Int!): Milestone!
+  poster(id: Int!): Poster!
+  scheme(id: Int!): Scheme!
+  stamp(id: Int!): Stamp!
+  user(id: Int!): User!
+}
+
+type Scheme {
+  _id: ID!
+
+  """Created By"""
+  createdBy: User!
+
+  """Scheme Description"""
+  description: String!
+
+  """Scheme Members"""
+  members: [User!]!
+
+  """Scheme Title"""
+  title: String!
+}
+
+type Stamp {
+  _id: ID!
+
+  """Created By"""
+  createdBy: User!
+
+  """Stamp title"""
+  title: String!
+}
+
+input UpdateBoardInput {
+  """Created By"""
+  createdBy: String
+
+  """Board Description"""
+  description: String
+  id: String!
+
+  """Board Scheme"""
+  scheme: String
+
+  """Board Title"""
+  title: String
+}
+
+input UpdateCommunityInput {
+  """Community Creator"""
+  createdBy: String
+
+  """Community Description"""
+  description: String
+  id: String!
+
+  """Community Title"""
+  title: String
+}
+
+input UpdateDiscussionInput {
+  """Discusion Body"""
+  content: String
+
+  """Discusion By"""
+  createdBy: String
+
+  """Discusion Errand"""
+  errand: String
+  id: String!
+}
+
+input UpdateErrandInput {
+  """Assigned To"""
+  assignedTo: String
+
+  """Errand category"""
+  category: ErrandCategory
+
+  """Created By"""
+  createdBy: String
+
+  """Errand description"""
+  description: String
+  id: String!
+
+  """Errand Milestone"""
+  milestones: [String!]
+
+  """Errand Poster"""
+  poster: String
+
+  """Errand status"""
+  status: String
+
+  """Errand Title"""
+  title: String
+}
+
+input UpdateLabelInput {
+  """Created By"""
+  createdBy: String
+  id: String!
+
+  """Label title"""
+  title: String
+}
+
+input UpdateMediaInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateMilestoneInput {
+  """Created By"""
+  createdBy: String
+
+  """Milestone Description"""
+  description: String
+
+  """Milestone Errand"""
+  errand: String
+  id: String!
+
+  """Milestone Title"""
+  title: String
+}
+
+input UpdatePosterInput {
+  """Assigned To"""
+  assignedTo: String
+
+  """Poster category"""
+  category: PosterCategory
+
+  """Poster Communities"""
+  communities: [String!]
+
+  """Created By"""
+  createdBy: String
+
+  """Poster description"""
+  description: String
+  id: String!
+
+  """Poster Members"""
+  members: [String!]
+
+  """Poster label"""
+  stamps: String
+
+  """Poster status"""
+  status: String
+
+  """Poster Title"""
+  title: String
+}
+
+input UpdateSchemeInput {
+  """Scheme Boards"""
+  boards: [String!]
+
+  """Created By"""
+  createdBy: String
+
+  """Scheme Description"""
+  description: String
+  id: String!
+
+  """Scheme Members"""
+  members: [String!]
+
+  """Scheme Title"""
+  title: String
+}
+
+input UpdateStampInput {
+  """Created By"""
+  createdBy: String
+  id: String!
+
+  """Stamp title"""
+  title: String
+}
+
+input UpdateUserInput {
+  address: String
+  completeness: Float
+  createdBy: String
+  email: String
+  firstName: String
+  id: String!
+  lastLogin: DateTime
+  lastName: String
+  lastPasswordReset: DateTime
+  middleName: String
+  name: String
+  password: String
+  phone: String
+  pin: String
+  requirePasswordChange: Boolean
+  requirePinChange: Boolean
+  resetPasswordKey: String
+  resetPinKey: String
+  roles: [UserRole!]
+  status: String
+}
+
+type User {
+  _id: ID!
+  email: String!
+  firstName: String!
+  hashed_password: String!
+  is_active: Boolean!
+  is_superuser: Boolean!
+  lastLogin: DateTime!
+  lastName: String!
+  lastPasswordReset: DateTime!
+  middleName: String!
+  name: String!
+  password: String!
+  phone: String!
+  pin: String!
+  requirePasswordChange: Boolean!
+  requirePinChange: Boolean!
+  resetPasswordKey: String!
+  resetPinKey: String!
+  roles: UserRole!
+  status: String!
+}
+
+enum UserRole {
+  ADMIN
+  SU_ADMIN
+  USER
+}
