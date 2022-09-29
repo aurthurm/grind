@@ -64,7 +64,7 @@ const ErrandDetail = () => {
 
             <div className="mt-12 text-justify text-lg">
               {!isEditing ?
-                <article onClick={() => setIsEditing(true)} className="hover:bg-gray-100 p-4 hover:rounded-md">
+                <article onDoubleClick={() => setIsEditing(true)} className="hover:bg-gray-100 p-4 hover:rounded-md">
                     <HtmlViewer content={errandStore.errand?.description} />
                 </article> :
               <div>
@@ -95,8 +95,8 @@ const ErrandDetail = () => {
         
          {/* Right Column */}  
         <div className="col-span-1">
-          <ErrandMeta></ErrandMeta>
-          <ErrandActivity></ErrandActivity>
+          <ErrandMeta />
+          <ErrandActivity />
         </div>
 
       </div>
