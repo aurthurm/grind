@@ -1,7 +1,7 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Transform } from 'class-transformer';
-import { ObjectId , Document } from 'mongoose';
+import { Transform, Exclude } from 'class-transformer';
+import { ObjectId, Document } from 'mongoose';
 import { UserRole } from 'src/helpers/constants';
 
 export type UserDocument = User & Document;
@@ -13,72 +13,80 @@ export class User {
   @Transform(({ value }) => value.toString())
   _id: ObjectId;
 
-  @Field()
+  @Field({ nullable: true })
+  @Prop()
+  userName: string;
+
+  @Field({ nullable: true })
   @Prop()
   firstName: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop()
   middleName: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop()
   lastName: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop()
   name: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop()
   email: string;
 
-  @Field(() => UserRole)
+  @Field(() => [UserRole], { nullable: true })
   @Prop({
     index: true,
     type: [{ type: String, enum: UserRole }],
   })
   roles: UserRole[];
 
-  @Field()
+  @Exclude()
+  @Field({ nullable: true })
   @Prop()
   hashed_password: string;
 
-  @Field()
+  @Exclude()
+  @Field({ nullable: true })
   @Prop()
   pin: string;
 
-  @Field()
+  @Exclude()
+  @Field({ nullable: true })
   @Prop()
   resetPinKey: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({
     default: true,
   })
   requirePinChange: boolean;
 
-  @Field()
+  @Exclude()
+  @Field({ nullable: true })
   @Prop()
   password: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop()
   resetPasswordKey: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({
     default: true,
   })
   requirePasswordChange: boolean;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({
     unique: true,
   })
   phone: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop()
   lastLogin: Date;
 
@@ -90,21 +98,23 @@ export class User {
     min: 1,
     max: 100,
   })
+  @Field({ nullable: true })
   completeness: number;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop()
   status: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop()
   is_active: boolean;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop()
   is_superuser: boolean;
 
   @Prop()
+  @Field({ nullable: true })
   createdBy: string;
 }
 

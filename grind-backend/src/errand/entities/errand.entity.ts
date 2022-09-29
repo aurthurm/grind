@@ -24,9 +24,9 @@ export class Errand {
   @Prop({ type: String, enum: ErrandCategory })
   category?: ErrandCategory;
 
-  @Field(() => String, { description: 'Errand Title' })
+  @Field(() => String, { description: 'Errand Title', nullable: true })
   @Prop()
-  title: string;
+  title?: string;
 
   @Field(() => String, { description: 'Errand description', nullable: true })
   @Prop()
@@ -40,6 +40,10 @@ export class Errand {
   @Prop()
   status?: string;
 
+  @Field(() => String, { description: 'Errand priority', nullable: true })
+  @Prop()
+  priority?: string;
+
   @Field(() => Poster, { description: 'Errand Poster', nullable: true })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Poster.name })
   poster?: Poster;
@@ -48,9 +52,13 @@ export class Errand {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   createdBy?: User;
 
+  @Field(() => User, { description: 'Reported By', nullable: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  reporter?: User;
+
   @Field(() => User, { description: 'Assigned To', nullable: true })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  assignedTo?: User;
+  assignee?: User;
 
   @Field(() => [User], { description: 'Errand Members', nullable: true })
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: User.name }] })

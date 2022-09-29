@@ -21,7 +21,7 @@ export class AuthService {
 
   async validateUser(req: any): Promise<any> {
     const { username, password, role } = req.body;
-    const user = await this.usersService.findByEmailOrPhone(username);
+    const user = await this.usersService.findByEmailOrUserName(username);
     if (!user) return null;
     const isMatch =
       (await bcrypt.compare(password, user.pin)) ||
@@ -49,7 +49,7 @@ export class AuthService {
   }
 
   async resetPassword(email: string, request: Request, role: string) {
-    const user = await this.usersService.findByEmailOrPhone(email);
+    const user = await this.usersService.findByEmailOrUserName(email);
     if (!user) {
       throw new NotFoundException(`User with email address ${email} not found`);
     }

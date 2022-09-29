@@ -1,4 +1,4 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType, Field } from '@nestjs/graphql';
 import { ErrandCategory } from 'src/helpers/constants';
 
 @InputType()
@@ -9,8 +9,8 @@ export class CreateErrandInput {
   })
   category?: ErrandCategory;
 
-  @Field(() => String, { description: 'Errand Title' })
-  title: string;
+  @Field(() => String, { description: 'Errand Title', nullable: true })
+  title?: string;
 
   @Field(() => String, { description: 'Errand description', nullable: true })
   description?: string;
@@ -22,11 +22,20 @@ export class CreateErrandInput {
   createdBy?: string;
 
   @Field(() => String, { description: 'Assigned To', nullable: true })
-  assignedTo?: string;
+  reporter?: string;
+
+  @Field(() => String, { description: 'Assigned To', nullable: true })
+  assignee?: string;
 
   @Field(() => String, { description: 'Errand status', nullable: true })
   status?: string;
 
+  @Field(() => String, { description: 'Errand priority', nullable: true })
+  priority?: string;
+
   @Field(() => String, { description: 'Errand Poster', nullable: true })
   poster?: string;
+
+  @Field(() => [String], { description: 'Errand Members', nullable: true })
+  members?: string[];
 }

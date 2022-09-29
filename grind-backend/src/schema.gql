@@ -75,7 +75,7 @@ input CreateDiscussionInput {
 
 input CreateErrandInput {
   """Assigned To"""
-  assignedTo: String
+  assignee: String
 
   """Errand category"""
   category: ErrandCategory
@@ -86,17 +86,26 @@ input CreateErrandInput {
   """Errand description"""
   description: String
 
+  """Errand Members"""
+  members: [String!]
+
   """Errand Milestone"""
   milestones: [String!]
 
   """Errand Poster"""
   poster: String
 
+  """Errand priority"""
+  priority: String
+
+  """Assigned To"""
+  reporter: String
+
   """Errand status"""
   status: String
 
   """Errand Title"""
-  title: String!
+  title: String
 }
 
 input CreateLabelInput {
@@ -200,6 +209,7 @@ input CreateUserInput {
   resetPinKey: String!
   roles: [UserRole!]!
   status: String!
+  userName: String!
 }
 
 """
@@ -230,7 +240,7 @@ type Errand {
   _id: ID!
 
   """Assigned To"""
-  assignedTo: User
+  assignee: User
 
   """Errand category"""
   category: ErrandCategory
@@ -247,6 +257,12 @@ type Errand {
   """Errand Poster"""
   poster: Poster
 
+  """Errand priority"""
+  priority: String
+
+  """Reported By"""
+  reporter: User
+
   """Errand stamps"""
   stamps: [Stamp!]
 
@@ -254,7 +270,7 @@ type Errand {
   status: String
 
   """Errand Title"""
-  title: String!
+  title: String
 }
 
 enum ErrandCategory {
@@ -383,6 +399,7 @@ type Query {
   scheme(id: Int!): Scheme!
   stamp(id: Int!): Stamp!
   user(id: Int!): User!
+  users: [User!]!
 }
 
 type Scheme {
@@ -452,7 +469,7 @@ input UpdateDiscussionInput {
 
 input UpdateErrandInput {
   """Assigned To"""
-  assignedTo: String
+  assignee: String
 
   """Errand category"""
   category: ErrandCategory
@@ -464,11 +481,20 @@ input UpdateErrandInput {
   description: String
   id: String!
 
+  """Errand Members"""
+  members: [String!]
+
   """Errand Milestone"""
   milestones: [String!]
 
   """Errand Poster"""
   poster: String
+
+  """Errand priority"""
+  priority: String
+
+  """Assigned To"""
+  reporter: String
 
   """Errand status"""
   status: String
@@ -585,29 +611,33 @@ input UpdateUserInput {
   resetPinKey: String
   roles: [UserRole!]
   status: String
+  userName: String
 }
 
 type User {
   _id: ID!
-  email: String!
-  firstName: String!
-  hashed_password: String!
-  is_active: Boolean!
-  is_superuser: Boolean!
-  lastLogin: DateTime!
-  lastName: String!
+  completeness: Float
+  createdBy: String
+  email: String
+  firstName: String
+  hashed_password: String
+  is_active: Boolean
+  is_superuser: Boolean
+  lastLogin: DateTime
+  lastName: String
   lastPasswordReset: DateTime!
-  middleName: String!
-  name: String!
-  password: String!
-  phone: String!
-  pin: String!
-  requirePasswordChange: Boolean!
-  requirePinChange: Boolean!
-  resetPasswordKey: String!
-  resetPinKey: String!
-  roles: UserRole!
-  status: String!
+  middleName: String
+  name: String
+  password: String
+  phone: String
+  pin: String
+  requirePasswordChange: Boolean
+  requirePinChange: Boolean
+  resetPasswordKey: String
+  resetPinKey: String
+  roles: [UserRole!]
+  status: String
+  userName: String
 }
 
 enum UserRole {

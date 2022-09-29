@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
@@ -15,13 +15,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { RolesGuard } from './auth/roles.guard';
 import { AppInitService } from './providers/initialiser';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { ConfigModule } from '@nestjs/config';
 import { SchemeModule } from './scheme/scheme.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -58,6 +59,7 @@ import { SchemeModule } from './scheme/scheme.module';
         },
       },
     }),
+    AuthModule,
     UserModule,
     CommunityModule,
     ErrandModule,
@@ -77,6 +79,10 @@ import { SchemeModule } from './scheme/scheme.module';
       provide: APP_GUARD,
       useClass: RolesGuard,
     },
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: ClassSerializerInterceptor,
+    // },
     AppInitService,
   ],
 })

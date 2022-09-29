@@ -37,6 +37,9 @@ export class CreateUserInput {
   lastName: string;
 
   @Field()
+  userName: string;
+
+  @Field()
   name: string;
 
   @Field()

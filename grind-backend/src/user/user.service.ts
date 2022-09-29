@@ -37,10 +37,10 @@ export class UserService {
     return await this.userModel.findOne(query);
   }
 
-  async findByEmailOrPhone(payload: string) {
+  async findByEmailOrUserName(payload: string) {
     return await this.userModel
       .findOne({
-        $or: [{ phone: payload }, { email: payload }],
+        $or: [{ userName: payload }, { email: payload }],
       })
       .lean();
   }
