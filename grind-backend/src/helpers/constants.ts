@@ -48,3 +48,13 @@ export enum UserRole {
 registerEnumType(UserRole, {
   name: 'UserRole',
 });
+
+export const OCCURRENCE_TARGET = ['errand'];
+
+export enum OccurreneTarget {
+  ERRAND = 'errand',
+}
+
+registerEnumType(OccurreneTarget, {
+  name: 'OccurreneTarget',
+});

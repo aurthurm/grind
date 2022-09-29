@@ -77,13 +77,13 @@ input CreateErrandInput {
   """Assigned To"""
   assignee: String
 
-  """Errand category"""
+  """Errand Category"""
   category: ErrandCategory
 
   """Created By"""
   createdBy: String
 
-  """Errand description"""
+  """Errand Description"""
   description: String
 
   """Errand Members"""
@@ -95,13 +95,13 @@ input CreateErrandInput {
   """Errand Poster"""
   poster: String
 
-  """Errand priority"""
+  """Errand Priority"""
   priority: String
 
   """Assigned To"""
   reporter: String
 
-  """Errand status"""
+  """Errand Status"""
   status: String
 
   """Errand Title"""
@@ -348,6 +348,26 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
 }
 
+type Occurrence {
+  _id: ID!
+
+  """Actor"""
+  actor: User
+
+  """Poster description"""
+  description: String
+
+  """Poster category"""
+  target: OccurreneTarget
+
+  """Poster Title"""
+  targetId: String
+}
+
+enum OccurreneTarget {
+  ERRAND
+}
+
 type Poster {
   _id: ID!
 
@@ -395,6 +415,7 @@ type Query {
   label(id: Int!): Label!
   media(id: Int!): Media!
   milestone(id: Int!): Milestone!
+  occurrence(target: String!, targetId: String!): Occurrence!
   poster(id: Int!): Poster!
   scheme(id: Int!): Scheme!
   stamp(id: Int!): Stamp!
@@ -471,13 +492,13 @@ input UpdateErrandInput {
   """Assigned To"""
   assignee: String
 
-  """Errand category"""
+  """Errand Category"""
   category: ErrandCategory
 
   """Created By"""
   createdBy: String
 
-  """Errand description"""
+  """Errand Description"""
   description: String
   id: String!
 
@@ -490,13 +511,13 @@ input UpdateErrandInput {
   """Errand Poster"""
   poster: String
 
-  """Errand priority"""
+  """Errand Priority"""
   priority: String
 
   """Assigned To"""
   reporter: String
 
-  """Errand status"""
+  """Errand Status"""
   status: String
 
   """Errand Title"""

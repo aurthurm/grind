@@ -4,7 +4,7 @@ import { ErrandCategory } from 'src/helpers/constants';
 @InputType()
 export class CreateErrandInput {
   @Field(() => ErrandCategory, {
-    description: 'Errand category',
+    description: 'Errand Category',
     nullable: true,
   })
   category?: ErrandCategory;
@@ -12,7 +12,7 @@ export class CreateErrandInput {
   @Field(() => String, { description: 'Errand Title', nullable: true })
   title?: string;
 
-  @Field(() => String, { description: 'Errand description', nullable: true })
+  @Field(() => String, { description: 'Errand Description', nullable: true })
   description?: string;
 
   @Field(() => [String], { description: 'Errand Milestone', nullable: true })
@@ -27,10 +27,10 @@ export class CreateErrandInput {
   @Field(() => String, { description: 'Assigned To', nullable: true })
   assignee?: string;
 
-  @Field(() => String, { description: 'Errand status', nullable: true })
+  @Field(() => String, { description: 'Errand Status', nullable: true })
   status?: string;
 
-  @Field(() => String, { description: 'Errand priority', nullable: true })
+  @Field(() => String, { description: 'Errand Priority', nullable: true })
   priority?: string;
 
   @Field(() => String, { description: 'Errand Poster', nullable: true })

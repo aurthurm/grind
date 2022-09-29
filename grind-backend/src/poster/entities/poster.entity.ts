@@ -3,7 +3,6 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Transform } from 'class-transformer';
 import { ObjectId, Document } from 'mongoose';
 import * as mongoose from 'mongoose';
-import { Community } from 'src/community/entities/community.entity';
 import { PosterCategory } from 'src/helpers/constants';
 import { Stamp } from 'src/stamp/entities/stamp.entity';
 import { User } from 'src/user/entities/user.entity';

@@ -23,6 +23,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { ConfigModule } from '@nestjs/config';
 import { SchemeModule } from './scheme/scheme.module';
 import { AuthModule } from './auth/auth.module';
+import { OccurrenceModule } from './occurrence/occurrence.module';
 
 @Module({
   imports: [
@@ -71,6 +72,7 @@ import { AuthModule } from './auth/auth.module';
     LabelModule,
     SchemeModule,
     MilestoneModule,
+    OccurrenceModule,
   ],
   controllers: [AppController],
   providers: [
