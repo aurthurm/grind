@@ -10,8 +10,11 @@ export interface IErrand {
   description?: string
   stamps?: IStamp[]
   status?: string
+  priority?: string
   poster?: IPoster
   createdBy?: IUser
-  assignedTo?: IUser
-  members?: IUser[]
+  assignee?: IUser
+  reporter?: IUser
+  members?: IUser[] | string[]
+  memberIds?:  string[]
 }

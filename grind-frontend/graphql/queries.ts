@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import { IUser } from "../models/user";
 
 export const ERRANDS_QUERY = gql`
   query GetErrands {
@@ -18,7 +19,39 @@ export const ERRAND_QUERY = gql`
   query GetErrand($id: String!) {
     errand(id: $id) {
       _id
-      assignedTo {
+      title
+      description
+      category
+      status
+      priority
+      poster {
+        _id
+        category
+        description
+        status
+        title
+      }
+      stamps {
+        _id
+        title
+      }
+      assignee {
+        _id
+        email
+        firstName
+        lastName
+        middleName
+        name
+      }
+      reporter {
+        _id
+        email
+        firstName
+        lastName
+        middleName
+        name
+      }
+      members {
         _id
         email
         firstName
@@ -34,30 +67,7 @@ export const ERRAND_QUERY = gql`
         middleName
         name
       }
-      category
-      description
-      members {
-        _id
-        email
-        firstName
-        lastName
-        middleName
-        name
-      }
-      poster {
-        _id
-        category
-        description
-        status
-        title
-      }
-      stamps {
-        _id
-        title
-      }
-      status
-      title
-      }
+    }
   }
 `
 
@@ -77,5 +87,22 @@ export const DISCUSSIONS_QUERY = gql`
         lastName
       }
     }
+  }
+`
+
+export const USERS_QUERY = gql`
+  query GetUsers {
+    users {
+        _id
+        userName
+        firstName
+        lastName
+        name
+        email
+        roles
+        requirePasswordChange
+        requirePinChange
+        status
+      }
   }
 `

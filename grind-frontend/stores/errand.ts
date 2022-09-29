@@ -1,5 +1,6 @@
 import create from 'zustand'
 import { IErrand } from '../models/errand'
+import { IUser } from '../models/user'
 
 interface IErrandState {
     errand: IErrand
@@ -12,7 +13,7 @@ const useErrandStore = create<IErrandState>()((set) => ({
     errand: {} as IErrand,
     setErrand: (errand) => {
         set((state) => ({ 
-            errand
+            errand: { ...errand, memberIds: errand.members?.map(t => (t as any)._id) }
         }))
     },
     updateErrand: (values: any) => {

@@ -77,21 +77,27 @@ export type CreateDiscussionInput = {
 
 export type CreateErrandInput = {
   /** Assigned To */
-  assignedTo?: InputMaybe<Scalars['String']>;
+  assignee?: InputMaybe<Scalars['String']>;
   /** Errand category */
   category?: InputMaybe<ErrandCategory>;
   /** Created By */
   createdBy?: InputMaybe<Scalars['String']>;
   /** Errand description */
   description?: InputMaybe<Scalars['String']>;
+  /** Errand Members */
+  members?: InputMaybe<Array<Scalars['String']>>;
   /** Errand Milestone */
   milestones?: InputMaybe<Array<Scalars['String']>>;
   /** Errand Poster */
   poster?: InputMaybe<Scalars['String']>;
+  /** Errand priority */
+  priority?: InputMaybe<Scalars['String']>;
+  /** Assigned To */
+  reporter?: InputMaybe<Scalars['String']>;
   /** Errand status */
   status?: InputMaybe<Scalars['String']>;
   /** Errand Title */
-  title: Scalars['String'];
+  title?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateLabelInput = {
@@ -178,6 +184,7 @@ export type CreateUserInput = {
   resetPinKey: Scalars['String'];
   roles: Array<UserRole>;
   status: Scalars['String'];
+  userName: Scalars['String'];
 };
 
 export type Discussion = {
@@ -199,7 +206,7 @@ export type Errand = {
   __typename?: 'Errand';
   _id: Scalars['ID'];
   /** Assigned To */
-  assignedTo?: Maybe<User>;
+  assignee?: Maybe<User>;
   /** Errand category */
   category?: Maybe<ErrandCategory>;
   /** Created By */
@@ -210,12 +217,16 @@ export type Errand = {
   members?: Maybe<Array<User>>;
   /** Errand Poster */
   poster?: Maybe<Poster>;
+  /** Errand priority */
+  priority?: Maybe<Scalars['String']>;
+  /** Reported By */
+  reporter?: Maybe<User>;
   /** Errand stamps */
   stamps?: Maybe<Array<Stamp>>;
   /** Errand status */
   status?: Maybe<Scalars['String']>;
   /** Errand Title */
-  title: Scalars['String'];
+  title?: Maybe<Scalars['String']>;
 };
 
 export enum ErrandCategory {
@@ -501,6 +512,7 @@ export type Query = {
   scheme: Scheme;
   stamp: Stamp;
   user: User;
+  users: Array<User>;
 };
 
 
@@ -619,7 +631,7 @@ export type UpdateDiscussionInput = {
 
 export type UpdateErrandInput = {
   /** Assigned To */
-  assignedTo?: InputMaybe<Scalars['String']>;
+  assignee?: InputMaybe<Scalars['String']>;
   /** Errand category */
   category?: InputMaybe<ErrandCategory>;
   /** Created By */
@@ -627,10 +639,16 @@ export type UpdateErrandInput = {
   /** Errand description */
   description?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
+  /** Errand Members */
+  members?: InputMaybe<Array<Scalars['String']>>;
   /** Errand Milestone */
   milestones?: InputMaybe<Array<Scalars['String']>>;
   /** Errand Poster */
   poster?: InputMaybe<Scalars['String']>;
+  /** Errand priority */
+  priority?: InputMaybe<Scalars['String']>;
+  /** Assigned To */
+  reporter?: InputMaybe<Scalars['String']>;
   /** Errand status */
   status?: InputMaybe<Scalars['String']>;
   /** Errand Title */
@@ -728,30 +746,34 @@ export type UpdateUserInput = {
   resetPinKey?: InputMaybe<Scalars['String']>;
   roles?: InputMaybe<Array<UserRole>>;
   status?: InputMaybe<Scalars['String']>;
+  userName?: InputMaybe<Scalars['String']>;
 };
 
 export type User = {
   __typename?: 'User';
   _id: Scalars['ID'];
-  email: Scalars['String'];
-  firstName: Scalars['String'];
-  hashed_password: Scalars['String'];
-  is_active: Scalars['Boolean'];
-  is_superuser: Scalars['Boolean'];
-  lastLogin: Scalars['DateTime'];
-  lastName: Scalars['String'];
+  completeness?: Maybe<Scalars['Float']>;
+  createdBy?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+  hashed_password?: Maybe<Scalars['String']>;
+  is_active?: Maybe<Scalars['Boolean']>;
+  is_superuser?: Maybe<Scalars['Boolean']>;
+  lastLogin?: Maybe<Scalars['DateTime']>;
+  lastName?: Maybe<Scalars['String']>;
   lastPasswordReset: Scalars['DateTime'];
-  middleName: Scalars['String'];
-  name: Scalars['String'];
-  password: Scalars['String'];
-  phone: Scalars['String'];
-  pin: Scalars['String'];
-  requirePasswordChange: Scalars['Boolean'];
-  requirePinChange: Scalars['Boolean'];
-  resetPasswordKey: Scalars['String'];
-  resetPinKey: Scalars['String'];
-  roles: UserRole;
-  status: Scalars['String'];
+  middleName?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  pin?: Maybe<Scalars['String']>;
+  requirePasswordChange?: Maybe<Scalars['Boolean']>;
+  requirePinChange?: Maybe<Scalars['Boolean']>;
+  resetPasswordKey?: Maybe<Scalars['String']>;
+  resetPinKey?: Maybe<Scalars['String']>;
+  roles?: Maybe<Array<UserRole>>;
+  status?: Maybe<Scalars['String']>;
+  userName?: Maybe<Scalars['String']>;
 };
 
 export enum UserRole {
@@ -765,40 +787,45 @@ export type AddErrandMutationVariables = Exact<{
 }>;
 
 
-export type AddErrandMutation = { __typename?: 'Mutation', createErrand: { __typename?: 'Errand', _id: string, title: string } };
+export type AddErrandMutation = { __typename?: 'Mutation', createErrand: { __typename?: 'Errand', _id: string, title?: string | null } };
 
 export type EditErrandMutationVariables = Exact<{
   payload: UpdateErrandInput;
 }>;
 
 
-export type EditErrandMutation = { __typename?: 'Mutation', updateErrand: { __typename?: 'Errand', _id: string, title: string, description?: string | null } };
+export type EditErrandMutation = { __typename?: 'Mutation', updateErrand: { __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, category?: ErrandCategory | null, status?: string | null, priority?: string | null, poster?: { __typename?: 'Poster', _id: string } | null, stamps?: Array<{ __typename?: 'Stamp', _id: string }> | null, assignee?: { __typename?: 'User', _id: string } | null, reporter?: { __typename?: 'User', _id: string } | null, members?: Array<{ __typename?: 'User', _id: string }> | null, createdBy?: { __typename?: 'User', _id: string } | null } };
 
 export type AddDscussionMutationVariables = Exact<{
   payload: CreateDiscussionInput;
 }>;
 
 
-export type AddDscussionMutation = { __typename?: 'Mutation', createDiscussion: { __typename: 'Discussion', _id: string, content: string, createdAt: any, updatedAt: any, errand: { __typename?: 'Errand', _id: string }, createdBy?: { __typename?: 'User', _id: string, firstName: string, lastName: string } | null } };
+export type AddDscussionMutation = { __typename?: 'Mutation', createDiscussion: { __typename: 'Discussion', _id: string, content: string, createdAt: any, updatedAt: any, errand: { __typename?: 'Errand', _id: string }, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null } };
 
 export type GetErrandsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetErrandsQuery = { __typename?: 'Query', errands: Array<{ __typename?: 'Errand', _id: string, title: string, description?: string | null, createdBy?: { __typename?: 'User', _id: string, phone: string } | null }> };
+export type GetErrandsQuery = { __typename?: 'Query', errands: Array<{ __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, createdBy?: { __typename?: 'User', _id: string, phone?: string | null } | null }> };
 
 export type GetErrandQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type GetErrandQuery = { __typename?: 'Query', errand: { __typename?: 'Errand', _id: string, category?: ErrandCategory | null, description?: string | null, status?: string | null, title: string, assignedTo?: { __typename?: 'User', _id: string, email: string, firstName: string, lastName: string, middleName: string, name: string } | null, createdBy?: { __typename?: 'User', _id: string, email: string, firstName: string, lastName: string, middleName: string, name: string } | null, members?: Array<{ __typename?: 'User', _id: string, email: string, firstName: string, lastName: string, middleName: string, name: string }> | null, poster?: { __typename?: 'Poster', _id: string, category: PosterCategory, description: string, status: string, title: string } | null, stamps?: Array<{ __typename?: 'Stamp', _id: string, title: string }> | null } };
+export type GetErrandQuery = { __typename?: 'Query', errand: { __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, category?: ErrandCategory | null, status?: string | null, priority?: string | null, poster?: { __typename?: 'Poster', _id: string, category: PosterCategory, description: string, status: string, title: string } | null, stamps?: Array<{ __typename?: 'Stamp', _id: string, title: string }> | null, assignee?: { __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null } | null, reporter?: { __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null } | null, members?: Array<{ __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null }> | null, createdBy?: { __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null } | null } };
 
 export type GetDiscussionsQueryVariables = Exact<{
   id?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetDiscussionsQuery = { __typename?: 'Query', discussions: Array<{ __typename?: 'Discussion', _id: string, content: string, createdAt: any, updatedAt: any, errand: { __typename?: 'Errand', _id: string }, createdBy?: { __typename?: 'User', _id: string, firstName: string, lastName: string } | null }> };
+export type GetDiscussionsQuery = { __typename?: 'Query', discussions: Array<{ __typename?: 'Discussion', _id: string, content: string, createdAt: any, updatedAt: any, errand: { __typename?: 'Errand', _id: string }, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null }> };
+
+export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', _id: string, userName?: string | null, firstName?: string | null, lastName?: string | null, name?: string | null, email?: string | null, roles?: Array<UserRole> | null, requirePasswordChange?: boolean | null, requirePinChange?: boolean | null, status?: string | null }> };
 
 
 export const AddErrandDocument = gql`
@@ -841,6 +868,27 @@ export const EditErrandDocument = gql`
     _id
     title
     description
+    category
+    status
+    priority
+    poster {
+      _id
+    }
+    stamps {
+      _id
+    }
+    assignee {
+      _id
+    }
+    reporter {
+      _id
+    }
+    members {
+      _id
+    }
+    createdBy {
+      _id
+    }
   }
 }
     `;
@@ -959,7 +1007,39 @@ export const GetErrandDocument = gql`
     query GetErrand($id: String!) {
   errand(id: $id) {
     _id
-    assignedTo {
+    title
+    description
+    category
+    status
+    priority
+    poster {
+      _id
+      category
+      description
+      status
+      title
+    }
+    stamps {
+      _id
+      title
+    }
+    assignee {
+      _id
+      email
+      firstName
+      lastName
+      middleName
+      name
+    }
+    reporter {
+      _id
+      email
+      firstName
+      lastName
+      middleName
+      name
+    }
+    members {
       _id
       email
       firstName
@@ -975,29 +1055,6 @@ export const GetErrandDocument = gql`
       middleName
       name
     }
-    category
-    description
-    members {
-      _id
-      email
-      firstName
-      lastName
-      middleName
-      name
-    }
-    poster {
-      _id
-      category
-      description
-      status
-      title
-    }
-    stamps {
-      _id
-      title
-    }
-    status
-    title
   }
 }
     `;
@@ -1075,6 +1132,49 @@ export function useGetDiscussionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetDiscussionsQueryHookResult = ReturnType<typeof useGetDiscussionsQuery>;
 export type GetDiscussionsLazyQueryHookResult = ReturnType<typeof useGetDiscussionsLazyQuery>;
 export type GetDiscussionsQueryResult = Apollo.QueryResult<GetDiscussionsQuery, GetDiscussionsQueryVariables>;
+export const GetUsersDocument = gql`
+    query GetUsers {
+  users {
+    _id
+    userName
+    firstName
+    lastName
+    name
+    email
+    roles
+    requirePasswordChange
+    requirePinChange
+    status
+  }
+}
+    `;
+
+/**
+ * __useGetUsersQuery__
+ *
+ * To run a query within a React component, call `useGetUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUsersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUsersQuery(baseOptions?: Apollo.QueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, options);
+      }
+export function useGetUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, options);
+        }
+export type GetUsersQueryHookResult = ReturnType<typeof useGetUsersQuery>;
+export type GetUsersLazyQueryHookResult = ReturnType<typeof useGetUsersLazyQuery>;
+export type GetUsersQueryResult = Apollo.QueryResult<GetUsersQuery, GetUsersQueryVariables>;
 
       export interface PossibleTypesResultData {
         possibleTypes: {

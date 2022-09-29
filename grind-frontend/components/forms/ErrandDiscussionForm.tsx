@@ -1,12 +1,9 @@
 import { useAddDscussionMutation } from '../../generated/graphql'
 import React, { useState } from 'react';
 import { Button, Form, message, Modal } from 'antd';
-import useTicketStore from '../../stores/tickers'
 import { IErrand } from '../../models/errand';
 import dynamic from "next/dynamic";
-import { useRouter } from 'next/router';
 import useDiscussionStore from '../../stores/discussions';
-import { IUser } from '../../models/user';
 import { IErrandDiscussion } from '../../models/errand-discussion';
 const EditorCK = dynamic(() => import("../editors/EditorCK"), { ssr: false });
 

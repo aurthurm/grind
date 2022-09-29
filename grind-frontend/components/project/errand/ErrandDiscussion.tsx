@@ -2,12 +2,12 @@ import { MoreOutlined } from '@ant-design/icons';
 import { Avatar, Divider, Dropdown, Menu, MenuProps, message, Space } from 'antd';
 import { Typography } from 'antd';
 import React, { useEffect } from 'react';
-import { useGetDiscussionsLazyQuery } from '../generated/graphql';
-import useDiscussionStore from '../stores/discussions';
-import useErrandStore from '../stores/errand';
-import ErrandDiscussionForm from './forms/ErrandDiscussionForm';
-import HtmlViewer from './editors/HTMLViewer';
-import { IErrandDiscussion } from '../models/errand-discussion';
+import { useGetDiscussionsLazyQuery } from '../../../generated/graphql';
+import useDiscussionStore from '../../../stores/discussions';
+import useErrandStore from '../../../stores/errand';
+import ErrandDiscussionForm from '../../forms/ErrandDiscussionForm';
+import HtmlViewer from '../../editors/HTMLViewer';
+import { IErrandDiscussion } from '../../../models/errand-discussion';
 const { Title, Text } = Typography;
 
 const ErrandDiscussion = () => {

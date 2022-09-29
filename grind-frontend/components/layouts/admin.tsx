@@ -71,6 +71,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         label: 'Help',
                     },
                     {
+                        key: 'user',
+                        icon: <QuestionOutlined />,
+                        label: 'Users',
+                    },
+                    {
                         key: 'settings',
                         icon: <SettingOutlined />,
                         label: 'Settings',

@@ -15,6 +15,27 @@ export const UPDATE_ERRAND = gql`
       _id
       title
       description
+      category
+      status
+      priority
+      poster {
+        _id
+      }
+      stamps {
+        _id
+      }
+      assignee {
+        _id
+      }
+      reporter {
+        _id
+      }
+      members {
+        _id
+      }
+      createdBy {
+        _id
+      }
     }
 }
   `

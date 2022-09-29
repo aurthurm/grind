@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import AdminLayout from '../../../components/layouts/admin';
 import { useRouter } from 'next/router'
 import { useGetErrandLazyQuery } from '../../../generated/graphql';
-import ErrandDetail from '../../../components/ErrandDetail';
+import ErrandDetail from '../../../components/project/errand/ErrandDetail';
 import { IErrand } from '../../../models/errand';
 import { message } from 'antd';
 import useErrandStore from '../../../stores/errand';
@@ -36,7 +36,7 @@ const SingleTicketView = () => {
             </path>
           </svg>
         </a>
-        Loading Instruments and Time Frames
+        Loading Errand Data
       </h2>
     );
   }
