@@ -18,6 +18,8 @@ export const UPDATE_ERRAND = gql`
       category
       status
       priority
+      startDate
+      endDate
       poster {
         _id
       }

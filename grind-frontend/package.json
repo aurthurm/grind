@@ -18,6 +18,7 @@
     "@graphql-codegen/typescript-mongodb": "^2.4.3",
     "@types/lodash": "^4.14.185",
     "antd": "^4.23.1",
+    "dayjs": "^1.11.5",
     "gantt-task-react": "^0.3.9",
     "graphql": "^16.6.0",
     "lodash": "^4.17.21",

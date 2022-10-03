@@ -1,5 +1,4 @@
 import { gql } from "@apollo/client";
-import { IUser } from "../models/user";
 
 export const ERRANDS_QUERY = gql`
   query GetErrands {
@@ -7,10 +6,13 @@ export const ERRANDS_QUERY = gql`
         _id
         title
         description
+        startDate
+        endDate
         createdBy {
           _id
           phone
         }
+        createdAt
       }
   }
 `
@@ -24,6 +26,8 @@ export const ERRAND_QUERY = gql`
       category
       status
       priority
+      startDate
+      endDate
       poster {
         _id
         category
@@ -67,6 +71,24 @@ export const ERRAND_QUERY = gql`
         middleName
         name
       }
+      createdAt
+    }
+  }
+`
+
+export const OCCURRENCIES_QUERY = gql`
+  query getOccurrencies($target: String!, $targetId: String!) {
+    occurrences(target: $target, targetId: $targetId) {
+      _id
+      description
+      target
+      targetId
+      actor {
+        _id
+        firstName
+        lastName
+      }
+      createdAt
     }
   }
 `
@@ -86,6 +108,7 @@ export const DISCUSSIONS_QUERY = gql`
         firstName
         lastName
       }
+      createdAt
     }
   }
 `
@@ -103,6 +126,7 @@ export const USERS_QUERY = gql`
         requirePasswordChange
         requirePinChange
         status
+        createdAt
       }
   }
 `

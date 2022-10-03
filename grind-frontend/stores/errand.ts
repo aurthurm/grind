@@ -1,6 +1,6 @@
 import create from 'zustand'
+import { toMomentDate } from '../lib/utils'
 import { IErrand } from '../models/errand'
-import { IUser } from '../models/user'
 
 interface IErrandState {
     errand: IErrand
@@ -13,12 +13,22 @@ const useErrandStore = create<IErrandState>()((set) => ({
     errand: {} as IErrand,
     setErrand: (errand) => {
         set((state) => ({ 
-            errand: { ...errand, memberIds: errand.members?.map(t => (t as any)._id) }
+            errand: { 
+                ...errand, 
+                memberIds: errand.members?.map(t => (t as any)._id),
+                startDate: toMomentDate(errand?.startDate),
+                endDate: toMomentDate(errand?.endDate),
+            }
         }))
     },
     updateErrand: (values: any) => {
         set((state) => ({
-            errand: { ...state.errand, ...values }
+            errand: { 
+                ...state.errand, 
+                ...values,
+                startDate: toMomentDate(values?.startDate),
+                endDate: toMomentDate(values?.endDate),
+            }
         }))
     },
     clear: () => {

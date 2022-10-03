@@ -21,6 +21,8 @@ export type Scalars = {
 export type Board = {
   __typename?: 'Board';
   _id: Scalars['ID'];
+  /** Created At */
+  createdAt: Scalars['DateTime'];
   /** Created By */
   createdBy?: Maybe<User>;
   /** Board Description */
@@ -29,11 +31,15 @@ export type Board = {
   scheme?: Maybe<Scheme>;
   /** Board Title */
   title: Scalars['String'];
+  /** Updated At */
+  updatedAt: Scalars['DateTime'];
 };
 
 export type Community = {
   __typename?: 'Community';
   _id: Scalars['ID'];
+  /** Created At */
+  createdAt: Scalars['DateTime'];
   /** Community Creator */
   createdBy: User;
   /** Community Description */
@@ -44,6 +50,8 @@ export type Community = {
   members: Array<User>;
   /** Community Title */
   title: Scalars['String'];
+  /** Updated At */
+  updatedAt: Scalars['DateTime'];
 };
 
 export type CreateBoardInput = {
@@ -78,23 +86,27 @@ export type CreateDiscussionInput = {
 export type CreateErrandInput = {
   /** Assigned To */
   assignee?: InputMaybe<Scalars['String']>;
-  /** Errand category */
+  /** Errand Category */
   category?: InputMaybe<ErrandCategory>;
   /** Created By */
   createdBy?: InputMaybe<Scalars['String']>;
-  /** Errand description */
+  /** Errand Description */
   description?: InputMaybe<Scalars['String']>;
+  /** End Date */
+  endDate?: InputMaybe<Scalars['DateTime']>;
   /** Errand Members */
   members?: InputMaybe<Array<Scalars['String']>>;
   /** Errand Milestone */
   milestones?: InputMaybe<Array<Scalars['String']>>;
   /** Errand Poster */
   poster?: InputMaybe<Scalars['String']>;
-  /** Errand priority */
+  /** Errand Priority */
   priority?: InputMaybe<Scalars['String']>;
   /** Assigned To */
   reporter?: InputMaybe<Scalars['String']>;
-  /** Errand status */
+  /** Start Date */
+  startDate?: InputMaybe<Scalars['DateTime']>;
+  /** Errand Status */
   status?: InputMaybe<Scalars['String']>;
   /** Errand Title */
   title?: InputMaybe<Scalars['String']>;
@@ -151,8 +163,12 @@ export type CreateSchemeInput = {
   createdBy: Scalars['String'];
   /** Scheme Description */
   description: Scalars['String'];
+  /** End Date */
+  endDate?: InputMaybe<Scalars['DateTime']>;
   /** Scheme Members */
   members: Array<Scalars['String']>;
+  /** Start Date */
+  startDate?: InputMaybe<Scalars['DateTime']>;
   /** Scheme Title */
   title: Scalars['String'];
 };
@@ -209,10 +225,14 @@ export type Errand = {
   assignee?: Maybe<User>;
   /** Errand category */
   category?: Maybe<ErrandCategory>;
+  /** Created At */
+  createdAt: Scalars['DateTime'];
   /** Created By */
   createdBy?: Maybe<User>;
   /** Errand description */
   description?: Maybe<Scalars['String']>;
+  /** End Date */
+  endDate?: Maybe<Scalars['DateTime']>;
   /** Errand Members */
   members?: Maybe<Array<User>>;
   /** Errand Poster */
@@ -223,10 +243,14 @@ export type Errand = {
   reporter?: Maybe<User>;
   /** Errand stamps */
   stamps?: Maybe<Array<Stamp>>;
+  /** Start Date */
+  startDate?: Maybe<Scalars['DateTime']>;
   /** Errand status */
   status?: Maybe<Scalars['String']>;
   /** Errand Title */
   title?: Maybe<Scalars['String']>;
+  /** Updated At */
+  updatedAt: Scalars['DateTime'];
 };
 
 export enum ErrandCategory {
@@ -240,10 +264,14 @@ export enum ErrandCategory {
 export type Label = {
   __typename?: 'Label';
   _id: Scalars['ID'];
+  /** Created At */
+  createdAt: Scalars['DateTime'];
   /** Created By */
   createdBy: User;
   /** Label title */
   title: Scalars['String'];
+  /** Updated At */
+  updatedAt: Scalars['DateTime'];
 };
 
 export type Media = {
@@ -255,6 +283,8 @@ export type Media = {
 export type Milestone = {
   __typename?: 'Milestone';
   _id: Scalars['ID'];
+  /** Created At */
+  createdAt: Scalars['DateTime'];
   /** Created By */
   createdBy: User;
   /** Milestone Description */
@@ -263,6 +293,8 @@ export type Milestone = {
   errand: Errand;
   /** Milestone Title */
   title: Scalars['String'];
+  /** Updated At */
+  updatedAt: Scalars['DateTime'];
 };
 
 export type Mutation = {
@@ -467,6 +499,27 @@ export type MutationUpdateUserArgs = {
   updateUserInput: UpdateUserInput;
 };
 
+export type Occurrence = {
+  __typename?: 'Occurrence';
+  _id: Scalars['ID'];
+  /** Actor */
+  actor?: Maybe<User>;
+  /** Created At */
+  createdAt: Scalars['DateTime'];
+  /** Poster description */
+  description?: Maybe<Scalars['String']>;
+  /** Poster category */
+  target?: Maybe<OccurreneTarget>;
+  /** Poster Title */
+  targetId?: Maybe<Scalars['String']>;
+  /** Updated At */
+  updatedAt: Scalars['DateTime'];
+};
+
+export enum OccurreneTarget {
+  Errand = 'ERRAND'
+}
+
 export type Poster = {
   __typename?: 'Poster';
   _id: Scalars['ID'];
@@ -474,6 +527,8 @@ export type Poster = {
   assignedTo: User;
   /** Poster category */
   category: PosterCategory;
+  /** Created At */
+  createdAt: Scalars['DateTime'];
   /** Created By */
   createdBy: User;
   /** Poster description */
@@ -486,6 +541,8 @@ export type Poster = {
   status: Scalars['String'];
   /** Poster Title */
   title: Scalars['String'];
+  /** Updated At */
+  updatedAt: Scalars['DateTime'];
 };
 
 export enum PosterCategory {
@@ -508,6 +565,7 @@ export type Query = {
   label: Label;
   media: Media;
   milestone: Milestone;
+  occurrences: Array<Occurrence>;
   poster: Poster;
   scheme: Scheme;
   stamp: Stamp;
@@ -556,6 +614,12 @@ export type QueryMilestoneArgs = {
 };
 
 
+export type QueryOccurrencesArgs = {
+  target: Scalars['String'];
+  targetId: Scalars['String'];
+};
+
+
 export type QueryPosterArgs = {
   id: Scalars['Int'];
 };
@@ -578,23 +642,35 @@ export type QueryUserArgs = {
 export type Scheme = {
   __typename?: 'Scheme';
   _id: Scalars['ID'];
+  /** Created At */
+  createdAt: Scalars['DateTime'];
   /** Created By */
   createdBy: User;
   /** Scheme Description */
   description: Scalars['String'];
+  /** End Date */
+  endDate?: Maybe<Scalars['DateTime']>;
   /** Scheme Members */
   members: Array<User>;
+  /** Start Date */
+  startDate?: Maybe<Scalars['DateTime']>;
   /** Scheme Title */
   title: Scalars['String'];
+  /** Updated At */
+  updatedAt: Scalars['DateTime'];
 };
 
 export type Stamp = {
   __typename?: 'Stamp';
   _id: Scalars['ID'];
+  /** Created At */
+  createdAt: Scalars['DateTime'];
   /** Created By */
   createdBy: User;
   /** Stamp title */
   title: Scalars['String'];
+  /** Updated At */
+  updatedAt: Scalars['DateTime'];
 };
 
 export type UpdateBoardInput = {
@@ -632,12 +708,14 @@ export type UpdateDiscussionInput = {
 export type UpdateErrandInput = {
   /** Assigned To */
   assignee?: InputMaybe<Scalars['String']>;
-  /** Errand category */
+  /** Errand Category */
   category?: InputMaybe<ErrandCategory>;
   /** Created By */
   createdBy?: InputMaybe<Scalars['String']>;
-  /** Errand description */
+  /** Errand Description */
   description?: InputMaybe<Scalars['String']>;
+  /** End Date */
+  endDate?: InputMaybe<Scalars['DateTime']>;
   id: Scalars['String'];
   /** Errand Members */
   members?: InputMaybe<Array<Scalars['String']>>;
@@ -645,11 +723,13 @@ export type UpdateErrandInput = {
   milestones?: InputMaybe<Array<Scalars['String']>>;
   /** Errand Poster */
   poster?: InputMaybe<Scalars['String']>;
-  /** Errand priority */
+  /** Errand Priority */
   priority?: InputMaybe<Scalars['String']>;
   /** Assigned To */
   reporter?: InputMaybe<Scalars['String']>;
-  /** Errand status */
+  /** Start Date */
+  startDate?: InputMaybe<Scalars['DateTime']>;
+  /** Errand Status */
   status?: InputMaybe<Scalars['String']>;
   /** Errand Title */
   title?: InputMaybe<Scalars['String']>;
@@ -710,9 +790,13 @@ export type UpdateSchemeInput = {
   createdBy?: InputMaybe<Scalars['String']>;
   /** Scheme Description */
   description?: InputMaybe<Scalars['String']>;
+  /** End Date */
+  endDate?: InputMaybe<Scalars['DateTime']>;
   id: Scalars['String'];
   /** Scheme Members */
   members?: InputMaybe<Array<Scalars['String']>>;
+  /** Start Date */
+  startDate?: InputMaybe<Scalars['DateTime']>;
   /** Scheme Title */
   title?: InputMaybe<Scalars['String']>;
 };
@@ -753,6 +837,8 @@ export type User = {
   __typename?: 'User';
   _id: Scalars['ID'];
   completeness?: Maybe<Scalars['Float']>;
+  /** Created At */
+  createdAt: Scalars['DateTime'];
   createdBy?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   firstName?: Maybe<Scalars['String']>;
@@ -773,6 +859,8 @@ export type User = {
   resetPinKey?: Maybe<Scalars['String']>;
   roles?: Maybe<Array<UserRole>>;
   status?: Maybe<Scalars['String']>;
+  /** Updated At */
+  updatedAt: Scalars['DateTime'];
   userName?: Maybe<Scalars['String']>;
 };
 
@@ -794,7 +882,7 @@ export type EditErrandMutationVariables = Exact<{
 }>;
 
 
-export type EditErrandMutation = { __typename?: 'Mutation', updateErrand: { __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, category?: ErrandCategory | null, status?: string | null, priority?: string | null, poster?: { __typename?: 'Poster', _id: string } | null, stamps?: Array<{ __typename?: 'Stamp', _id: string }> | null, assignee?: { __typename?: 'User', _id: string } | null, reporter?: { __typename?: 'User', _id: string } | null, members?: Array<{ __typename?: 'User', _id: string }> | null, createdBy?: { __typename?: 'User', _id: string } | null } };
+export type EditErrandMutation = { __typename?: 'Mutation', updateErrand: { __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, category?: ErrandCategory | null, status?: string | null, priority?: string | null, startDate?: any | null, endDate?: any | null, poster?: { __typename?: 'Poster', _id: string } | null, stamps?: Array<{ __typename?: 'Stamp', _id: string }> | null, assignee?: { __typename?: 'User', _id: string } | null, reporter?: { __typename?: 'User', _id: string } | null, members?: Array<{ __typename?: 'User', _id: string }> | null, createdBy?: { __typename?: 'User', _id: string } | null } };
 
 export type AddDscussionMutationVariables = Exact<{
   payload: CreateDiscussionInput;
@@ -806,14 +894,22 @@ export type AddDscussionMutation = { __typename?: 'Mutation', createDiscussion: 
 export type GetErrandsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetErrandsQuery = { __typename?: 'Query', errands: Array<{ __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, createdBy?: { __typename?: 'User', _id: string, phone?: string | null } | null }> };
+export type GetErrandsQuery = { __typename?: 'Query', errands: Array<{ __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, startDate?: any | null, endDate?: any | null, createdAt: any, createdBy?: { __typename?: 'User', _id: string, phone?: string | null } | null }> };
 
 export type GetErrandQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type GetErrandQuery = { __typename?: 'Query', errand: { __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, category?: ErrandCategory | null, status?: string | null, priority?: string | null, poster?: { __typename?: 'Poster', _id: string, category: PosterCategory, description: string, status: string, title: string } | null, stamps?: Array<{ __typename?: 'Stamp', _id: string, title: string }> | null, assignee?: { __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null } | null, reporter?: { __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null } | null, members?: Array<{ __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null }> | null, createdBy?: { __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null } | null } };
+export type GetErrandQuery = { __typename?: 'Query', errand: { __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, category?: ErrandCategory | null, status?: string | null, priority?: string | null, startDate?: any | null, endDate?: any | null, createdAt: any, poster?: { __typename?: 'Poster', _id: string, category: PosterCategory, description: string, status: string, title: string } | null, stamps?: Array<{ __typename?: 'Stamp', _id: string, title: string }> | null, assignee?: { __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null } | null, reporter?: { __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null } | null, members?: Array<{ __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null }> | null, createdBy?: { __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null } | null } };
+
+export type GetOccurrenciesQueryVariables = Exact<{
+  target: Scalars['String'];
+  targetId: Scalars['String'];
+}>;
+
+
+export type GetOccurrenciesQuery = { __typename?: 'Query', occurrences: Array<{ __typename?: 'Occurrence', _id: string, description?: string | null, target?: OccurreneTarget | null, targetId?: string | null, createdAt: any, actor?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null }> };
 
 export type GetDiscussionsQueryVariables = Exact<{
   id?: InputMaybe<Scalars['String']>;
@@ -825,7 +921,7 @@ export type GetDiscussionsQuery = { __typename?: 'Query', discussions: Array<{ _
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', _id: string, userName?: string | null, firstName?: string | null, lastName?: string | null, name?: string | null, email?: string | null, roles?: Array<UserRole> | null, requirePasswordChange?: boolean | null, requirePinChange?: boolean | null, status?: string | null }> };
+export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', _id: string, userName?: string | null, firstName?: string | null, lastName?: string | null, name?: string | null, email?: string | null, roles?: Array<UserRole> | null, requirePasswordChange?: boolean | null, requirePinChange?: boolean | null, status?: string | null, createdAt: any }> };
 
 
 export const AddErrandDocument = gql`
@@ -871,6 +967,8 @@ export const EditErrandDocument = gql`
     category
     status
     priority
+    startDate
+    endDate
     poster {
       _id
     }
@@ -969,10 +1067,13 @@ export const GetErrandsDocument = gql`
     _id
     title
     description
+    startDate
+    endDate
     createdBy {
       _id
       phone
     }
+    createdAt
   }
 }
     `;
@@ -1012,6 +1113,8 @@ export const GetErrandDocument = gql`
     category
     status
     priority
+    startDate
+    endDate
     poster {
       _id
       category
@@ -1055,6 +1158,7 @@ export const GetErrandDocument = gql`
       middleName
       name
     }
+    createdAt
   }
 }
     `;
@@ -1086,6 +1190,51 @@ export function useGetErrandLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type GetErrandQueryHookResult = ReturnType<typeof useGetErrandQuery>;
 export type GetErrandLazyQueryHookResult = ReturnType<typeof useGetErrandLazyQuery>;
 export type GetErrandQueryResult = Apollo.QueryResult<GetErrandQuery, GetErrandQueryVariables>;
+export const GetOccurrenciesDocument = gql`
+    query getOccurrencies($target: String!, $targetId: String!) {
+  occurrences(target: $target, targetId: $targetId) {
+    _id
+    description
+    target
+    targetId
+    actor {
+      _id
+      firstName
+      lastName
+    }
+    createdAt
+  }
+}
+    `;
+
+/**
+ * __useGetOccurrenciesQuery__
+ *
+ * To run a query within a React component, call `useGetOccurrenciesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOccurrenciesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOccurrenciesQuery({
+ *   variables: {
+ *      target: // value for 'target'
+ *      targetId: // value for 'targetId'
+ *   },
+ * });
+ */
+export function useGetOccurrenciesQuery(baseOptions: Apollo.QueryHookOptions<GetOccurrenciesQuery, GetOccurrenciesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetOccurrenciesQuery, GetOccurrenciesQueryVariables>(GetOccurrenciesDocument, options);
+      }
+export function useGetOccurrenciesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOccurrenciesQuery, GetOccurrenciesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetOccurrenciesQuery, GetOccurrenciesQueryVariables>(GetOccurrenciesDocument, options);
+        }
+export type GetOccurrenciesQueryHookResult = ReturnType<typeof useGetOccurrenciesQuery>;
+export type GetOccurrenciesLazyQueryHookResult = ReturnType<typeof useGetOccurrenciesLazyQuery>;
+export type GetOccurrenciesQueryResult = Apollo.QueryResult<GetOccurrenciesQuery, GetOccurrenciesQueryVariables>;
 export const GetDiscussionsDocument = gql`
     query getDiscussions($id: String) {
   discussions(id: $id) {
@@ -1101,6 +1250,7 @@ export const GetDiscussionsDocument = gql`
       firstName
       lastName
     }
+    createdAt
   }
 }
     `;
@@ -1145,6 +1295,7 @@ export const GetUsersDocument = gql`
     requirePasswordChange
     requirePinChange
     status
+    createdAt
   }
 }
     `;

@@ -96,7 +96,7 @@ const ErrandDetail = () => {
          {/* Right Column */}  
         <div className="col-span-1">
           <ErrandMeta />
-          <ErrandActivity />
+          <ErrandActivity target='errand' targetId={errandStore.errand._id} />
         </div>
 
       </div>

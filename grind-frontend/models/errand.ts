@@ -17,4 +17,6 @@ export interface IErrand {
   reporter?: IUser
   members?: IUser[] | string[]
   memberIds?:  string[]
+  startDate?: Date | string | any,
+  endDate?: Date | string | any
 }
