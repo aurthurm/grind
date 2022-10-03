@@ -29,6 +29,22 @@ export class Scheme {
   @Field(() => [User], { description: 'Scheme Members' })
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: User.name }] })
   members: User[];
+
+  @Prop()
+  @Field(() => Date, { description: 'Start Date', nullable: true })
+  startDate?: Date;
+
+  @Prop()
+  @Field(() => Date, { description: 'End Date', nullable: true })
+  endDate?: Date;
+
+  @Prop()
+  @Field(() => Date, { description: 'Created At' })
+  createdAt?: Date;
+
+  @Prop()
+  @Field(() => Date, { description: 'Updated At' })
+  updatedAt?: Date;
 }
 
 export const SchemeSchema = SchemaFactory.createForClass(Scheme);

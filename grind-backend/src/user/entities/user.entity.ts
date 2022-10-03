@@ -116,6 +116,14 @@ export class User {
   @Prop()
   @Field({ nullable: true })
   createdBy: string;
+
+  @Prop()
+  @Field(() => Date, { description: 'Created At' })
+  createdAt?: Date;
+
+  @Prop()
+  @Field(() => Date, { description: 'Updated At' })
+  updatedAt?: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

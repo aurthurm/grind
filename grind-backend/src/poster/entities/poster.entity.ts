@@ -47,6 +47,14 @@ export class Poster {
   @Field(() => String, { description: 'Poster status' })
   @Prop()
   status: string;
+
+  @Prop()
+  @Field(() => Date, { description: 'Created At' })
+  createdAt?: Date;
+
+  @Prop()
+  @Field(() => Date, { description: 'Updated At' })
+  updatedAt?: Date;
 }
 
 export const PosterSchema = SchemaFactory.createForClass(Poster);

@@ -38,4 +38,10 @@ export class CreateErrandInput {
 
   @Field(() => [String], { description: 'Errand Members', nullable: true })
   members?: string[];
+
+  @Field(() => Date, { description: 'Start Date', nullable: true })
+  startDate?: Date;
+
+  @Field(() => Date, { description: 'End Date', nullable: true })
+  endDate?: Date;
 }

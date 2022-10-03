@@ -16,4 +16,10 @@ export class CreateSchemeInput {
 
   @Field(() => [String], { description: 'Scheme Members' })
   members: string[];
+
+  @Field(() => Date, { description: 'Start Date', nullable: true })
+  startDate?: Date;
+
+  @Field(() => Date, { description: 'End Date', nullable: true })
+  endDate?: Date;
 }

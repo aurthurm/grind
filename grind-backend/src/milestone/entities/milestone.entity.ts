@@ -30,6 +30,14 @@ export class Milestone {
   @Field(() => User, { description: 'Created By' })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   createdBy: User;
+
+  @Prop()
+  @Field(() => Date, { description: 'Created At' })
+  createdAt?: Date;
+
+  @Prop()
+  @Field(() => Date, { description: 'Updated At' })
+  updatedAt?: Date;
 }
 
 export const MilestoneSchema = SchemaFactory.createForClass(Milestone);

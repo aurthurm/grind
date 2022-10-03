@@ -5,6 +5,9 @@
 type Board {
   _id: ID!
 
+  """Created At"""
+  createdAt: DateTime!
+
   """Created By"""
   createdBy: User
 
@@ -16,10 +19,16 @@ type Board {
 
   """Board Title"""
   title: String!
+
+  """Updated At"""
+  updatedAt: DateTime!
 }
 
 type Community {
   _id: ID!
+
+  """Created At"""
+  createdAt: DateTime!
 
   """Community Creator"""
   createdBy: User!
@@ -35,6 +44,9 @@ type Community {
 
   """Community Title"""
   title: String!
+
+  """Updated At"""
+  updatedAt: DateTime!
 }
 
 input CreateBoardInput {
@@ -86,6 +98,9 @@ input CreateErrandInput {
   """Errand Description"""
   description: String
 
+  """End Date"""
+  endDate: DateTime
+
   """Errand Members"""
   members: [String!]
 
@@ -100,6 +115,9 @@ input CreateErrandInput {
 
   """Assigned To"""
   reporter: String
+
+  """Start Date"""
+  startDate: DateTime
 
   """Errand Status"""
   status: String
@@ -174,8 +192,14 @@ input CreateSchemeInput {
   """Scheme Description"""
   description: String!
 
+  """End Date"""
+  endDate: DateTime
+
   """Scheme Members"""
   members: [String!]!
+
+  """Start Date"""
+  startDate: DateTime
 
   """Scheme Title"""
   title: String!
@@ -245,11 +269,17 @@ type Errand {
   """Errand category"""
   category: ErrandCategory
 
+  """Created At"""
+  createdAt: DateTime!
+
   """Created By"""
   createdBy: User
 
   """Errand description"""
   description: String
+
+  """End Date"""
+  endDate: DateTime
 
   """Errand Members"""
   members: [User!]
@@ -266,11 +296,17 @@ type Errand {
   """Errand stamps"""
   stamps: [Stamp!]
 
+  """Start Date"""
+  startDate: DateTime
+
   """Errand status"""
   status: String
 
   """Errand Title"""
   title: String
+
+  """Updated At"""
+  updatedAt: DateTime!
 }
 
 enum ErrandCategory {
@@ -284,11 +320,17 @@ enum ErrandCategory {
 type Label {
   _id: ID!
 
+  """Created At"""
+  createdAt: DateTime!
+
   """Created By"""
   createdBy: User!
 
   """Label title"""
   title: String!
+
+  """Updated At"""
+  updatedAt: DateTime!
 }
 
 type Media {
@@ -298,6 +340,9 @@ type Media {
 
 type Milestone {
   _id: ID!
+
+  """Created At"""
+  createdAt: DateTime!
 
   """Created By"""
   createdBy: User!
@@ -310,6 +355,9 @@ type Milestone {
 
   """Milestone Title"""
   title: String!
+
+  """Updated At"""
+  updatedAt: DateTime!
 }
 
 type Mutation {
@@ -354,6 +402,9 @@ type Occurrence {
   """Actor"""
   actor: User
 
+  """Created At"""
+  createdAt: DateTime!
+
   """Poster description"""
   description: String
 
@@ -362,6 +413,9 @@ type Occurrence {
 
   """Poster Title"""
   targetId: String
+
+  """Updated At"""
+  updatedAt: DateTime!
 }
 
 enum OccurreneTarget {
@@ -376,6 +430,9 @@ type Poster {
 
   """Poster category"""
   category: PosterCategory!
+
+  """Created At"""
+  createdAt: DateTime!
 
   """Created By"""
   createdBy: User!
@@ -394,6 +451,9 @@ type Poster {
 
   """Poster Title"""
   title: String!
+
+  """Updated At"""
+  updatedAt: DateTime!
 }
 
 enum PosterCategory {
@@ -415,7 +475,7 @@ type Query {
   label(id: Int!): Label!
   media(id: Int!): Media!
   milestone(id: Int!): Milestone!
-  occurrence(target: String!, targetId: String!): Occurrence!
+  occurrences(target: String!, targetId: String!): [Occurrence!]!
   poster(id: Int!): Poster!
   scheme(id: Int!): Scheme!
   stamp(id: Int!): Stamp!
@@ -426,27 +486,45 @@ type Query {
 type Scheme {
   _id: ID!
 
+  """Created At"""
+  createdAt: DateTime!
+
   """Created By"""
   createdBy: User!
 
   """Scheme Description"""
   description: String!
 
+  """End Date"""
+  endDate: DateTime
+
   """Scheme Members"""
   members: [User!]!
 
+  """Start Date"""
+  startDate: DateTime
+
   """Scheme Title"""
   title: String!
+
+  """Updated At"""
+  updatedAt: DateTime!
 }
 
 type Stamp {
   _id: ID!
+
+  """Created At"""
+  createdAt: DateTime!
 
   """Created By"""
   createdBy: User!
 
   """Stamp title"""
   title: String!
+
+  """Updated At"""
+  updatedAt: DateTime!
 }
 
 input UpdateBoardInput {
@@ -500,6 +578,9 @@ input UpdateErrandInput {
 
   """Errand Description"""
   description: String
+
+  """End Date"""
+  endDate: DateTime
   id: String!
 
   """Errand Members"""
@@ -516,6 +597,9 @@ input UpdateErrandInput {
 
   """Assigned To"""
   reporter: String
+
+  """Start Date"""
+  startDate: DateTime
 
   """Errand Status"""
   status: String
@@ -593,10 +677,16 @@ input UpdateSchemeInput {
 
   """Scheme Description"""
   description: String
+
+  """End Date"""
+  endDate: DateTime
   id: String!
 
   """Scheme Members"""
   members: [String!]
+
+  """Start Date"""
+  startDate: DateTime
 
   """Scheme Title"""
   title: String
@@ -638,6 +728,9 @@ input UpdateUserInput {
 type User {
   _id: ID!
   completeness: Float
+
+  """Created At"""
+  createdAt: DateTime!
   createdBy: String
   email: String
   firstName: String
@@ -658,6 +751,9 @@ type User {
   resetPinKey: String
   roles: [UserRole!]
   status: String
+
+  """Updated At"""
+  updatedAt: DateTime!
   userName: String
 }
 

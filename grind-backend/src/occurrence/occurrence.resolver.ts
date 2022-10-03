@@ -6,11 +6,11 @@ import { Occurrence } from './entities/occurrence.entity';
 export class OccurrenceResolver {
   constructor(private readonly occurrenceService: OccurrenceService) {}
 
-  @Query(() => Occurrence, { name: 'occurrence' })
-  findOne(
+  @Query(() => [Occurrence], { name: 'occurrences' })
+  async find(
     @Args('target', { type: () => String }) target: string,
     @Args('targetId', { type: () => String }) targetId: string,
   ) {
-    return this.occurrenceService.find(target, targetId);
+    return await this.occurrenceService.find(target, targetId);
   }
 }

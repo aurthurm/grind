@@ -63,6 +63,22 @@ export class Errand {
   @Field(() => [User], { description: 'Errand Members', nullable: true })
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: User.name }] })
   members?: User[];
+
+  @Prop()
+  @Field(() => Date, { description: 'Start Date', nullable: true })
+  startDate?: Date;
+
+  @Prop()
+  @Field(() => Date, { description: 'End Date', nullable: true })
+  endDate?: Date;
+
+  @Prop()
+  @Field(() => Date, { description: 'Created At' })
+  createdAt?: Date;
+
+  @Prop()
+  @Field(() => Date, { description: 'Updated At' })
+  updatedAt?: Date;
 }
 
 export const ErrandSchema = SchemaFactory.createForClass(Errand);

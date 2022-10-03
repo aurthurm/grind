@@ -34,6 +34,14 @@ export class Board {
     unique: false,
   })
   createdBy?: User;
+
+  @Prop()
+  @Field(() => Date, { description: 'Created At' })
+  createdAt?: Date;
+
+  @Prop()
+  @Field(() => Date, { description: 'Updated At' })
+  updatedAt?: Date;
 }
 
 export const BoardSchema = SchemaFactory.createForClass(Board);

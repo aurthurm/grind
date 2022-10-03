@@ -1,7 +1,7 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Transform } from 'class-transformer';
-import { ObjectId , Document } from 'mongoose';
+import { ObjectId, Document } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { Errand, ErrandSchema } from 'src/errand/entities/errand.entity';
 import { User } from 'src/user/entities/user.entity';
@@ -34,6 +34,14 @@ export class Community {
   @Field(() => [User], { description: 'Community Members' })
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: User.name }] })
   members: User[];
+
+  @Prop()
+  @Field(() => Date, { description: 'Created At' })
+  createdAt?: Date;
+
+  @Prop()
+  @Field(() => Date, { description: 'Updated At' })
+  updatedAt?: Date;
 }
 
 export const CommunitySchema = SchemaFactory.createForClass(Community);

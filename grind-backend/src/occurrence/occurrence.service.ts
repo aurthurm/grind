@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import * as mongoose from 'mongoose';
 import { CreateOccurrenceInput } from './dto/create-occurrence.input';
 import { Occurrence, OccurrenceDocument } from './entities/occurrence.entity';
 
@@ -16,10 +17,8 @@ export class OccurrenceService {
     return await occurrence.save();
   }
 
-  find(target: string, targetId: string) {
-    return this.occurrenceModel.find({
-      target,
-      targetId,
-    });
+  async find(target: string, targetId: string) {
+    console.log(target, targetId);
+    return await this.occurrenceModel.find({ target, targetId });
   }
 }

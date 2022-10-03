@@ -1,7 +1,7 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Transform } from 'class-transformer';
-import { ObjectId , Document } from 'mongoose';
+import { ObjectId, Document } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { Errand } from 'src/errand/entities/errand.entity';
 import { User } from 'src/user/entities/user.entity';
@@ -22,6 +22,14 @@ export class Label {
   @Field(() => User, { description: 'Created By' })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   createdBy: User;
+
+  @Prop()
+  @Field(() => Date, { description: 'Created At' })
+  createdAt?: Date;
+
+  @Prop()
+  @Field(() => Date, { description: 'Updated At' })
+  updatedAt?: Date;
 }
 
 export const LabelSchema = SchemaFactory.createForClass(Label);

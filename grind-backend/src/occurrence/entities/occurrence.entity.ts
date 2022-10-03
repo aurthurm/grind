@@ -23,7 +23,7 @@ export class Occurrence {
   target: OccurreneTarget;
 
   @Field(() => String, { description: 'Poster Title', nullable: true })
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
+  @Prop({ type: String })
   targetId: string;
 
   @Field(() => User, { description: 'Actor', nullable: true })
@@ -33,6 +33,14 @@ export class Occurrence {
   @Field(() => String, { description: 'Poster description', nullable: true })
   @Prop()
   description: string;
+
+  @Prop()
+  @Field(() => Date, { description: 'Created At' })
+  createdAt?: Date;
+
+  @Prop()
+  @Field(() => Date, { description: 'Updated At' })
+  updatedAt?: Date;
 }
 
 export const OccurrenceSchema = SchemaFactory.createForClass(Occurrence);
