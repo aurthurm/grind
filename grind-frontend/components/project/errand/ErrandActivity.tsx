@@ -1,7 +1,7 @@
 import { message, Timeline } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useGetOccurrenciesLazyQuery } from '../../../generated/graphql';
-import { asTimeAgo } from '../../../lib/utils';
+import { asTimeAgo, getInitials } from '../../../lib/utils';
 import { IOccurrence } from '../../../models/occurrence';
 
 interface IErrandActivityProps {
@@ -31,16 +31,14 @@ const ErrandActivity = ({ target, targetId }: IErrandActivityProps) => {
 
   return (
     <>
-        <section>
-          <h2 className="mb-4 ">Activity Stream</h2>
-          
+        <section className="max-h-96 overflow-y-scroll pt-4">
           <Timeline>
             {activities.map(activity => {
               return (
                 <Timeline.Item key={activity._id}>
-                  <div className="mb-2">
-                    <div>{asTimeAgo(activity.createdAt)}</div>
-                    <p>{activity.description}</p>
+                  <div>
+                    <div className="text-xs">occured {asTimeAgo(activity.createdAt)} by {getInitials(`${activity.actor?.firstName} ${activity.actor?.lastName}`)}</div>
+                    <p className="text-sm italic">{activity.description}</p>
                   </div>
                 </Timeline.Item>
               );

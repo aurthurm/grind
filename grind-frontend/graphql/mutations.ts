@@ -61,4 +61,63 @@ export const CREATE_DISCUSSION = gql`
     }
   }
   `
-  
+
+  export const CREATE_MILESTONE = gql`
+  mutation addMilestone($payload: CreateMilestoneInput!) {
+    createMilestone(createMilestoneInput: $payload) {
+      __typename
+      _id
+      title
+      description
+      errand {
+        _id
+      }
+      createdBy {
+        _id
+        firstName
+        lastName
+      }
+      assignee {
+        _id
+        firstName
+        lastName
+      }
+      createdAt
+      complete
+    }
+  }
+  `
+
+export const UPDATE_MILESTONE = gql`
+  mutation editMilestone($payload: UpdateMilestoneInput!) {
+    updateMilestone(updateMilestoneInput: $payload) {
+      __typename
+      _id
+      title
+      description
+      errand {
+        _id
+      }
+      createdBy {
+        _id
+        firstName
+        lastName
+      }
+      assignee {
+        _id
+        firstName
+        lastName
+      }
+      createdAt
+      complete
+    }
+  }`
+
+  export const REMOVE_MILESTONE = gql`
+    mutation deleteMilestone($id: String!) {
+      removeMilestone(id: $id) {
+        __typename
+        _id
+      }
+    }
+  `

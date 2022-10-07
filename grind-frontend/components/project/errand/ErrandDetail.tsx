@@ -1,5 +1,5 @@
 import { CheckOutlined, EyeOutlined, MessageOutlined } from '@ant-design/icons';
-import { Avatar, Button, Divider, message } from 'antd';
+import { Avatar, Button, Divider, message, Tabs } from 'antd';
 import { Typography } from 'antd';
 import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
@@ -11,7 +11,9 @@ import useTicketStore from '../../../stores/tickers';
 import HtmlViewer from '../../editors/HTMLViewer';
 import ErrandActivity from './ErrandActivity';
 import ErrandDiscussion from './ErrandDiscussion';
+import ErrandFiles from './ErrandFiles';
 import ErrandMeta from './ErrandMeta';
+import ErrandMileStones from './ErrandMilestone';
 const { Text } = Typography;
 const EditorCK = dynamic(() => import("../../editors/EditorCK"), { ssr: false });
 
@@ -22,6 +24,7 @@ const ErrandDetail = () => {
   const updateTicket = useTicketStore((state) => state.updateTicket);
   const [isEditing, setIsEditing] = useState(false);
   const [updateErrandMutation, { loading, data, error }] = useEditErrandMutation();
+
 
   const updateErrand = (data: any) => {
     const prev = errandStore.errand;
@@ -96,7 +99,11 @@ const ErrandDetail = () => {
          {/* Right Column */}  
         <div className="col-span-1">
           <ErrandMeta />
-          <ErrandActivity target='errand' targetId={errandStore.errand._id} />
+          <Tabs items={[
+            { label: 'Milestones', key: 'milestone', children: <ErrandMileStones /> },
+            { label: 'Activity Stream', key: 'activity', children: <ErrandActivity target='errand' targetId={errandStore.errand._id} /> },
+            { label: 'Files', key: 'files', children: <ErrandFiles /> },
+          ]} />
         </div>
 
       </div>
@@ -104,3 +111,4 @@ const ErrandDetail = () => {
   );
 }
 export default ErrandDetail;
+

@@ -119,20 +119,17 @@ export type CreateLabelInput = {
   title: Scalars['String'];
 };
 
-export type CreateMediaInput = {
-  /** Example field (placeholder) */
-  exampleField: Scalars['Int'];
-};
-
 export type CreateMilestoneInput = {
-  /** Created By */
-  createdBy: Scalars['String'];
+  /** Assigned to */
+  assignee?: InputMaybe<Scalars['String']>;
+  /** Status */
+  complete?: InputMaybe<Scalars['Boolean']>;
   /** Milestone Description */
-  description: Scalars['String'];
+  description?: InputMaybe<Scalars['String']>;
   /** Milestone Errand */
   errand: Scalars['String'];
   /** Milestone Title */
-  title: Scalars['String'];
+  title?: InputMaybe<Scalars['String']>;
 };
 
 export type CreatePosterInput = {
@@ -276,25 +273,58 @@ export type Label = {
 
 export type Media = {
   __typename?: 'Media';
-  /** Example field (placeholder) */
-  exampleField: Scalars['Int'];
+  _id: Scalars['ID'];
+  /** Created At */
+  createdAt?: Maybe<Scalars['DateTime']>;
+  /** Actor */
+  createdBy?: Maybe<User>;
+  /** Media description */
+  description?: Maybe<Scalars['String']>;
+  /** Media destination */
+  destination?: Maybe<Scalars['String']>;
+  /** Media encoding */
+  encoding?: Maybe<Scalars['String']>;
+  /** Media filename */
+  filename?: Maybe<Scalars['String']>;
+  /** Media mimetype */
+  mimetype?: Maybe<Scalars['String']>;
+  /** Media originalname */
+  originalname?: Maybe<Scalars['String']>;
+  /** Media path */
+  path?: Maybe<Scalars['String']>;
+  /** Media size */
+  size?: Maybe<Scalars['String']>;
+  /** Media target */
+  target?: Maybe<MediaTarget>;
+  /** Media Target ID */
+  targetId?: Maybe<Scalars['String']>;
+  /** Updated At */
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
+
+export enum MediaTarget {
+  Errand = 'ERRAND'
+}
 
 export type Milestone = {
   __typename?: 'Milestone';
   _id: Scalars['ID'];
+  /** Assigned to */
+  assignee?: Maybe<User>;
+  /** Milestone progress */
+  complete?: Maybe<Scalars['Boolean']>;
   /** Created At */
-  createdAt: Scalars['DateTime'];
+  createdAt?: Maybe<Scalars['DateTime']>;
   /** Created By */
-  createdBy: User;
+  createdBy?: Maybe<User>;
   /** Milestone Description */
-  description: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   /** Milestone Errand */
-  errand: Errand;
+  errand?: Maybe<Errand>;
   /** Milestone Title */
-  title: Scalars['String'];
+  title?: Maybe<Scalars['String']>;
   /** Updated At */
-  updatedAt: Scalars['DateTime'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type Mutation = {
@@ -304,7 +334,6 @@ export type Mutation = {
   createDiscussion: Discussion;
   createErrand: Errand;
   createLabel: Label;
-  createMedia: Media;
   createMilestone: Milestone;
   createPoster: Poster;
   createScheme: Scheme;
@@ -315,7 +344,6 @@ export type Mutation = {
   removeDiscussion: Discussion;
   removeErrand: Errand;
   removeLabel: Label;
-  removeMedia: Media;
   removeMilestone: Milestone;
   removePoster: Poster;
   removeScheme: Scheme;
@@ -326,7 +354,6 @@ export type Mutation = {
   updateDiscussion: Discussion;
   updateErrand: Errand;
   updateLabel: Label;
-  updateMedia: Media;
   updateMilestone: Milestone;
   updatePoster: Poster;
   updateScheme: Scheme;
@@ -357,11 +384,6 @@ export type MutationCreateErrandArgs = {
 
 export type MutationCreateLabelArgs = {
   createLabelInput: CreateLabelInput;
-};
-
-
-export type MutationCreateMediaArgs = {
-  createMediaInput: CreateMediaInput;
 };
 
 
@@ -415,13 +437,8 @@ export type MutationRemoveLabelArgs = {
 };
 
 
-export type MutationRemoveMediaArgs = {
-  id: Scalars['Int'];
-};
-
-
 export type MutationRemoveMilestoneArgs = {
-  id: Scalars['Int'];
+  id: Scalars['String'];
 };
 
 
@@ -467,11 +484,6 @@ export type MutationUpdateErrandArgs = {
 
 export type MutationUpdateLabelArgs = {
   updateLabelInput: UpdateLabelInput;
-};
-
-
-export type MutationUpdateMediaArgs = {
-  updateMediaInput: UpdateMediaInput;
 };
 
 
@@ -563,8 +575,9 @@ export type Query = {
   errand: Errand;
   errands: Array<Errand>;
   label: Label;
-  media: Media;
+  medias: Array<Media>;
   milestone: Milestone;
+  milestones: Array<Milestone>;
   occurrences: Array<Occurrence>;
   poster: Poster;
   scheme: Scheme;
@@ -604,13 +617,19 @@ export type QueryLabelArgs = {
 };
 
 
-export type QueryMediaArgs = {
-  id: Scalars['Int'];
+export type QueryMediasArgs = {
+  target: Scalars['String'];
+  targetId: Scalars['String'];
 };
 
 
 export type QueryMilestoneArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryMilestonesArgs = {
+  errand: Scalars['String'];
 };
 
 
@@ -743,15 +762,11 @@ export type UpdateLabelInput = {
   title?: InputMaybe<Scalars['String']>;
 };
 
-export type UpdateMediaInput = {
-  /** Example field (placeholder) */
-  exampleField?: InputMaybe<Scalars['Int']>;
-  id: Scalars['Int'];
-};
-
 export type UpdateMilestoneInput = {
-  /** Created By */
-  createdBy?: InputMaybe<Scalars['String']>;
+  /** Assigned to */
+  assignee?: InputMaybe<Scalars['String']>;
+  /** Status */
+  complete?: InputMaybe<Scalars['Boolean']>;
   /** Milestone Description */
   description?: InputMaybe<Scalars['String']>;
   /** Milestone Errand */
@@ -836,16 +851,16 @@ export type UpdateUserInput = {
 export type User = {
   __typename?: 'User';
   _id: Scalars['ID'];
-  completeness?: Maybe<Scalars['Float']>;
+  completeness?: Maybe<Scalars['String']>;
   /** Created At */
   createdAt: Scalars['DateTime'];
   createdBy?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   firstName?: Maybe<Scalars['String']>;
   hashed_password?: Maybe<Scalars['String']>;
-  is_active?: Maybe<Scalars['Boolean']>;
-  is_superuser?: Maybe<Scalars['Boolean']>;
-  lastLogin?: Maybe<Scalars['DateTime']>;
+  is_active?: Maybe<Scalars['String']>;
+  is_superuser?: Maybe<Scalars['String']>;
+  lastLogin?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
   lastPasswordReset: Scalars['DateTime'];
   middleName?: Maybe<Scalars['String']>;
@@ -853,8 +868,8 @@ export type User = {
   password?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   pin?: Maybe<Scalars['String']>;
-  requirePasswordChange?: Maybe<Scalars['Boolean']>;
-  requirePinChange?: Maybe<Scalars['Boolean']>;
+  requirePasswordChange?: Maybe<Scalars['String']>;
+  requirePinChange?: Maybe<Scalars['String']>;
   resetPasswordKey?: Maybe<Scalars['String']>;
   resetPinKey?: Maybe<Scalars['String']>;
   roles?: Maybe<Array<UserRole>>;
@@ -891,6 +906,27 @@ export type AddDscussionMutationVariables = Exact<{
 
 export type AddDscussionMutation = { __typename?: 'Mutation', createDiscussion: { __typename: 'Discussion', _id: string, content: string, createdAt: any, updatedAt: any, errand: { __typename?: 'Errand', _id: string }, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null } };
 
+export type AddMilestoneMutationVariables = Exact<{
+  payload: CreateMilestoneInput;
+}>;
+
+
+export type AddMilestoneMutation = { __typename?: 'Mutation', createMilestone: { __typename: 'Milestone', _id: string, title?: string | null, description?: string | null, createdAt?: any | null, complete?: boolean | null, errand?: { __typename?: 'Errand', _id: string } | null, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, assignee?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null } };
+
+export type EditMilestoneMutationVariables = Exact<{
+  payload: UpdateMilestoneInput;
+}>;
+
+
+export type EditMilestoneMutation = { __typename?: 'Mutation', updateMilestone: { __typename: 'Milestone', _id: string, title?: string | null, description?: string | null, createdAt?: any | null, complete?: boolean | null, errand?: { __typename?: 'Errand', _id: string } | null, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, assignee?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null } };
+
+export type DeleteMilestoneMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type DeleteMilestoneMutation = { __typename?: 'Mutation', removeMilestone: { __typename: 'Milestone', _id: string } };
+
 export type GetErrandsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -911,6 +947,13 @@ export type GetOccurrenciesQueryVariables = Exact<{
 
 export type GetOccurrenciesQuery = { __typename?: 'Query', occurrences: Array<{ __typename?: 'Occurrence', _id: string, description?: string | null, target?: OccurreneTarget | null, targetId?: string | null, createdAt: any, actor?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null }> };
 
+export type GetMilestonesQueryVariables = Exact<{
+  errand: Scalars['String'];
+}>;
+
+
+export type GetMilestonesQuery = { __typename?: 'Query', milestones: Array<{ __typename?: 'Milestone', _id: string, title?: string | null, description?: string | null, createdAt?: any | null, complete?: boolean | null, errand?: { __typename?: 'Errand', _id: string } | null, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, assignee?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null }> };
+
 export type GetDiscussionsQueryVariables = Exact<{
   id?: InputMaybe<Scalars['String']>;
 }>;
@@ -921,7 +964,15 @@ export type GetDiscussionsQuery = { __typename?: 'Query', discussions: Array<{ _
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', _id: string, userName?: string | null, firstName?: string | null, lastName?: string | null, name?: string | null, email?: string | null, roles?: Array<UserRole> | null, requirePasswordChange?: boolean | null, requirePinChange?: boolean | null, status?: string | null, createdAt: any }> };
+export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', _id: string, userName?: string | null, firstName?: string | null, lastName?: string | null, name?: string | null, email?: string | null, roles?: Array<UserRole> | null, requirePasswordChange?: string | null, requirePinChange?: string | null, status?: string | null, createdAt: any }> };
+
+export type GetMediasQueryVariables = Exact<{
+  target: Scalars['String'];
+  targetId: Scalars['String'];
+}>;
+
+
+export type GetMediasQuery = { __typename?: 'Query', medias: Array<{ __typename?: 'Media', _id: string, target?: MediaTarget | null, targetId?: string | null, destination?: string | null, encoding?: string | null, filename?: string | null, mimetype?: string | null, originalname?: string | null, path?: string | null, size?: string | null, createdAt?: any | null, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null }> };
 
 
 export const AddErrandDocument = gql`
@@ -1061,6 +1112,142 @@ export function useAddDscussionMutation(baseOptions?: Apollo.MutationHookOptions
 export type AddDscussionMutationHookResult = ReturnType<typeof useAddDscussionMutation>;
 export type AddDscussionMutationResult = Apollo.MutationResult<AddDscussionMutation>;
 export type AddDscussionMutationOptions = Apollo.BaseMutationOptions<AddDscussionMutation, AddDscussionMutationVariables>;
+export const AddMilestoneDocument = gql`
+    mutation addMilestone($payload: CreateMilestoneInput!) {
+  createMilestone(createMilestoneInput: $payload) {
+    __typename
+    _id
+    title
+    description
+    errand {
+      _id
+    }
+    createdBy {
+      _id
+      firstName
+      lastName
+    }
+    assignee {
+      _id
+      firstName
+      lastName
+    }
+    createdAt
+    complete
+  }
+}
+    `;
+export type AddMilestoneMutationFn = Apollo.MutationFunction<AddMilestoneMutation, AddMilestoneMutationVariables>;
+
+/**
+ * __useAddMilestoneMutation__
+ *
+ * To run a mutation, you first call `useAddMilestoneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddMilestoneMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addMilestoneMutation, { data, loading, error }] = useAddMilestoneMutation({
+ *   variables: {
+ *      payload: // value for 'payload'
+ *   },
+ * });
+ */
+export function useAddMilestoneMutation(baseOptions?: Apollo.MutationHookOptions<AddMilestoneMutation, AddMilestoneMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddMilestoneMutation, AddMilestoneMutationVariables>(AddMilestoneDocument, options);
+      }
+export type AddMilestoneMutationHookResult = ReturnType<typeof useAddMilestoneMutation>;
+export type AddMilestoneMutationResult = Apollo.MutationResult<AddMilestoneMutation>;
+export type AddMilestoneMutationOptions = Apollo.BaseMutationOptions<AddMilestoneMutation, AddMilestoneMutationVariables>;
+export const EditMilestoneDocument = gql`
+    mutation editMilestone($payload: UpdateMilestoneInput!) {
+  updateMilestone(updateMilestoneInput: $payload) {
+    __typename
+    _id
+    title
+    description
+    errand {
+      _id
+    }
+    createdBy {
+      _id
+      firstName
+      lastName
+    }
+    assignee {
+      _id
+      firstName
+      lastName
+    }
+    createdAt
+    complete
+  }
+}
+    `;
+export type EditMilestoneMutationFn = Apollo.MutationFunction<EditMilestoneMutation, EditMilestoneMutationVariables>;
+
+/**
+ * __useEditMilestoneMutation__
+ *
+ * To run a mutation, you first call `useEditMilestoneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditMilestoneMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editMilestoneMutation, { data, loading, error }] = useEditMilestoneMutation({
+ *   variables: {
+ *      payload: // value for 'payload'
+ *   },
+ * });
+ */
+export function useEditMilestoneMutation(baseOptions?: Apollo.MutationHookOptions<EditMilestoneMutation, EditMilestoneMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditMilestoneMutation, EditMilestoneMutationVariables>(EditMilestoneDocument, options);
+      }
+export type EditMilestoneMutationHookResult = ReturnType<typeof useEditMilestoneMutation>;
+export type EditMilestoneMutationResult = Apollo.MutationResult<EditMilestoneMutation>;
+export type EditMilestoneMutationOptions = Apollo.BaseMutationOptions<EditMilestoneMutation, EditMilestoneMutationVariables>;
+export const DeleteMilestoneDocument = gql`
+    mutation deleteMilestone($id: String!) {
+  removeMilestone(id: $id) {
+    __typename
+    _id
+  }
+}
+    `;
+export type DeleteMilestoneMutationFn = Apollo.MutationFunction<DeleteMilestoneMutation, DeleteMilestoneMutationVariables>;
+
+/**
+ * __useDeleteMilestoneMutation__
+ *
+ * To run a mutation, you first call `useDeleteMilestoneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteMilestoneMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteMilestoneMutation, { data, loading, error }] = useDeleteMilestoneMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteMilestoneMutation(baseOptions?: Apollo.MutationHookOptions<DeleteMilestoneMutation, DeleteMilestoneMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteMilestoneMutation, DeleteMilestoneMutationVariables>(DeleteMilestoneDocument, options);
+      }
+export type DeleteMilestoneMutationHookResult = ReturnType<typeof useDeleteMilestoneMutation>;
+export type DeleteMilestoneMutationResult = Apollo.MutationResult<DeleteMilestoneMutation>;
+export type DeleteMilestoneMutationOptions = Apollo.BaseMutationOptions<DeleteMilestoneMutation, DeleteMilestoneMutationVariables>;
 export const GetErrandsDocument = gql`
     query GetErrands {
   errands {
@@ -1235,6 +1422,58 @@ export function useGetOccurrenciesLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type GetOccurrenciesQueryHookResult = ReturnType<typeof useGetOccurrenciesQuery>;
 export type GetOccurrenciesLazyQueryHookResult = ReturnType<typeof useGetOccurrenciesLazyQuery>;
 export type GetOccurrenciesQueryResult = Apollo.QueryResult<GetOccurrenciesQuery, GetOccurrenciesQueryVariables>;
+export const GetMilestonesDocument = gql`
+    query getMilestones($errand: String!) {
+  milestones(errand: $errand) {
+    _id
+    title
+    description
+    errand {
+      _id
+    }
+    createdBy {
+      _id
+      firstName
+      lastName
+    }
+    assignee {
+      _id
+      firstName
+      lastName
+    }
+    createdAt
+    complete
+  }
+}
+    `;
+
+/**
+ * __useGetMilestonesQuery__
+ *
+ * To run a query within a React component, call `useGetMilestonesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMilestonesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMilestonesQuery({
+ *   variables: {
+ *      errand: // value for 'errand'
+ *   },
+ * });
+ */
+export function useGetMilestonesQuery(baseOptions: Apollo.QueryHookOptions<GetMilestonesQuery, GetMilestonesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMilestonesQuery, GetMilestonesQueryVariables>(GetMilestonesDocument, options);
+      }
+export function useGetMilestonesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMilestonesQuery, GetMilestonesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMilestonesQuery, GetMilestonesQueryVariables>(GetMilestonesDocument, options);
+        }
+export type GetMilestonesQueryHookResult = ReturnType<typeof useGetMilestonesQuery>;
+export type GetMilestonesLazyQueryHookResult = ReturnType<typeof useGetMilestonesLazyQuery>;
+export type GetMilestonesQueryResult = Apollo.QueryResult<GetMilestonesQuery, GetMilestonesQueryVariables>;
 export const GetDiscussionsDocument = gql`
     query getDiscussions($id: String) {
   discussions(id: $id) {
@@ -1326,6 +1565,57 @@ export function useGetUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<G
 export type GetUsersQueryHookResult = ReturnType<typeof useGetUsersQuery>;
 export type GetUsersLazyQueryHookResult = ReturnType<typeof useGetUsersLazyQuery>;
 export type GetUsersQueryResult = Apollo.QueryResult<GetUsersQuery, GetUsersQueryVariables>;
+export const GetMediasDocument = gql`
+    query getMedias($target: String!, $targetId: String!) {
+  medias(target: $target, targetId: $targetId) {
+    _id
+    target
+    targetId
+    destination
+    encoding
+    filename
+    mimetype
+    originalname
+    path
+    size
+    createdBy {
+      _id
+      firstName
+      lastName
+    }
+    createdAt
+  }
+}
+    `;
+
+/**
+ * __useGetMediasQuery__
+ *
+ * To run a query within a React component, call `useGetMediasQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMediasQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMediasQuery({
+ *   variables: {
+ *      target: // value for 'target'
+ *      targetId: // value for 'targetId'
+ *   },
+ * });
+ */
+export function useGetMediasQuery(baseOptions: Apollo.QueryHookOptions<GetMediasQuery, GetMediasQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMediasQuery, GetMediasQueryVariables>(GetMediasDocument, options);
+      }
+export function useGetMediasLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMediasQuery, GetMediasQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMediasQuery, GetMediasQueryVariables>(GetMediasDocument, options);
+        }
+export type GetMediasQueryHookResult = ReturnType<typeof useGetMediasQuery>;
+export type GetMediasLazyQueryHookResult = ReturnType<typeof useGetMediasLazyQuery>;
+export type GetMediasQueryResult = Apollo.QueryResult<GetMediasQuery, GetMediasQueryVariables>;
 
       export interface PossibleTypesResultData {
         possibleTypes: {

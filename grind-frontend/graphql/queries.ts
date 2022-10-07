@@ -93,6 +93,31 @@ export const OCCURRENCIES_QUERY = gql`
   }
 `
 
+export const MILESTONES_QUERY = gql`
+  query getMilestones($errand: String!) {
+    milestones(errand: $errand) {
+      _id
+      title
+      description
+      errand {
+        _id
+      }
+      createdBy {
+        _id
+        firstName
+        lastName
+      }
+      assignee {
+        _id
+        firstName
+        lastName
+      }
+      createdAt
+      complete
+    }
+  }
+`
+
 export const DISCUSSIONS_QUERY = gql`
   query getDiscussions($id: String) {
     discussions(id: $id) {
@@ -128,5 +153,28 @@ export const USERS_QUERY = gql`
         status
         createdAt
       }
+  }
+`
+
+export const MEDIAS_QUERY = gql`
+  query getMedias($target: String!, $targetId: String!) {
+    medias(target: $target, targetId: $targetId) {
+      _id
+      target
+      targetId
+      destination
+      encoding
+      filename
+      mimetype
+      originalname
+      path
+      size
+      createdBy {
+        _id
+        firstName
+        lastName
+      }
+      createdAt
+    }
   }
 `
