@@ -15,14 +15,14 @@ export class MilestoneResolver {
     return await this.milestoneService.create(createMilestoneInput);
   }
 
-  @Query(() => [Milestone], { name: 'milestone' })
-  async findAll() {
-    return await this.milestoneService.findAll();
-  }
-
   @Query(() => Milestone, { name: 'milestone' })
   async findOne(@Args('id', { type: () => Int }) id: string) {
     return await this.milestoneService.findOne(id);
+  }
+
+  @Query(() => [Milestone], { name: 'milestones' })
+  async find(@Args('errand', { type: () => String }) errand: string) {
+    return await this.milestoneService.find(errand);
   }
 
   @Mutation(() => Milestone)
@@ -36,7 +36,7 @@ export class MilestoneResolver {
   }
 
   @Mutation(() => Milestone)
-  async removeMilestone(@Args('id', { type: () => Int }) id: string) {
+  async removeMilestone(@Args('id', { type: () => String }) id: string) {
     return await this.milestoneService.remove(id);
   }
 }

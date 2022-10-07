@@ -15,28 +15,36 @@ export class Milestone {
   @Transform(({ value }) => value.toString())
   _id: ObjectId;
 
-  @Field(() => Errand, { description: 'Milestone Errand' })
+  @Field(() => Errand, { description: 'Milestone Errand', nullable: true })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Errand.name })
-  errand: Errand;
+  errand?: Errand;
 
-  @Field(() => String, { description: 'Milestone Title' })
+  @Field(() => String, { description: 'Milestone Title', nullable: true })
   @Prop()
-  title: string;
+  title?: string;
 
-  @Field(() => String, { description: 'Milestone Description' })
+  @Field(() => String, { description: 'Milestone Description', nullable: true })
   @Prop()
-  description: string;
+  description?: string;
 
-  @Field(() => User, { description: 'Created By' })
+  @Field(() => Boolean, { description: 'Milestone progress', nullable: true })
+  @Prop()
+  complete?: boolean;
+
+  @Field(() => User, { description: 'Assigned to', nullable: true })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  createdBy: User;
+  assignee?: User;
+
+  @Field(() => User, { description: 'Created By', nullable: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  createdBy?: User;
 
   @Prop()
-  @Field(() => Date, { description: 'Created At' })
+  @Field(() => Date, { description: 'Created At', nullable: true })
   createdAt?: Date;
 
   @Prop()
-  @Field(() => Date, { description: 'Updated At' })
+  @Field(() => Date, { description: 'Updated At', nullable: true })
   updatedAt?: Date;
 }
 

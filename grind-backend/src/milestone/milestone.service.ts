@@ -17,8 +17,12 @@ export class MilestoneService {
     return milestone.save();
   }
 
-  async findAll() {
-    return await this.milestoneModel.find().exec();
+  async find(errand: string) {
+    return await this.milestoneModel
+      .find({ errand })
+      .sort({ createdAt: -1 })
+      .populate('assignee')
+      .exec();
   }
 
   async findOne(id: string) {

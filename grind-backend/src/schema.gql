@@ -134,23 +134,21 @@ input CreateLabelInput {
   title: String!
 }
 
-input CreateMediaInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 input CreateMilestoneInput {
-  """Created By"""
-  createdBy: String!
+  """Assigned to"""
+  assignee: String
+
+  """Status"""
+  complete: Boolean
 
   """Milestone Description"""
-  description: String!
+  description: String
 
   """Milestone Errand"""
   errand: String!
 
   """Milestone Title"""
-  title: String!
+  title: String
 }
 
 input CreatePosterInput {
@@ -334,30 +332,78 @@ type Label {
 }
 
 type Media {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  _id: ID!
+
+  """Created At"""
+  createdAt: DateTime
+
+  """Actor"""
+  createdBy: User
+
+  """Media description"""
+  description: String
+
+  """Media destination"""
+  destination: String
+
+  """Media encoding"""
+  encoding: String
+
+  """Media filename"""
+  filename: String
+
+  """Media mimetype"""
+  mimetype: String
+
+  """Media originalname"""
+  originalname: String
+
+  """Media path"""
+  path: String
+
+  """Media size"""
+  size: String
+
+  """Media target"""
+  target: MediaTarget
+
+  """Media Target ID"""
+  targetId: String
+
+  """Updated At"""
+  updatedAt: DateTime
+}
+
+enum MediaTarget {
+  ERRAND
 }
 
 type Milestone {
   _id: ID!
 
+  """Assigned to"""
+  assignee: User
+
+  """Milestone progress"""
+  complete: Boolean
+
   """Created At"""
-  createdAt: DateTime!
+  createdAt: DateTime
 
   """Created By"""
-  createdBy: User!
+  createdBy: User
 
   """Milestone Description"""
-  description: String!
+  description: String
 
   """Milestone Errand"""
-  errand: Errand!
+  errand: Errand
 
   """Milestone Title"""
-  title: String!
+  title: String
 
   """Updated At"""
-  updatedAt: DateTime!
+  updatedAt: DateTime
 }
 
 type Mutation {
@@ -366,7 +412,6 @@ type Mutation {
   createDiscussion(createDiscussionInput: CreateDiscussionInput!): Discussion!
   createErrand(createErrandInput: CreateErrandInput!): Errand!
   createLabel(createLabelInput: CreateLabelInput!): Label!
-  createMedia(createMediaInput: CreateMediaInput!): Media!
   createMilestone(createMilestoneInput: CreateMilestoneInput!): Milestone!
   createPoster(createPosterInput: CreatePosterInput!): Poster!
   createScheme(createSchemeInput: CreateSchemeInput!): Scheme!
@@ -377,8 +422,7 @@ type Mutation {
   removeDiscussion(id: Int!): Discussion!
   removeErrand(id: Int!): Errand!
   removeLabel(id: Int!): Label!
-  removeMedia(id: Int!): Media!
-  removeMilestone(id: Int!): Milestone!
+  removeMilestone(id: String!): Milestone!
   removePoster(id: Int!): Poster!
   removeScheme(id: Int!): Scheme!
   removeStamp(id: Int!): Stamp!
@@ -388,7 +432,6 @@ type Mutation {
   updateDiscussion(updateDiscussionInput: UpdateDiscussionInput!): Discussion!
   updateErrand(updateErrandInput: UpdateErrandInput!): Errand!
   updateLabel(updateLabelInput: UpdateLabelInput!): Label!
-  updateMedia(updateMediaInput: UpdateMediaInput!): Media!
   updateMilestone(updateMilestoneInput: UpdateMilestoneInput!): Milestone!
   updatePoster(updatePosterInput: UpdatePosterInput!): Poster!
   updateScheme(updateSchemeInput: UpdateSchemeInput!): Scheme!
@@ -473,8 +516,9 @@ type Query {
   errand(id: String!): Errand!
   errands: [Errand!]!
   label(id: Int!): Label!
-  media(id: Int!): Media!
+  medias(target: String!, targetId: String!): [Media!]!
   milestone(id: Int!): Milestone!
+  milestones(errand: String!): [Milestone!]!
   occurrences(target: String!, targetId: String!): [Occurrence!]!
   poster(id: Int!): Poster!
   scheme(id: Int!): Scheme!
@@ -617,15 +661,12 @@ input UpdateLabelInput {
   title: String
 }
 
-input UpdateMediaInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
 input UpdateMilestoneInput {
-  """Created By"""
-  createdBy: String
+  """Assigned to"""
+  assignee: String
+
+  """Status"""
+  complete: Boolean
 
   """Milestone Description"""
   description: String
@@ -727,7 +768,7 @@ input UpdateUserInput {
 
 type User {
   _id: ID!
-  completeness: Float
+  completeness: String
 
   """Created At"""
   createdAt: DateTime!
@@ -735,9 +776,9 @@ type User {
   email: String
   firstName: String
   hashed_password: String
-  is_active: Boolean
-  is_superuser: Boolean
-  lastLogin: DateTime
+  is_active: String
+  is_superuser: String
+  lastLogin: String
   lastName: String
   lastPasswordReset: DateTime!
   middleName: String
@@ -745,8 +786,8 @@ type User {
   password: String
   phone: String
   pin: String
-  requirePasswordChange: Boolean
-  requirePinChange: Boolean
+  requirePasswordChange: String
+  requirePinChange: String
   resetPasswordKey: String
   resetPinKey: String
   roles: [UserRole!]

@@ -58,3 +58,13 @@ export enum OccurreneTarget {
 registerEnumType(OccurreneTarget, {
   name: 'OccurreneTarget',
 });
+
+export const MEDIA_TARGET = ['errand'];
+
+export enum MediaTarget {
+  ERRAND = 'errand',
+}
+
+registerEnumType(MediaTarget, {
+  name: 'MediaTarget',
+});

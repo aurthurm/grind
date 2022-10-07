@@ -24,6 +24,7 @@ import { ConfigModule } from '@nestjs/config';
 import { SchemeModule } from './scheme/scheme.module';
 import { AuthModule } from './auth/auth.module';
 import { OccurrenceModule } from './occurrence/occurrence.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [
@@ -59,6 +60,10 @@ import { OccurrenceModule } from './occurrence/occurrence.module';
           strict: true,
         },
       },
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/uploads',
     }),
     AuthModule,
     UserModule,

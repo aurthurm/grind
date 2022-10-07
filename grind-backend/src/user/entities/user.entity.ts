@@ -13,27 +13,27 @@ export class User {
   @Transform(({ value }) => value.toString())
   _id: ObjectId;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop()
   userName: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop()
   firstName: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop()
   middleName: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop()
   lastName: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop()
   name: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop()
   email: string;
 
@@ -45,48 +45,48 @@ export class User {
   roles: UserRole[];
 
   @Exclude()
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop()
   hashed_password: string;
 
   @Exclude()
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop()
   pin: string;
 
   @Exclude()
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop()
   resetPinKey: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop({
     default: true,
   })
   requirePinChange: boolean;
 
   @Exclude()
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop()
   password: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop()
   resetPasswordKey: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop({
     default: true,
   })
   requirePasswordChange: boolean;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop({
     unique: true,
   })
   phone: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop()
   lastLogin: Date;
 
@@ -98,23 +98,23 @@ export class User {
     min: 1,
     max: 100,
   })
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   completeness: number;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop()
   status: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop()
   is_active: boolean;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop()
   is_superuser: boolean;
 
   @Prop()
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   createdBy: string;
 
   @Prop()
