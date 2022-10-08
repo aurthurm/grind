@@ -29,7 +29,10 @@ export class UserService {
     return await this.userModel.find().exec();
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, lean = false) {
+    if (lean) {
+      return await this.userModel.findById(id).lean();
+    }
     return await this.userModel.findById(id);
   }
 

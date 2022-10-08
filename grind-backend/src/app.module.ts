@@ -34,6 +34,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
+      context: ({ req }) => ({ headers: req.headers }),
     }),
     MailerModule.forRoot({
       transport: {

@@ -37,11 +37,11 @@ export class Errand {
   stamps?: Stamp[];
 
   @Field(() => String, { description: 'Errand status', nullable: true })
-  @Prop()
+  @Prop({ default: 'open' })
   status?: string;
 
   @Field(() => String, { description: 'Errand priority', nullable: true })
-  @Prop()
+  @Prop({ default: 'normal' })
   priority?: string;
 
   @Field(() => Poster, { description: 'Errand Poster', nullable: true })

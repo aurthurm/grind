@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
-import console from 'console';
 
 import { deleteFile, imageResizer, multerOptions } from 'src/utils/upload';
 import { MediaService } from './media.service';
@@ -24,7 +23,6 @@ export class MediaController {
   @UseInterceptors(FileInterceptor('file', multerOptions))
   async uploadFile(@UploadedFile() file: Express.Multer.File, @Request() req) {
     const { target, targetId } = req.body;
-    console.log(target, targetId);
     if (!target || !targetId) {
       throw new Error('target and targetId are required');
     }

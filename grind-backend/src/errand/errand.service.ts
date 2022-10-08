@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { exec } from 'child_process';
 import { Model } from 'mongoose';
 import { OccurreneTarget } from 'src/helpers/constants';
 import { OccurrenceService } from 'src/occurrence/occurrence.service';
@@ -17,27 +18,43 @@ export class ErrandService {
 
   async create(createErrandInput: CreateErrandInput) {
     const errand = new this.errandModel(createErrandInput);
+    errand.status = errand.status ?? 'open';
     const created = await errand.save();
-    this._addOccurrence(created._id.toString(), null);
+    this._addOccurrence(created._id.toString(), null, null, null);
     return errand;
   }
 
   async findAll() {
-    return await this.errandModel.find().exec();
+    return await this.errandModel
+      .find()
+      .populate('assignee')
+      .populate('members')
+      .populate('reporter')
+      .exec();
   }
 
   async findOne(id: string) {
-    return await this.errandModel.findById(id);
+    return await this.errandModel
+      .findById(id)
+      .populate('assignee')
+      .populate('members')
+      .populate('reporter')
+      .exec();
   }
 
   async update(id: string, updateErrandInput: UpdateErrandInput) {
+    const previous = await this.findOne(id);
     const errand = await this.errandModel
       .findByIdAndUpdate(id, updateErrandInput)
-      .setOptions({ new: true });
+      .setOptions({ new: true })
+      .populate('assignee')
+      .populate('members')
+      .populate('reporter')
+      .exec();
     if (!errand) {
       throw new NotFoundException();
     }
-    this._addOccurrence(id, updateErrandInput);
+    this._addOccurrence(id, previous, errand, updateErrandInput);
     return errand;
   }
 
@@ -45,24 +62,76 @@ export class ErrandService {
     return await this.errandModel.findByIdAndRemove(id);
   }
 
-  _addOccurrence(targetId: string, payload?: UpdateErrandInput) {
+  _addOccurrence(
+    targetId: string,
+    previous: Errand,
+    updated: Errand,
+    payload?: UpdateErrandInput,
+  ) {
+    const actor = '63354cf0f215dd17ec08e28f';
+    const target = OccurreneTarget.ERRAND;
     if (!payload) {
       this.occurrenceService.create({
-        target: OccurreneTarget.ERRAND,
+        target,
         targetId,
-        actor: '63354cf0f215dd17ec08e28f',
+        actor,
         description: 'created this errand',
       });
     } else {
-      Object.keys(payload).forEach((key) => {
-        if (key === 'id') return;
-        this.occurrenceService.create({
-          target: OccurreneTarget.ERRAND,
-          targetId,
-          actor: '63354cf0f215dd17ec08e28f',
-          description: 'updated ' + key,
-        });
+      const keys = Object.keys(payload);
+
+      keys.forEach((key) => {
+        if (['id', 'startDate', 'endDate'].includes(key)) return;
+        let description =
+          `updated ${key}` + previous[key]
+            ? ` from ${previous[key]} to ${payload[key]}`
+            : ` to ${payload[key]}`;
+        if (key === 'description') description = 'updated errand description';
+        if (['assignee', 'reporter'].includes(key)) {
+          description = `updated ${key} to ${updated[key]?.firstName} ${updated[key]?.lastName}`;
+        }
+        if (['members'].includes(key)) {
+          description = '';
+          if (previous[key].length > updated[key].length) {
+            previous[key].forEach((member) => {
+              if (
+                updated[key].some(
+                  (x) => x._id.toString() === member._id.toString(),
+                )
+              ) {
+                description = `removed ${member?.firstName} ${member?.lastName} from `;
+              }
+            });
+          } else {
+            updated[key].forEach((member) => {
+              if (
+                !previous[key].some(
+                  (x) => x._id.toString() === member._id.toString(),
+                )
+              ) {
+                description += `added ${member?.firstName} ${member?.lastName} to `;
+              }
+            });
+          }
+          description += `members`;
+        }
+        this.occurrenceService.create({ target, targetId, actor, description });
       });
+
+      let description = '';
+      if (keys.includes('startDate')) {
+        description += `updated start date to ${payload.startDate}`;
+      }
+
+      if (keys.includes('startDate')) {
+        description += description
+          ? `and end date to ${payload.endDate}`
+          : `updated end date to ${payload.endDate}`;
+      }
+
+      if (description) {
+        this.occurrenceService.create({ target, targetId, actor, description });
+      }
     }
   }
 }

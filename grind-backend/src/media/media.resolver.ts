@@ -1,5 +1,4 @@
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
-import { deleteFile } from 'src/utils/upload';
+import { Resolver, Query, Args } from '@nestjs/graphql';
 import { Media } from './entities/media.entity';
 import { MediaService } from './media.service';
 

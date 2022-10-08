@@ -3,6 +3,9 @@ import { ErrandService } from './errand.service';
 import { Errand } from './entities/errand.entity';
 import { CreateErrandInput } from './dto/create-errand.input';
 import { UpdateErrandInput } from './dto/update-errand.input';
+import { CurrentUser, GqlAuthGuard } from 'src/auth/gql-auth.guard';
+import { UseGuards } from '@nestjs/common';
+import { User } from 'src/user/entities/user.entity';
 
 @Resolver(() => Errand)
 export class ErrandResolver {
@@ -15,8 +18,9 @@ export class ErrandResolver {
     return await this.errandService.create(createErrandInput);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Query(() => [Errand], { name: 'errands' })
-  async findAll() {
+  async findAll(@CurrentUser() user: User) {
     return await this.errandService.findAll();
   }
 

@@ -32,7 +32,9 @@ export class MilestoneService {
   async update(id: string, updateMilestoneInput: UpdateMilestoneInput) {
     const milestone = await this.milestoneModel
       .findByIdAndUpdate(id, updateMilestoneInput)
-      .setOptions({ new: true });
+      .setOptions({ new: true })
+      .populate('assignee')
+      .exec();
     if (!milestone) {
       throw new NotFoundException();
     }

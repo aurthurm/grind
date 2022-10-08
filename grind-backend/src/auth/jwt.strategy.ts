@@ -18,6 +18,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const { roles } = payload;
     const { pin, password, ...result } = await this.userService.findOne(
       payload?._id,
+      true,
     );
     return result;
   }

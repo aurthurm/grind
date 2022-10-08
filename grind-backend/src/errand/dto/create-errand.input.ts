@@ -27,7 +27,10 @@ export class CreateErrandInput {
   @Field(() => String, { description: 'Assigned To', nullable: true })
   assignee?: string;
 
-  @Field(() => String, { description: 'Errand Status', nullable: true })
+  @Field(() => String, {
+    description: 'Errand Status',
+    nullable: true,
+  })
   status?: string;
 
   @Field(() => String, { description: 'Errand Priority', nullable: true })
