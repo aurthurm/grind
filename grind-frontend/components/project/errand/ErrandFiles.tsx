@@ -24,6 +24,10 @@ const ErrandFiles = () => {
     })
   }, [errand])
 
+  const addMedia = (media: IMediaFile) => {
+    setMedias([media,...medias]);
+  }
+
   const  downloadMedia = (media: IMediaFile) => {
     var element = document.createElement('a');
     element.setAttribute('href', `${BACKEND_HOST}/${media.path}`);
@@ -57,7 +61,7 @@ const ErrandFiles = () => {
 
   return (
     <>
-      <FileUploadForm  extras={{ target: "errand", targetId: errand._id }} />
+      <FileUploadForm handleUploaded={addMedia} extras={{ target: "errand", targetId: errand._id }} />
       <List
         size="small"
         dataSource={medias}

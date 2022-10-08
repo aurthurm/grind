@@ -9,14 +9,20 @@ import {
   UnorderedListOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { MenuInfo } from 'rc-menu/lib/interface';
 const { Sider, Content } = Layout;
 import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+    const { status, data } = useSession()
     const router = useRouter()
     const [collapsed, setCollapsed] = useState(false);
+
+    useEffect(() => {
+        if(status === 'unauthenticated') router.replace('/auth/signin');
+    }, [status])
 
     const onMenuClick = (event: MenuInfo) => {
         const { key, keyPath } = event;

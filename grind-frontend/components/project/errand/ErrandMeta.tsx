@@ -8,6 +8,7 @@ import { IErrand } from '../../../models/errand';
 import useTicketStore from '../../../stores/tickers';
 import { IUser } from '../../../models/user';
 import type { RangePickerProps } from 'antd/lib/date-picker';
+import useMilestoneStore from '../../../stores/milestones';
 const { RangePicker } = DatePicker;
 
 const ErrandMeta = () => {
@@ -17,6 +18,7 @@ const ErrandMeta = () => {
   const [updateErrandMutation, { loading, data, error }] = useEditErrandMutation();
   const [queryUsers] = useGetUsersLazyQuery()
   const updateTicket = useTicketStore((state) => state.updateTicket);
+  const milestones = useMilestoneStore((state) => state.milestones);
 
   useEffect(() => {
     if(!users.length){
@@ -114,7 +116,10 @@ const ErrandMeta = () => {
         </div>
       </div>
       <div >
-        <Progress percent={30} className="my-4" />
+        <Progress percent={(() => {
+          const perc = milestones.filter(m => m.complete).length/milestones.length * 100;
+          return perc;
+        })()} className="my-4" />
       </div>
     </>
   );
