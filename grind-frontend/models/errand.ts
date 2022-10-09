@@ -8,6 +8,7 @@ export interface IErrand {
   // category: ErrandCategory
   title: string
   description?: string
+  category?: string
   stamps?: IStamp[]
   status?: string
   priority?: string
@@ -19,4 +20,5 @@ export interface IErrand {
   memberIds?:  string[]
   startDate?: Date | string | any,
   endDate?: Date | string | any
+  createdAt?: Date | string | any;
 }

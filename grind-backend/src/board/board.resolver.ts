@@ -3,10 +3,12 @@ import { BoardService } from './board.service';
 import { Board } from './entities/board.entity';
 import { CreateBoardInput } from './dto/create-board.input';
 import { UpdateBoardInput } from './dto/update-board.input';
-import { GqlCurrentUser } from 'src/auth/gql-auth.guard';
+import { GqlAuthGuard, GqlCurrentUser } from 'src/auth/gql-auth.guard';
 import { User } from 'src/user/entities/user.entity';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => Board)
+@UseGuards(GqlAuthGuard)
 export class BoardResolver {
   constructor(private readonly boardService: BoardService) {}
 

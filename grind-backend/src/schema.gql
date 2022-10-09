@@ -560,7 +560,7 @@ type Query {
   discussion(id: String!): Discussion!
   discussions(id: String): [Discussion!]!
   errand(id: String!): Errand!
-  errands: [Errand!]!
+  errands(filters: CreateErrandInput!): [Errand!]!
   label(id: Int!): Label!
   medias(target: String!, targetId: String!): [Media!]!
   milestone(id: Int!): Milestone!

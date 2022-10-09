@@ -33,6 +33,8 @@ export type Board = {
   title: Scalars['String'];
   /** Updated At */
   updatedAt: Scalars['DateTime'];
+  /** Updated By */
+  updatedBy: User;
 };
 
 export type Community = {
@@ -52,6 +54,8 @@ export type Community = {
   title: Scalars['String'];
   /** Updated At */
   updatedAt: Scalars['DateTime'];
+  /** Updated By */
+  updatedBy: User;
 };
 
 export type CreateBoardInput = {
@@ -63,6 +67,8 @@ export type CreateBoardInput = {
   scheme?: InputMaybe<Scalars['String']>;
   /** Board Title */
   title: Scalars['String'];
+  /** Updated By */
+  updatedBy?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateCommunityInput = {
@@ -72,6 +78,8 @@ export type CreateCommunityInput = {
   description: Scalars['String'];
   /** Community Title */
   title: Scalars['String'];
+  /** Updated By */
+  updatedBy?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateDiscussionInput = {
@@ -81,6 +89,8 @@ export type CreateDiscussionInput = {
   createdBy?: InputMaybe<Scalars['String']>;
   /** Discusion Errand */
   errand: Scalars['String'];
+  /** Updated By */
+  updatedBy?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateErrandInput = {
@@ -110,6 +120,8 @@ export type CreateErrandInput = {
   status?: InputMaybe<Scalars['String']>;
   /** Errand Title */
   title?: InputMaybe<Scalars['String']>;
+  /** Updated By */
+  updatedBy?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateLabelInput = {
@@ -117,6 +129,8 @@ export type CreateLabelInput = {
   createdBy: Scalars['String'];
   /** Label title */
   title: Scalars['String'];
+  /** Updated By */
+  updatedBy?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateMilestoneInput = {
@@ -124,12 +138,16 @@ export type CreateMilestoneInput = {
   assignee?: InputMaybe<Scalars['String']>;
   /** Status */
   complete?: InputMaybe<Scalars['Boolean']>;
+  /** Created By */
+  createdBy?: InputMaybe<Scalars['String']>;
   /** Milestone Description */
   description?: InputMaybe<Scalars['String']>;
   /** Milestone Errand */
   errand: Scalars['String'];
   /** Milestone Title */
   title?: InputMaybe<Scalars['String']>;
+  /** Updated By */
+  updatedBy?: InputMaybe<Scalars['String']>;
 };
 
 export type CreatePosterInput = {
@@ -151,6 +169,8 @@ export type CreatePosterInput = {
   status: Scalars['String'];
   /** Poster Title */
   title: Scalars['String'];
+  /** Updated By */
+  updatedBy?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateSchemeInput = {
@@ -168,6 +188,8 @@ export type CreateSchemeInput = {
   startDate?: InputMaybe<Scalars['DateTime']>;
   /** Scheme Title */
   title: Scalars['String'];
+  /** Updated By */
+  updatedBy: Scalars['String'];
 };
 
 export type CreateStampInput = {
@@ -175,6 +197,8 @@ export type CreateStampInput = {
   createdBy: Scalars['String'];
   /** Stamp title */
   title: Scalars['String'];
+  /** Updated By */
+  updatedBy?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateUserInput = {
@@ -197,6 +221,7 @@ export type CreateUserInput = {
   resetPinKey: Scalars['String'];
   roles: Array<UserRole>;
   status: Scalars['String'];
+  updatedBy: Scalars['String'];
   userName: Scalars['String'];
 };
 
@@ -269,6 +294,8 @@ export type Label = {
   title: Scalars['String'];
   /** Updated At */
   updatedAt: Scalars['DateTime'];
+  /** Updated By */
+  updatedBy: User;
 };
 
 export type Media = {
@@ -325,6 +352,8 @@ export type Milestone = {
   title?: Maybe<Scalars['String']>;
   /** Updated At */
   updatedAt?: Maybe<Scalars['DateTime']>;
+  /** Updated By */
+  updatedBy?: Maybe<User>;
 };
 
 export type Mutation = {
@@ -555,6 +584,8 @@ export type Poster = {
   title: Scalars['String'];
   /** Updated At */
   updatedAt: Scalars['DateTime'];
+  /** Updated By */
+  updatedBy: User;
 };
 
 export enum PosterCategory {
@@ -609,6 +640,11 @@ export type QueryDiscussionsArgs = {
 
 export type QueryErrandArgs = {
   id: Scalars['String'];
+};
+
+
+export type QueryErrandsArgs = {
+  filters: CreateErrandInput;
 };
 
 
@@ -677,6 +713,8 @@ export type Scheme = {
   title: Scalars['String'];
   /** Updated At */
   updatedAt: Scalars['DateTime'];
+  /** Updated By */
+  updatedBy: User;
 };
 
 export type Stamp = {
@@ -690,6 +728,8 @@ export type Stamp = {
   title: Scalars['String'];
   /** Updated At */
   updatedAt: Scalars['DateTime'];
+  /** Updated By */
+  updatedBy: User;
 };
 
 export type UpdateBoardInput = {
@@ -702,6 +742,8 @@ export type UpdateBoardInput = {
   scheme?: InputMaybe<Scalars['String']>;
   /** Board Title */
   title?: InputMaybe<Scalars['String']>;
+  /** Updated By */
+  updatedBy?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateCommunityInput = {
@@ -712,6 +754,8 @@ export type UpdateCommunityInput = {
   id: Scalars['String'];
   /** Community Title */
   title?: InputMaybe<Scalars['String']>;
+  /** Updated By */
+  updatedBy?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateDiscussionInput = {
@@ -722,6 +766,8 @@ export type UpdateDiscussionInput = {
   /** Discusion Errand */
   errand?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
+  /** Updated By */
+  updatedBy?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateErrandInput = {
@@ -752,6 +798,8 @@ export type UpdateErrandInput = {
   status?: InputMaybe<Scalars['String']>;
   /** Errand Title */
   title?: InputMaybe<Scalars['String']>;
+  /** Updated By */
+  updatedBy?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateLabelInput = {
@@ -760,6 +808,8 @@ export type UpdateLabelInput = {
   id: Scalars['String'];
   /** Label title */
   title?: InputMaybe<Scalars['String']>;
+  /** Updated By */
+  updatedBy?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateMilestoneInput = {
@@ -767,6 +817,8 @@ export type UpdateMilestoneInput = {
   assignee?: InputMaybe<Scalars['String']>;
   /** Status */
   complete?: InputMaybe<Scalars['Boolean']>;
+  /** Created By */
+  createdBy?: InputMaybe<Scalars['String']>;
   /** Milestone Description */
   description?: InputMaybe<Scalars['String']>;
   /** Milestone Errand */
@@ -774,6 +826,8 @@ export type UpdateMilestoneInput = {
   id: Scalars['String'];
   /** Milestone Title */
   title?: InputMaybe<Scalars['String']>;
+  /** Updated By */
+  updatedBy?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdatePosterInput = {
@@ -796,6 +850,8 @@ export type UpdatePosterInput = {
   status?: InputMaybe<Scalars['String']>;
   /** Poster Title */
   title?: InputMaybe<Scalars['String']>;
+  /** Updated By */
+  updatedBy?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateSchemeInput = {
@@ -814,6 +870,8 @@ export type UpdateSchemeInput = {
   startDate?: InputMaybe<Scalars['DateTime']>;
   /** Scheme Title */
   title?: InputMaybe<Scalars['String']>;
+  /** Updated By */
+  updatedBy?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateStampInput = {
@@ -822,6 +880,8 @@ export type UpdateStampInput = {
   id: Scalars['String'];
   /** Stamp title */
   title?: InputMaybe<Scalars['String']>;
+  /** Updated By */
+  updatedBy?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateUserInput = {
@@ -845,6 +905,7 @@ export type UpdateUserInput = {
   resetPinKey?: InputMaybe<Scalars['String']>;
   roles?: InputMaybe<Array<UserRole>>;
   status?: InputMaybe<Scalars['String']>;
+  updatedBy?: InputMaybe<Scalars['String']>;
   userName?: InputMaybe<Scalars['String']>;
 };
 
@@ -876,6 +937,7 @@ export type User = {
   status?: Maybe<Scalars['String']>;
   /** Updated At */
   updatedAt: Scalars['DateTime'];
+  updatedBy?: Maybe<Scalars['String']>;
   userName?: Maybe<Scalars['String']>;
 };
 
@@ -890,7 +952,7 @@ export type AddErrandMutationVariables = Exact<{
 }>;
 
 
-export type AddErrandMutation = { __typename?: 'Mutation', createErrand: { __typename?: 'Errand', _id: string, title?: string | null } };
+export type AddErrandMutation = { __typename?: 'Mutation', createErrand: { __typename?: 'Errand', _id: string, title?: string | null, description?: string | null } };
 
 export type EditErrandMutationVariables = Exact<{
   payload: UpdateErrandInput;
@@ -927,10 +989,12 @@ export type DeleteMilestoneMutationVariables = Exact<{
 
 export type DeleteMilestoneMutation = { __typename?: 'Mutation', removeMilestone: { __typename: 'Milestone', _id: string } };
 
-export type GetErrandsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetErrandsQueryVariables = Exact<{
+  filters: CreateErrandInput;
+}>;
 
 
-export type GetErrandsQuery = { __typename?: 'Query', errands: Array<{ __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, startDate?: any | null, endDate?: any | null, createdAt: any, createdBy?: { __typename?: 'User', _id: string, phone?: string | null } | null }> };
+export type GetErrandsQuery = { __typename?: 'Query', errands: Array<{ __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, category?: ErrandCategory | null, status?: string | null, priority?: string | null, startDate?: any | null, endDate?: any | null, createdAt: any, poster?: { __typename?: 'Poster', _id: string } | null, stamps?: Array<{ __typename?: 'Stamp', _id: string }> | null, createdBy?: { __typename?: 'User', _id: string } | null, assignee?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, reporter?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, members?: Array<{ __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null }> | null }> };
 
 export type GetErrandQueryVariables = Exact<{
   id: Scalars['String'];
@@ -980,6 +1044,7 @@ export const AddErrandDocument = gql`
   createErrand(createErrandInput: $payload) {
     _id
     title
+    description
   }
 }
     `;
@@ -1249,16 +1314,39 @@ export type DeleteMilestoneMutationHookResult = ReturnType<typeof useDeleteMiles
 export type DeleteMilestoneMutationResult = Apollo.MutationResult<DeleteMilestoneMutation>;
 export type DeleteMilestoneMutationOptions = Apollo.BaseMutationOptions<DeleteMilestoneMutation, DeleteMilestoneMutationVariables>;
 export const GetErrandsDocument = gql`
-    query GetErrands {
-  errands {
+    query GetErrands($filters: CreateErrandInput!) {
+  errands(filters: $filters) {
     _id
     title
     description
+    category
+    status
+    priority
     startDate
     endDate
+    poster {
+      _id
+    }
+    stamps {
+      _id
+    }
     createdBy {
       _id
-      phone
+    }
+    assignee {
+      _id
+      firstName
+      lastName
+    }
+    reporter {
+      _id
+      firstName
+      lastName
+    }
+    members {
+      _id
+      firstName
+      lastName
     }
     createdAt
   }
@@ -1277,10 +1365,11 @@ export const GetErrandsDocument = gql`
  * @example
  * const { data, loading, error } = useGetErrandsQuery({
  *   variables: {
+ *      filters: // value for 'filters'
  *   },
  * });
  */
-export function useGetErrandsQuery(baseOptions?: Apollo.QueryHookOptions<GetErrandsQuery, GetErrandsQueryVariables>) {
+export function useGetErrandsQuery(baseOptions: Apollo.QueryHookOptions<GetErrandsQuery, GetErrandsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetErrandsQuery, GetErrandsQueryVariables>(GetErrandsDocument, options);
       }

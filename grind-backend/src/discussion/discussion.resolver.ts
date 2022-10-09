@@ -3,10 +3,12 @@ import { DiscussionService } from './discussion.service';
 import { Discussion } from './entities/discussion.entity';
 import { CreateDiscussionInput } from './dto/create-discussion.input';
 import { UpdateDiscussionInput } from './dto/update-discussion.input';
-import { GqlCurrentUser } from 'src/auth/gql-auth.guard';
+import { GqlAuthGuard, GqlCurrentUser } from 'src/auth/gql-auth.guard';
 import { User } from 'src/user/entities/user.entity';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => Discussion)
+@UseGuards(GqlAuthGuard)
 export class DiscussionResolver {
   constructor(private readonly discussionService: DiscussionService) {}
 

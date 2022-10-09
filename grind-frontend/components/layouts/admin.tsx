@@ -8,12 +8,13 @@ import {
   SettingOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Button, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import type { MenuInfo } from 'rc-menu/lib/interface';
 const { Sider, Content } = Layout;
 import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
+import { useSession, signOut } from 'next-auth/react'
+import SomethingLoading from '../Loading';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const { status, data } = useSession()
@@ -23,6 +24,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     useEffect(() => {
         if(status === 'unauthenticated') router.replace('/auth/signin');
     }, [status])
+
+    if (status === "loading") {
+        return (
+            <SomethingLoading>
+                <p>loading ...</p>
+            </SomethingLoading>
+        )
+    }
+
+    const logOut = async () => {
+        message.info("Thank you for trusting Grind.")
+        await signOut({ redirect: false, callbackUrl: "/" })
+    }
 
     const onMenuClick = (event: MenuInfo) => {
         const { key, keyPath } = event;
@@ -88,6 +102,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     },
                 ]}
                 />
+                <div className="">
+                    <Button type="primary" className="bg-blue-500" loading={false} onClick={logOut}> 
+                        SignOut
+                    </Button>
+                </div>
             </Sider>
             {/* <Sidebar /> */}
             <Layout className="">

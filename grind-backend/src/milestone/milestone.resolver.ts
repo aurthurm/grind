@@ -3,10 +3,12 @@ import { MilestoneService } from './milestone.service';
 import { Milestone } from './entities/milestone.entity';
 import { CreateMilestoneInput } from './dto/create-milestone.input';
 import { UpdateMilestoneInput } from './dto/update-milestone.input';
-import { GqlCurrentUser } from 'src/auth/gql-auth.guard';
+import { GqlAuthGuard, GqlCurrentUser } from 'src/auth/gql-auth.guard';
 import { User } from 'src/user/entities/user.entity';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => Milestone)
+@UseGuards(GqlAuthGuard)
 export class MilestoneResolver {
   constructor(private readonly milestoneService: MilestoneService) {}
 

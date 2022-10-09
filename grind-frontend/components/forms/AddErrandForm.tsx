@@ -1,24 +1,21 @@
 import { useAddErrandMutation } from '../../generated/graphql'
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Form, Input, message, Modal } from 'antd';
-import useTicketStore from '../../stores/tickers'
 import { IErrand } from '../../models/errand';
 import dynamic from "next/dynamic";
 import { useRouter } from 'next/router';
 const EditorCK = dynamic(() => import("../../components/editors/EditorCK"), { ssr: false });
 
-const AddErrandForm = ({ open, setOpen, goTo }: any) => {
+const AddErrandForm = ({ open, setOpen, goTo, category, handleResponse }: any) => {
     const router = useRouter()
-    const [saveErrandMutation, { loading, data, error }] = useAddErrandMutation();
-    const [description, setDescription] = useState("Start typing ....");
-    const addTicket = useTicketStore((state) => state.addTicket);
+    const [saveErrandMutation, _] = useAddErrandMutation();
 
     const handleCancel = (e: React.MouseEvent<HTMLElement>) => setOpen(false);
 
     const onFinish = (values: any) => {
-        saveErrandMutation({ variables: { payload: values }}).then(result => {
+        saveErrandMutation({ variables: { payload: {...values, category } }}).then(result => {
             message.success(`Errand Added`);
-            addTicket(result.data?.createErrand as IErrand)
+            handleResponse(result.data?.createErrand as IErrand)
             if(goTo && result.data?.createErrand._id) {
                 router.push(`${goTo}${result.data?.createErrand._id}`);
             }
@@ -60,7 +57,7 @@ const AddErrandForm = ({ open, setOpen, goTo }: any) => {
                     name="description"
                     rules={[{ required: true, message: 'Errand Description is required!' }]}
                 >
-                    <EditorCK value={"description"} onChange={setDescription} />
+                    <EditorCK value={"description"} onChange={() => 'Start typing'} />
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>

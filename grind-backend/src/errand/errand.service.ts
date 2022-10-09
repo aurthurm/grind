@@ -19,13 +19,20 @@ export class ErrandService {
     const errand = new this.errandModel(createErrandInput);
     errand.status = errand.status ?? 'open';
     const created = await errand.save();
-    this._addOccurrence(created._id.toString(), null, null, createErrandInput);
+    this._addOccurrence(
+      created._id.toString(),
+      null,
+      null,
+      createErrandInput,
+      true,
+    );
     return errand;
   }
 
-  async findAll() {
+  async findAll(filters: any) {
     return await this.errandModel
-      .find()
+      .find(filters)
+      .sort({ createdAt: -1 })
       .populate('assignee')
       .populate('members')
       .populate('reporter')
@@ -53,7 +60,7 @@ export class ErrandService {
     if (!errand) {
       throw new NotFoundException();
     }
-    this._addOccurrence(id, previous, errand, updateErrandInput);
+    this._addOccurrence(id, previous, errand, updateErrandInput, false);
     return errand;
   }
 
@@ -66,9 +73,10 @@ export class ErrandService {
     previous: Errand,
     updated: Errand,
     payload?: UpdateErrandInput | CreateErrandInput,
+    newErrand = true,
   ) {
     const target = OccurreneTarget.ERRAND;
-    if (!payload) {
+    if (newErrand) {
       this.occurrenceService.create({
         target,
         targetId,

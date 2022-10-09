@@ -14,11 +14,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <button onClick={() => {
-          signIn()
-        }}>
-          Sign in
-        </button>
+        <button onClick={() => signIn()}>Sign in</button>
       </main>
 
       <footer className={styles.footer}>

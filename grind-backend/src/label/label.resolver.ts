@@ -3,10 +3,12 @@ import { LabelService } from './label.service';
 import { Label } from './entities/label.entity';
 import { CreateLabelInput } from './dto/create-label.input';
 import { UpdateLabelInput } from './dto/update-label.input';
-import { GqlCurrentUser } from 'src/auth/gql-auth.guard';
+import { GqlAuthGuard, GqlCurrentUser } from 'src/auth/gql-auth.guard';
 import { User } from 'src/user/entities/user.entity';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => Label)
+@UseGuards(GqlAuthGuard)
 export class LabelResolver {
   constructor(private readonly labelService: LabelService) {}
 

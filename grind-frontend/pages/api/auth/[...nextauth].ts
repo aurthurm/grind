@@ -19,8 +19,12 @@ export const authOptions:NextAuthOptions = {
               body: JSON.stringify({ username, password })
           }).then(res => res.json())
 
+          if(login.statusCode != 200) {
+            throw new Error(login.message)
+          }
+
           if (login) {
-            const profile = await fetch(BACKEND_API + '/auth/profile/', {
+            const user = await fetch(BACKEND_API + '/auth/profile/', {
                 method: "GET",
                 mode: "cors",
                 headers: {
@@ -29,7 +33,7 @@ export const authOptions:NextAuthOptions = {
                 }
             }).then(res => res.json())
 
-            return {  ...profile, success: true, token: login.access_token };
+            return { success: true, token: login.access_token, ...user };
 
         } else {
           throw new Error('Invalid Credentials');
@@ -49,6 +53,7 @@ export const authOptions:NextAuthOptions = {
         return {
           ...token,
           accessToken: user.token,
+          user: user // for extending user object
         };
       }
       return token;
@@ -56,6 +61,10 @@ export const authOptions:NextAuthOptions = {
 
     async session({ session, token }) {
       session.accessToken = token.accessToken;
+      session.user = {
+        ...session.user,
+        ...token.user
+      };
       return session;
     },
   },

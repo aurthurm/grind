@@ -1,19 +1,42 @@
 import { gql } from "@apollo/client";
 
 export const ERRANDS_QUERY = gql`
-  query GetErrands {
-    errands {
+  query GetErrands($filters: CreateErrandInput!) {
+    errands(filters: $filters) {      
+      _id
+      title
+      description
+      category
+      status
+      priority
+      startDate
+      endDate
+      poster {
         _id
-        title
-        description
-        startDate
-        endDate
-        createdBy {
-          _id
-          phone
-        }
-        createdAt
       }
+      stamps {
+        _id
+      }
+      createdBy {
+        _id
+      }
+      assignee {
+        _id
+        firstName
+        lastName
+      }
+      reporter {
+        _id
+        firstName
+        lastName
+      }
+      members {
+        _id
+        firstName
+        lastName
+      }
+      createdAt
+    }
   }
 `
 

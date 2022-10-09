@@ -21,7 +21,9 @@ export const debounce = (func: Function, timeout = 300) => {
 
 export const asTimeAgo = (s: string) => dayjs(s).fromNow();
 
-export const toMomentDate = (s: string) => {
+export const toDayJsDate = (s: string) => dayjs(s);
+
+export const toMomentDate = (s: string): moment.Moment | undefined => {
   if(!s) return undefined;
   return moment(s);
 };

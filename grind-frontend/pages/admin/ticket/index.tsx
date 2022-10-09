@@ -1,14 +1,16 @@
-import { Button, Divider, Space, Table, Tag, Typography } from 'antd';
+import { Button, Divider, Badge, Table, Typography, Tag, message } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import type { NextPage } from 'next'
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AddErrandForm from '../../../components/forms/AddErrandForm';
 import AdminLayout from '../../../components/layouts/admin';
 import AdminMain from '../../../components/layouts/AdminMain';
-import { useGetErrandsQuery } from '../../../generated/graphql';
+import { ErrandCategory, useGetErrandsLazyQuery } from '../../../generated/graphql';
 import { IErrand } from '../../../models/errand';
-import useTicketStore from '../../../stores/tickers';
+import useTicketStore from '../../../stores/tickets';
+import { useSession } from 'next-auth/react';
+import { toMomentDate } from '../../../lib/utils';
 
 const { Title } = Typography;
 
@@ -17,53 +19,90 @@ const columns: ColumnsType<IErrand> = [
     title: 'Name',
     dataIndex: 'title',
     key: 'title',
-    render: (text, record) => (
-      <Link href={`/admin/ticket/${record._id}`}>
-        <a>{text}</a>
-      </Link>
-    ),
+    render: (text, record) => {
+      let color = 'green';
+      if(record.priority === 'high') {
+        color = 'red';
+      } else if(record.priority === 'low') {
+        color = 'grey'
+      }
+      return (
+        <Link href={`/admin/ticket/${record._id}`}>
+          <a>
+            <Badge color={color} />
+            {text}
+          </a>
+        </Link>
+      )
+    },
   },
   {
     title: 'Status',
     dataIndex: 'status',
     key: 'status',
+    render: (text, record) => {
+      let color = 'blue';
+      if(record.status === 'in progress') {
+        color = 'orange';
+      } else if(record.status === 'closed') {
+        color = 'green'
+      }
+      return (<Tag color={color}>{text}</Tag>);
+    }
   },
-  // {
-  //   title: 'Tags',
-  //   key: 'tags',
-  //   dataIndex: 'tags',
-  //   render: (_, { tags }) => (
-  //     <>
-  //       {tags.map(tag => {
-  //         let color = tag.length > 5 ? 'geekblue' : 'green';
-  //         if (tag === 'loser') {
-  //           color = 'volcano';
-  //         }
-  //         return (
-  //           <Tag color={color} key={tag}>
-  //             {tag.toUpperCase()}
-  //           </Tag>
-  //         );
-  //       })}
-  //     </>
-  //   ),
-  // },
   {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Invite {record._id}</a>
-        <a>Delete</a>
-      </Space>
-    ),
+    title: 'Reporter',
+    dataIndex: 'reporter',
+    key: 'reporter',
+    render: (reporter, record) => {
+      if(!!!reporter) return '';
+      return `${reporter?.firstName}`
+    }
+  },
+  {
+    title: 'Assignee',
+    dataIndex: 'assignee',
+    key: 'assignee',
+    render: (assignee, record) => {
+      if(!!!assignee) return '';
+      return `${assignee?.firstName}`
+    }
+  },
+  {
+    title: 'Date Created',
+    dataIndex: 'createdAt',
+    key: 'createdAt',
+    render: (val, record) => {
+      if(!!!val) return '';
+      return `${toMomentDate(val)?.format('ll')}`
+    }
+  },
+  {
+    title: 'Due Date',
+    dataIndex: 'endDate',
+    key: 'endDate',
+    render: (val, record) => {
+      if(!!!val) return '';
+      return `${toMomentDate(val)?.format('ll')}`
+    }
   },
 ];
 
 const TicketPage: NextPage = () => {
+  const { data } = useSession()
   const ticketStore = useTicketStore();
   const [openErrandForm, setOpenErrandForm] = useState(false);
-  const { data: errandsData, loading: errandsLoading, error: errandsError } = useGetErrandsQuery();
+  const [getErrands, { loading: errandsLoading, error: errandsError, data: errandData }] = useGetErrandsLazyQuery();
+
+  useEffect(() => {
+    getErrands({ variables: { filters: { category: ErrandCategory.Ticket }  }}).then(result => {
+      ticketStore.loadTickets(result?.data?.errands as IErrand[])
+      filter({})
+    }).catch(err => {
+      message.success(`Failed to fetch errands`);
+      console.log(err);
+    })
+  }, []);
 
   if (errandsLoading) {
     return (
@@ -84,37 +123,55 @@ const TicketPage: NextPage = () => {
     return null;
   }
 
-  if (errandsData && ticketStore.tickets?.length === 0) {
-    ticketStore.loadTickets(errandsData?.errands as IErrand[])
+  const filter = (filters: any) => {
+    ticketStore.filter(filters);
   }
- 
+
   return (
     <>
       <section className="bg-slate-200 w-60 min-h-screen p-8">
         <Button type="dashed" className="mb-2 text-left" block onClick={() => setOpenErrandForm(true)}>New Ticket</Button>
         <Divider className="my-6" />
-        <Button type="dashed" className="mb-2 text-left" block>View All</Button>
-        <Button type="dashed" className="mb-2 text-left" block>Mine</Button>
-        <Button type="dashed" className="mb-2 text-left" block>Complete</Button>
-        <Button type="dashed" className="mb-2 text-left" block>In Complete</Button>
-        <Button type="dashed" className="mb-2 text-left" block>Blockers</Button>
-        <Button type="dashed" className="mb-2 text-left" block>Stuck</Button>
-        <Button type="dashed" className="mb-2 text-left" block>Need Help</Button>
-        <Button type="dashed" className="mb-2 text-left" block>Due Today</Button>
-        <Button type="dashed" className="mb-2 text-left" block>New Today</Button>
-        <Button type="dashed" className="mb-2 text-left" block>Active</Button>
-        <Button type="dashed" className="mb-2 text-left" block>In Active</Button>
+        <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({})}>Clear Filters</Button>
+        <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ assignee: (data?.user as any)?._id  })}>Mine</Button>
+        <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ status: 'open' })}>Open</Button>
+        <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ status: 'in progress' })}>In Progress</Button>
+        <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ status: 'closed' })}>Closed</Button>
+        <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ status: 'stuck' })}>Stuck</Button>
+        <Divider className="my-6" />
+        <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ other: 'new-today' })}>New Today</Button>
+        <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ other: 'due-today' })}>Due Today</Button>
+        <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ other: 'over-due' })}>Over Due</Button>
+        <Divider className="my-6" />
+        <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ priority: 'normal' })}><Badge color='green' />Normal Priority</Button>
+        <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ priority: 'low' })}><Badge color='grey' />Low Priority</Button>
+        <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ priority: 'high' })}><Badge color='red' />High Priority</Button>
       </section>
 
       <AdminMain>
         <Title level={2}>Tickets</Title>
         <Divider className="my-6" />
 
-        <Table columns={columns} dataSource={ticketStore.tickets} />
+        <Table 
+        rowClassName={(record, index) => index % 2 === 0 ? 'border-l-4 border-indigo-500' :  'border-l-4 border-red-500'}
+        columns={columns} 
+        rowKey="_id" 
+        dataSource={ticketStore.filtered}
+        size="small"
+        pagination={
+          { pageSize: 15,}
+        }
+        />
       </AdminMain>
 
       {/* Modals */}
-      <AddErrandForm open={openErrandForm} setOpen={setOpenErrandForm} goTo={'/admin/ticket/'} />
+      <AddErrandForm 
+      open={openErrandForm} 
+      setOpen={setOpenErrandForm} 
+      goTo={'/admin/ticket/'} 
+      category="TICKET"
+      handleResponse={ticketStore.addTicket}
+       />
     </>
   )
 }

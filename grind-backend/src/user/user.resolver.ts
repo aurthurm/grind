@@ -3,9 +3,11 @@ import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { GqlCurrentUser } from 'src/auth/gql-auth.guard';
+import { GqlAuthGuard, GqlCurrentUser } from 'src/auth/gql-auth.guard';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => User)
+@UseGuards(GqlAuthGuard)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 

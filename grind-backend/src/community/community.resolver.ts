@@ -3,10 +3,12 @@ import { CommunityService } from './community.service';
 import { Community } from './entities/community.entity';
 import { CreateCommunityInput } from './dto/create-community.input';
 import { UpdateCommunityInput } from './dto/update-community.input';
-import { GqlCurrentUser } from 'src/auth/gql-auth.guard';
+import { GqlAuthGuard, GqlCurrentUser } from 'src/auth/gql-auth.guard';
 import { User } from 'src/user/entities/user.entity';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => Community)
+@UseGuards(GqlAuthGuard)
 export class CommunityResolver {
   constructor(private readonly communityService: CommunityService) {}
 

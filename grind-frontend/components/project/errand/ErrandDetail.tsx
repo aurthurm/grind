@@ -6,8 +6,9 @@ import React, { useState } from 'react';
 import { useEditErrandMutation } from '../../../generated/graphql';
 import { IErrand } from '../../../models/errand';
 import useDiscussionStore from '../../../stores/discussions';
+import useEngagementStore from '../../../stores/engagements';
 import useErrandStore from '../../../stores/errand';
-import useTicketStore from '../../../stores/tickers';
+import useTicketStore from '../../../stores/tickets';
 import HtmlViewer from '../../editors/HTMLViewer';
 import ErrandActivity from './ErrandActivity';
 import ErrandDiscussion from './ErrandDiscussion';
@@ -22,20 +23,36 @@ const ErrandDetail = () => {
   const errandStore = useErrandStore();
   const discussionStore = useDiscussionStore();
   const updateTicket = useTicketStore((state) => state.updateTicket);
+  const updateEngagement = useEngagementStore((state) => state.updateEngagement);
   const [isEditing, setIsEditing] = useState(false);
   const [updateErrandMutation, { loading, data, error }] = useEditErrandMutation();
-
 
   const updateErrand = (data: any) => {
     const prev = errandStore.errand;
     errandStore.updateErrand(data);
+
     updateErrandMutation({ variables: { payload: { id: prev._id, ...data } }}).then(result => {
-      message.success(`Errand Updated`);
-      updateTicket(result.data?.updateErrand as IErrand)
+      if(errandStore.errand.category === "TICKET") {
+        updateTicket(result.data?.updateErrand as IErrand)
+      }
+      if(errandStore.errand.category === "ENGAGEMENT") {
+        updateEngagement(result.data?.updateErrand as IErrand)
+      }
+      message.success(`Update success`);
     }).catch(err => {
-        message.success(`Errand updaing failed`);
-        errandStore.updateErrand(prev)
+      message.success(`update failed ${err.message}`);
+      errandStore.updateErrand(prev)
     })
+
+  }
+
+  let tabs: any[] = [];
+  if(errandStore.errand?.category === "TICKET") {
+    tabs = [
+      { label: 'Milestones', key: 'milestone', children: <ErrandMileStones /> },
+      { label: 'Activity Stream', key: 'activity', children: <ErrandActivity target='errand' targetId={errandStore.errand._id} /> },
+      { label: 'Files', key: 'files', children: <ErrandFiles /> },
+    ]
   }
    
   return (
@@ -99,11 +116,7 @@ const ErrandDetail = () => {
          {/* Right Column */}  
         <div className="col-span-1">
           <ErrandMeta />
-          <Tabs items={[
-            { label: 'Milestones', key: 'milestone', children: <ErrandMileStones /> },
-            { label: 'Activity Stream', key: 'activity', children: <ErrandActivity target='errand' targetId={errandStore.errand._id} /> },
-            { label: 'Files', key: 'files', children: <ErrandFiles /> },
-          ]} />
+          <Tabs items={tabs} />
         </div>
 
       </div>

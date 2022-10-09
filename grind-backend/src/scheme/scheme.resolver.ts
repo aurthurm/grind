@@ -3,10 +3,12 @@ import { SchemeService } from './scheme.service';
 import { Scheme } from './entities/scheme.entity';
 import { CreateSchemeInput } from './dto/create-scheme.input';
 import { UpdateSchemeInput } from './dto/update-scheme.input';
-import { GqlCurrentUser } from 'src/auth/gql-auth.guard';
+import { GqlCurrentUser, GqlAuthGuard } from 'src/auth/gql-auth.guard';
 import { User } from 'src/user/entities/user.entity';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => Scheme)
+@UseGuards(GqlAuthGuard)
 export class SchemeResolver {
   constructor(private readonly schemeService: SchemeService) {}
 

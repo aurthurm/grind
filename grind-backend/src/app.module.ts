@@ -88,10 +88,6 @@ import { GqlAuthGuard } from './auth/gql-auth.guard';
       provide: APP_GUARD,
       useClass: RolesGuard,
     },
-    {
-      provide: APP_GUARD,
-      useClass: GqlAuthGuard,
-    },
     // {
     //   provide: APP_INTERCEPTOR,
     //   useClass: ClassSerializerInterceptor,

@@ -5,6 +5,7 @@ export const CREATE_ERRAND = gql`
     createErrand(createErrandInput: $payload){
       _id
       title
+      description
     }
 }
   `

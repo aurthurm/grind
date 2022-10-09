@@ -3,10 +3,12 @@ import { StampService } from './stamp.service';
 import { Stamp } from './entities/stamp.entity';
 import { CreateStampInput } from './dto/create-stamp.input';
 import { UpdateStampInput } from './dto/update-stamp.input';
-import { GqlCurrentUser } from 'src/auth/gql-auth.guard';
+import { GqlAuthGuard, GqlCurrentUser } from 'src/auth/gql-auth.guard';
 import { User } from 'src/user/entities/user.entity';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => Stamp)
+@UseGuards(GqlAuthGuard)
 export class StampResolver {
   constructor(private readonly stampService: StampService) {}
 

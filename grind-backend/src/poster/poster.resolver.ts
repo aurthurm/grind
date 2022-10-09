@@ -3,10 +3,12 @@ import { PosterService } from './poster.service';
 import { Poster } from './entities/poster.entity';
 import { CreatePosterInput } from './dto/create-poster.input';
 import { UpdatePosterInput } from './dto/update-poster.input';
-import { GqlCurrentUser } from 'src/auth/gql-auth.guard';
+import { GqlAuthGuard, GqlCurrentUser } from 'src/auth/gql-auth.guard';
 import { User } from 'src/user/entities/user.entity';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => Poster)
+@UseGuards(GqlAuthGuard)
 export class PosterResolver {
   constructor(private readonly posterService: PosterService) {}
 
