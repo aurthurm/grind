@@ -117,6 +117,10 @@ export class User {
   @Field(() => String, { nullable: true })
   createdBy: string;
 
+  @Field(() => String, { nullable: true })
+  @Prop()
+  updatedBy?: string;
+
   @Prop()
   @Field(() => Date, { description: 'Created At' })
   createdAt?: Date;

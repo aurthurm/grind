@@ -3,6 +3,8 @@ import { MilestoneService } from './milestone.service';
 import { Milestone } from './entities/milestone.entity';
 import { CreateMilestoneInput } from './dto/create-milestone.input';
 import { UpdateMilestoneInput } from './dto/update-milestone.input';
+import { GqlCurrentUser } from 'src/auth/gql-auth.guard';
+import { User } from 'src/user/entities/user.entity';
 
 @Resolver(() => Milestone)
 export class MilestoneResolver {
@@ -11,8 +13,13 @@ export class MilestoneResolver {
   @Mutation(() => Milestone)
   async createMilestone(
     @Args('createMilestoneInput') createMilestoneInput: CreateMilestoneInput,
+    @GqlCurrentUser() user: User,
   ) {
-    return await this.milestoneService.create(createMilestoneInput);
+    return await this.milestoneService.create({
+      ...createMilestoneInput,
+      createdBy: user._id?.toString(),
+      updatedBy: user._id?.toString(),
+    });
   }
 
   @Query(() => Milestone, { name: 'milestone' })
@@ -28,11 +35,12 @@ export class MilestoneResolver {
   @Mutation(() => Milestone)
   async updateMilestone(
     @Args('updateMilestoneInput') updateMilestoneInput: UpdateMilestoneInput,
+    @GqlCurrentUser() user: User,
   ) {
-    return await this.milestoneService.update(
-      updateMilestoneInput.id,
-      updateMilestoneInput,
-    );
+    return await this.milestoneService.update(updateMilestoneInput.id, {
+      ...updateMilestoneInput,
+      updatedBy: user._id?.toString(),
+    });
   }
 
   @Mutation(() => Milestone)

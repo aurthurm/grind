@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { exec } from 'child_process';
 import { Model } from 'mongoose';
 import { OccurreneTarget } from 'src/helpers/constants';
 import { OccurrenceService } from 'src/occurrence/occurrence.service';
@@ -20,7 +19,7 @@ export class ErrandService {
     const errand = new this.errandModel(createErrandInput);
     errand.status = errand.status ?? 'open';
     const created = await errand.save();
-    this._addOccurrence(created._id.toString(), null, null, null);
+    this._addOccurrence(created._id.toString(), null, null, createErrandInput);
     return errand;
   }
 
@@ -66,15 +65,14 @@ export class ErrandService {
     targetId: string,
     previous: Errand,
     updated: Errand,
-    payload?: UpdateErrandInput,
+    payload?: UpdateErrandInput | CreateErrandInput,
   ) {
-    const actor = '63354cf0f215dd17ec08e28f';
     const target = OccurreneTarget.ERRAND;
     if (!payload) {
       this.occurrenceService.create({
         target,
         targetId,
-        actor,
+        actor: payload.createdBy,
         description: 'created this errand',
       });
     } else {
@@ -115,7 +113,12 @@ export class ErrandService {
           }
           description += `members`;
         }
-        this.occurrenceService.create({ target, targetId, actor, description });
+        this.occurrenceService.create({
+          target,
+          targetId,
+          actor: payload.updatedBy,
+          description,
+        });
       });
 
       let description = '';
@@ -130,7 +133,12 @@ export class ErrandService {
       }
 
       if (description) {
-        this.occurrenceService.create({ target, targetId, actor, description });
+        this.occurrenceService.create({
+          target,
+          targetId,
+          actor: payload.updatedBy,
+          description,
+        });
       }
     }
   }

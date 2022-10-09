@@ -3,14 +3,22 @@ import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
+import { GqlCurrentUser } from 'src/auth/gql-auth.guard';
 
 @Resolver(() => User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Mutation(() => User)
-  async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
-    return await this.userService.create(createUserInput);
+  async createUser(
+    @Args('createUserInput') createUserInput: CreateUserInput,
+    @GqlCurrentUser() user: User,
+  ) {
+    return await this.userService.create({
+      ...createUserInput,
+      createdBy: user._id?.toString(),
+      updatedBy: user._id?.toString(),
+    });
   }
 
   @Query(() => [User], { name: 'users' })
@@ -24,8 +32,14 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
-  async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return await this.userService.update(updateUserInput.id, updateUserInput);
+  async updateUser(
+    @Args('updateUserInput') updateUserInput: UpdateUserInput,
+    @GqlCurrentUser() user: User,
+  ) {
+    return await this.userService.update(updateUserInput.id, {
+      ...updateUserInput,
+      updatedBy: user._id?.toString(),
+    });
   }
 
   @Mutation(() => User)

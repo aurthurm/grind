@@ -13,4 +13,7 @@ export class CreateBoardInput {
 
   @Field({ description: 'Created By', nullable: true })
   createdBy?: string;
+
+  @Field(() => String, { description: 'Updated By', nullable: true })
+  updatedBy?: string;
 }

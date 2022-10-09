@@ -61,5 +61,8 @@ export class CreateUserInput {
   createdBy: string;
 
   @Field()
+  updatedBy?: string;
+
+  @Field()
   completeness: number;
 }

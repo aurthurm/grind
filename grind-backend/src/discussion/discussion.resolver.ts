@@ -3,6 +3,8 @@ import { DiscussionService } from './discussion.service';
 import { Discussion } from './entities/discussion.entity';
 import { CreateDiscussionInput } from './dto/create-discussion.input';
 import { UpdateDiscussionInput } from './dto/update-discussion.input';
+import { GqlCurrentUser } from 'src/auth/gql-auth.guard';
+import { User } from 'src/user/entities/user.entity';
 
 @Resolver(() => Discussion)
 export class DiscussionResolver {
@@ -11,8 +13,13 @@ export class DiscussionResolver {
   @Mutation(() => Discussion)
   async createDiscussion(
     @Args('createDiscussionInput') createDiscussionInput: CreateDiscussionInput,
+    @GqlCurrentUser() user: User,
   ) {
-    return await this.discussionService.create(createDiscussionInput);
+    return await this.discussionService.create({
+      ...createDiscussionInput,
+      createdBy: user._id.toString(),
+      updatedBy: user._id.toString(),
+    });
   }
 
   @Query(() => [Discussion], { name: 'discussions' })
@@ -30,11 +37,12 @@ export class DiscussionResolver {
   @Mutation(() => Discussion)
   async updateDiscussion(
     @Args('updateDiscussionInput') updateDiscussionInput: UpdateDiscussionInput,
+    @GqlCurrentUser() user: User,
   ) {
-    return await this.discussionService.update(
-      updateDiscussionInput.id,
-      updateDiscussionInput,
-    );
+    return await this.discussionService.update(updateDiscussionInput.id, {
+      ...updateDiscussionInput,
+      updatedBy: user._id.toString(),
+    });
   }
 
   @Mutation(() => Discussion)

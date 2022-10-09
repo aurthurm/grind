@@ -39,6 +39,10 @@ export class Milestone {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   createdBy?: User;
 
+  @Field(() => User, { description: 'Updated By', nullable: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  updatedBy?: User;
+
   @Prop()
   @Field(() => Date, { description: 'Created At', nullable: true })
   createdAt?: Date;

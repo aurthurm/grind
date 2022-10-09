@@ -16,4 +16,10 @@ export class CreateMilestoneInput {
 
   @Field(() => String, { description: 'Assigned to', nullable: true })
   assignee?: string;
+
+  @Field(() => String, { description: 'Created By', nullable: true })
+  createdBy?: string;
+
+  @Field(() => String, { description: 'Updated By', nullable: true })
+  updatedBy?: string;
 }

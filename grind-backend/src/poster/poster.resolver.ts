@@ -3,6 +3,8 @@ import { PosterService } from './poster.service';
 import { Poster } from './entities/poster.entity';
 import { CreatePosterInput } from './dto/create-poster.input';
 import { UpdatePosterInput } from './dto/update-poster.input';
+import { GqlCurrentUser } from 'src/auth/gql-auth.guard';
+import { User } from 'src/user/entities/user.entity';
 
 @Resolver(() => Poster)
 export class PosterResolver {
@@ -11,8 +13,13 @@ export class PosterResolver {
   @Mutation(() => Poster)
   async createPoster(
     @Args('createPosterInput') createPosterInput: CreatePosterInput,
+    @GqlCurrentUser() user: User,
   ) {
-    return await this.posterService.create(createPosterInput);
+    return await this.posterService.create({
+      ...createPosterInput,
+      createdBy: user._id?.toString(),
+      updatedBy: user._id?.toString(),
+    });
   }
 
   @Query(() => [Poster], { name: 'poster' })
@@ -28,11 +35,12 @@ export class PosterResolver {
   @Mutation(() => Poster)
   async updatePoster(
     @Args('updatePosterInput') updatePosterInput: UpdatePosterInput,
+    @GqlCurrentUser() user: User,
   ) {
-    return await this.posterService.update(
-      updatePosterInput.id,
-      updatePosterInput,
-    );
+    return await this.posterService.update(updatePosterInput.id, {
+      ...updatePosterInput,
+      updatedBy: user._id?.toString(),
+    });
   }
 
   @Mutation(() => Poster)

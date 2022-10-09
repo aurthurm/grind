@@ -3,6 +3,8 @@ import { SchemeService } from './scheme.service';
 import { Scheme } from './entities/scheme.entity';
 import { CreateSchemeInput } from './dto/create-scheme.input';
 import { UpdateSchemeInput } from './dto/update-scheme.input';
+import { GqlCurrentUser } from 'src/auth/gql-auth.guard';
+import { User } from 'src/user/entities/user.entity';
 
 @Resolver(() => Scheme)
 export class SchemeResolver {
@@ -11,8 +13,13 @@ export class SchemeResolver {
   @Mutation(() => Scheme)
   async createScheme(
     @Args('createSchemeInput') createSchemeInput: CreateSchemeInput,
+    @GqlCurrentUser() user: User,
   ) {
-    return await this.schemeService.create(createSchemeInput);
+    return await this.schemeService.create({
+      ...createSchemeInput,
+      createdBy: user._id?.toString(),
+      updatedBy: user._id?.toString(),
+    });
   }
 
   @Query(() => [Scheme], { name: 'scheme' })
@@ -28,11 +35,12 @@ export class SchemeResolver {
   @Mutation(() => Scheme)
   async updateScheme(
     @Args('updateSchemeInput') updateSchemeInput: UpdateSchemeInput,
+    @GqlCurrentUser() user: User,
   ) {
-    return await this.schemeService.update(
-      updateSchemeInput.id,
-      updateSchemeInput,
-    );
+    return await this.schemeService.update(updateSchemeInput.id, {
+      ...updateSchemeInput,
+      updatedBy: user._id?.toString(),
+    });
   }
 
   @Mutation(() => Scheme)

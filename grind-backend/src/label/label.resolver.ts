@@ -3,6 +3,8 @@ import { LabelService } from './label.service';
 import { Label } from './entities/label.entity';
 import { CreateLabelInput } from './dto/create-label.input';
 import { UpdateLabelInput } from './dto/update-label.input';
+import { GqlCurrentUser } from 'src/auth/gql-auth.guard';
+import { User } from 'src/user/entities/user.entity';
 
 @Resolver(() => Label)
 export class LabelResolver {
@@ -11,8 +13,13 @@ export class LabelResolver {
   @Mutation(() => Label)
   async createLabel(
     @Args('createLabelInput') createLabelInput: CreateLabelInput,
+    @GqlCurrentUser() user: User,
   ) {
-    return await this.labelService.create(createLabelInput);
+    return await this.labelService.create({
+      ...createLabelInput,
+      createdBy: user._id.toString(),
+      updatedBy: user._id.toString(),
+    });
   }
 
   @Query(() => [Label], { name: 'label' })
@@ -28,11 +35,12 @@ export class LabelResolver {
   @Mutation(() => Label)
   async updateLabel(
     @Args('updateLabelInput') updateLabelInput: UpdateLabelInput,
+    @GqlCurrentUser() user: User,
   ) {
-    return await this.labelService.update(
-      updateLabelInput.id,
-      updateLabelInput,
-    );
+    return await this.labelService.update(updateLabelInput.id, {
+      ...updateLabelInput,
+      updatedBy: user._id.toString(),
+    });
   }
 
   @Mutation(() => Label)

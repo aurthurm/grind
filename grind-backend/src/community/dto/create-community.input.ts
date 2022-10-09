@@ -10,4 +10,7 @@ export class CreateCommunityInput {
 
   @Field(() => String, { description: 'Community Creator' })
   createdBy: string;
+
+  @Field(() => String, { description: 'Updated By', nullable: true })
+  updatedBy?: string;
 }

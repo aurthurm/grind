@@ -18,6 +18,9 @@ export class CreatePosterInput {
   @Field(() => String, { description: 'Created By' })
   createdBy: string;
 
+  @Field(() => String, { description: 'Updated By', nullable: true })
+  updatedBy?: string;
+
   @Field(() => String, { description: 'Assigned To' })
   assignedTo: string;
 

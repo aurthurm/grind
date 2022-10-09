@@ -22,6 +22,9 @@ type Board {
 
   """Updated At"""
   updatedAt: DateTime!
+
+  """Updated By"""
+  updatedBy: User!
 }
 
 type Community {
@@ -47,6 +50,9 @@ type Community {
 
   """Updated At"""
   updatedAt: DateTime!
+
+  """Updated By"""
+  updatedBy: User!
 }
 
 input CreateBoardInput {
@@ -61,6 +67,9 @@ input CreateBoardInput {
 
   """Board Title"""
   title: String!
+
+  """Updated By"""
+  updatedBy: String
 }
 
 input CreateCommunityInput {
@@ -72,6 +81,9 @@ input CreateCommunityInput {
 
   """Community Title"""
   title: String!
+
+  """Updated By"""
+  updatedBy: String
 }
 
 input CreateDiscussionInput {
@@ -83,6 +95,9 @@ input CreateDiscussionInput {
 
   """Discusion Errand"""
   errand: String!
+
+  """Updated By"""
+  updatedBy: String
 }
 
 input CreateErrandInput {
@@ -124,6 +139,9 @@ input CreateErrandInput {
 
   """Errand Title"""
   title: String
+
+  """Updated By"""
+  updatedBy: String
 }
 
 input CreateLabelInput {
@@ -132,6 +150,9 @@ input CreateLabelInput {
 
   """Label title"""
   title: String!
+
+  """Updated By"""
+  updatedBy: String
 }
 
 input CreateMilestoneInput {
@@ -141,6 +162,9 @@ input CreateMilestoneInput {
   """Status"""
   complete: Boolean
 
+  """Created By"""
+  createdBy: String
+
   """Milestone Description"""
   description: String
 
@@ -149,6 +173,9 @@ input CreateMilestoneInput {
 
   """Milestone Title"""
   title: String
+
+  """Updated By"""
+  updatedBy: String
 }
 
 input CreatePosterInput {
@@ -178,6 +205,9 @@ input CreatePosterInput {
 
   """Poster Title"""
   title: String!
+
+  """Updated By"""
+  updatedBy: String
 }
 
 input CreateSchemeInput {
@@ -201,6 +231,9 @@ input CreateSchemeInput {
 
   """Scheme Title"""
   title: String!
+
+  """Updated By"""
+  updatedBy: String!
 }
 
 input CreateStampInput {
@@ -209,6 +242,9 @@ input CreateStampInput {
 
   """Stamp title"""
   title: String!
+
+  """Updated By"""
+  updatedBy: String
 }
 
 input CreateUserInput {
@@ -231,6 +267,7 @@ input CreateUserInput {
   resetPinKey: String!
   roles: [UserRole!]!
   status: String!
+  updatedBy: String!
   userName: String!
 }
 
@@ -329,6 +366,9 @@ type Label {
 
   """Updated At"""
   updatedAt: DateTime!
+
+  """Updated By"""
+  updatedBy: User!
 }
 
 type Media {
@@ -404,6 +444,9 @@ type Milestone {
 
   """Updated At"""
   updatedAt: DateTime
+
+  """Updated By"""
+  updatedBy: User
 }
 
 type Mutation {
@@ -497,6 +540,9 @@ type Poster {
 
   """Updated At"""
   updatedAt: DateTime!
+
+  """Updated By"""
+  updatedBy: User!
 }
 
 enum PosterCategory {
@@ -553,6 +599,9 @@ type Scheme {
 
   """Updated At"""
   updatedAt: DateTime!
+
+  """Updated By"""
+  updatedBy: User!
 }
 
 type Stamp {
@@ -569,6 +618,9 @@ type Stamp {
 
   """Updated At"""
   updatedAt: DateTime!
+
+  """Updated By"""
+  updatedBy: User!
 }
 
 input UpdateBoardInput {
@@ -584,6 +636,9 @@ input UpdateBoardInput {
 
   """Board Title"""
   title: String
+
+  """Updated By"""
+  updatedBy: String
 }
 
 input UpdateCommunityInput {
@@ -596,6 +651,9 @@ input UpdateCommunityInput {
 
   """Community Title"""
   title: String
+
+  """Updated By"""
+  updatedBy: String
 }
 
 input UpdateDiscussionInput {
@@ -608,6 +666,9 @@ input UpdateDiscussionInput {
   """Discusion Errand"""
   errand: String
   id: String!
+
+  """Updated By"""
+  updatedBy: String
 }
 
 input UpdateErrandInput {
@@ -650,6 +711,9 @@ input UpdateErrandInput {
 
   """Errand Title"""
   title: String
+
+  """Updated By"""
+  updatedBy: String
 }
 
 input UpdateLabelInput {
@@ -659,6 +723,9 @@ input UpdateLabelInput {
 
   """Label title"""
   title: String
+
+  """Updated By"""
+  updatedBy: String
 }
 
 input UpdateMilestoneInput {
@@ -667,6 +734,9 @@ input UpdateMilestoneInput {
 
   """Status"""
   complete: Boolean
+
+  """Created By"""
+  createdBy: String
 
   """Milestone Description"""
   description: String
@@ -677,6 +747,9 @@ input UpdateMilestoneInput {
 
   """Milestone Title"""
   title: String
+
+  """Updated By"""
+  updatedBy: String
 }
 
 input UpdatePosterInput {
@@ -707,6 +780,9 @@ input UpdatePosterInput {
 
   """Poster Title"""
   title: String
+
+  """Updated By"""
+  updatedBy: String
 }
 
 input UpdateSchemeInput {
@@ -731,6 +807,9 @@ input UpdateSchemeInput {
 
   """Scheme Title"""
   title: String
+
+  """Updated By"""
+  updatedBy: String
 }
 
 input UpdateStampInput {
@@ -740,6 +819,9 @@ input UpdateStampInput {
 
   """Stamp title"""
   title: String
+
+  """Updated By"""
+  updatedBy: String
 }
 
 input UpdateUserInput {
@@ -763,6 +845,7 @@ input UpdateUserInput {
   resetPinKey: String
   roles: [UserRole!]
   status: String
+  updatedBy: String
   userName: String
 }
 
@@ -795,6 +878,7 @@ type User {
 
   """Updated At"""
   updatedAt: DateTime!
+  updatedBy: String
   userName: String
 }
 

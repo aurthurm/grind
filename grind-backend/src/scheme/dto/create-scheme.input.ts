@@ -14,6 +14,9 @@ export class CreateSchemeInput {
   @Field(() => String, { description: 'Created By' })
   createdBy: string;
 
+  @Field(() => String, { description: 'Updated By' })
+  updatedBy?: string;
+
   @Field(() => [String], { description: 'Scheme Members' })
   members: string[];
 

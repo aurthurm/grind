@@ -18,9 +18,6 @@ export class CreateErrandInput {
   @Field(() => [String], { description: 'Errand Milestone', nullable: true })
   milestones?: string[];
 
-  @Field(() => String, { description: 'Created By', nullable: true })
-  createdBy?: string;
-
   @Field(() => String, { description: 'Assigned To', nullable: true })
   reporter?: string;
 
@@ -47,4 +44,10 @@ export class CreateErrandInput {
 
   @Field(() => Date, { description: 'End Date', nullable: true })
   endDate?: Date;
+
+  @Field(() => String, { description: 'Created By', nullable: true })
+  createdBy?: string;
+
+  @Field(() => String, { description: 'Updated By', nullable: true })
+  updatedBy?: string;
 }

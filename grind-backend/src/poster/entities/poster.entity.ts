@@ -36,6 +36,10 @@ export class Poster {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   createdBy: User;
 
+  @Field(() => User, { description: 'Updated By' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  updatedBy: User;
+
   @Field(() => User, { description: 'Assigned To' })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   assignedTo: User;

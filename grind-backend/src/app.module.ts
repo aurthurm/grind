@@ -25,6 +25,7 @@ import { SchemeModule } from './scheme/scheme.module';
 import { AuthModule } from './auth/auth.module';
 import { OccurrenceModule } from './occurrence/occurrence.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { GqlAuthGuard } from './auth/gql-auth.guard';
 
 @Module({
   imports: [
@@ -86,6 +87,10 @@ import { ServeStaticModule } from '@nestjs/serve-static';
     {
       provide: APP_GUARD,
       useClass: RolesGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: GqlAuthGuard,
     },
     // {
     //   provide: APP_INTERCEPTOR,

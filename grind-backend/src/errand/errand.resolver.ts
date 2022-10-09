@@ -3,8 +3,7 @@ import { ErrandService } from './errand.service';
 import { Errand } from './entities/errand.entity';
 import { CreateErrandInput } from './dto/create-errand.input';
 import { UpdateErrandInput } from './dto/update-errand.input';
-import { CurrentUser, GqlAuthGuard } from 'src/auth/gql-auth.guard';
-import { UseGuards } from '@nestjs/common';
+import { GqlCurrentUser } from 'src/auth/gql-auth.guard';
 import { User } from 'src/user/entities/user.entity';
 
 @Resolver(() => Errand)
@@ -14,13 +13,18 @@ export class ErrandResolver {
   @Mutation(() => Errand)
   async createErrand(
     @Args('createErrandInput') createErrandInput: CreateErrandInput,
+    @GqlCurrentUser() user: User,
   ) {
-    return await this.errandService.create(createErrandInput);
+    return await this.errandService.create({
+      ...createErrandInput,
+      createdBy: user._id.toString(),
+      updatedBy: user._id.toString(),
+    });
   }
 
-  @UseGuards(GqlAuthGuard)
+  // @UseGuards(GqlAuthGuard)
   @Query(() => [Errand], { name: 'errands' })
-  async findAll(@CurrentUser() user: User) {
+  async findAll() {
     return await this.errandService.findAll();
   }
 
@@ -32,11 +36,12 @@ export class ErrandResolver {
   @Mutation(() => Errand)
   async updateErrand(
     @Args('updateErrandInput') updateErrandInput: UpdateErrandInput,
+    @GqlCurrentUser() user: User,
   ) {
-    return await this.errandService.update(
-      updateErrandInput.id,
-      updateErrandInput,
-    );
+    return await this.errandService.update(updateErrandInput.id, {
+      ...updateErrandInput,
+      updatedBy: user._id?.toString(),
+    });
   }
 
   @Mutation(() => Errand)

@@ -22,6 +22,10 @@ export class Stamp {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   createdBy: User;
 
+  @Field(() => User, { description: 'Updated By' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  updatedBy: User;
+
   @Prop()
   @Field(() => Date, { description: 'Created At' })
   createdAt?: Date;

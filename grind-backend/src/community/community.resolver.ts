@@ -3,6 +3,8 @@ import { CommunityService } from './community.service';
 import { Community } from './entities/community.entity';
 import { CreateCommunityInput } from './dto/create-community.input';
 import { UpdateCommunityInput } from './dto/update-community.input';
+import { GqlCurrentUser } from 'src/auth/gql-auth.guard';
+import { User } from 'src/user/entities/user.entity';
 
 @Resolver(() => Community)
 export class CommunityResolver {
@@ -11,8 +13,13 @@ export class CommunityResolver {
   @Mutation(() => Community)
   async createCommunity(
     @Args('createCommunityInput') createCommunityInput: CreateCommunityInput,
+    @GqlCurrentUser() user: User,
   ) {
-    return await this.communityService.create(createCommunityInput);
+    return await this.communityService.create({
+      ...createCommunityInput,
+      createdBy: user._id?.toString(),
+      updatedBy: user._id?.toString(),
+    });
   }
 
   @Query(() => [Community], { name: 'communities' })
@@ -28,11 +35,12 @@ export class CommunityResolver {
   @Mutation(() => Community)
   async updateCommunity(
     @Args('updateCommunityInput') updateCommunityInput: UpdateCommunityInput,
+    @GqlCurrentUser() user: User,
   ) {
-    return await this.communityService.update(
-      updateCommunityInput.id,
-      updateCommunityInput,
-    );
+    return await this.communityService.update(updateCommunityInput.id, {
+      ...updateCommunityInput,
+      updatedBy: user._id?.toString(),
+    });
   }
 
   @Mutation(() => Community)

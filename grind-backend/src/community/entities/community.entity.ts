@@ -31,6 +31,10 @@ export class Community {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   createdBy: User;
 
+  @Field(() => User, { description: 'Updated By' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  updatedBy: User;
+
   @Field(() => [User], { description: 'Community Members' })
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: User.name }] })
   members: User[];
