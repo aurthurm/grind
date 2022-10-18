@@ -23,6 +23,10 @@ export const asTimeAgo = (s: string) => dayjs(s).fromNow();
 
 export const toDayJsDate = (s: string) => dayjs(s);
 
+export const formatDate = (s: string, f: string) => dayjs(s)?.format(f);
+
+export const getTimeStamp = (s: string) => `${dayjs(s)?.hour()}:${dayjs(s)?.minute()}`;
+
 export const toMomentDate = (s: string): moment.Moment | undefined => {
   if(!s) return undefined;
   return moment(s);

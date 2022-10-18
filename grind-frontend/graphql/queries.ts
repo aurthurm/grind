@@ -201,3 +201,59 @@ export const MEDIAS_QUERY = gql`
     }
   }
 `
+
+export const SCHEMES_QUERY = gql`
+  query GetSchemes {
+    schemes {
+      _id
+      title
+      description
+      startDate
+      endDate
+      assignee {
+        _id
+        firstName
+        lastName
+      }
+      members {
+        _id
+        firstName
+        lastName
+      }
+      createdBy {
+        _id
+        firstName
+        lastName
+      }
+      createdAt
+    }
+  }
+`
+
+export const SCHEME_QUERY = gql`
+  query GetScheme($id: String!) {
+    scheme(id: $id) {
+      _id
+      title
+      description
+      startDate
+      endDate
+      assignee {
+        _id
+        firstName
+        lastName
+      }
+      members {
+        _id
+        firstName
+        lastName
+      }
+      createdBy {
+        _id
+        firstName
+        lastName
+      }
+      createdAt
+    }
+  }
+`

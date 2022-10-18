@@ -174,22 +174,22 @@ export type CreatePosterInput = {
 };
 
 export type CreateSchemeInput = {
-  /** Scheme Boards */
-  boards: Array<Scalars['String']>;
+  /** Assigned ti */
+  assignee?: InputMaybe<Scalars['String']>;
   /** Created By */
-  createdBy: Scalars['String'];
+  createdBy?: InputMaybe<Scalars['String']>;
   /** Scheme Description */
-  description: Scalars['String'];
+  description?: InputMaybe<Scalars['String']>;
   /** End Date */
   endDate?: InputMaybe<Scalars['DateTime']>;
   /** Scheme Members */
-  members: Array<Scalars['String']>;
+  members?: InputMaybe<Array<Scalars['String']>>;
   /** Start Date */
   startDate?: InputMaybe<Scalars['DateTime']>;
   /** Scheme Title */
   title: Scalars['String'];
   /** Updated By */
-  updatedBy: Scalars['String'];
+  updatedBy?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateStampInput = {
@@ -273,6 +273,8 @@ export type Errand = {
   title?: Maybe<Scalars['String']>;
   /** Updated At */
   updatedAt: Scalars['DateTime'];
+  /** Updated By */
+  updatedBy?: Maybe<User>;
 };
 
 export enum ErrandCategory {
@@ -452,7 +454,7 @@ export type MutationRemoveCommunityArgs = {
 
 
 export type MutationRemoveDiscussionArgs = {
-  id: Scalars['Int'];
+  id: Scalars['String'];
 };
 
 
@@ -477,7 +479,7 @@ export type MutationRemovePosterArgs = {
 
 
 export type MutationRemoveSchemeArgs = {
-  id: Scalars['Int'];
+  id: Scalars['String'];
 };
 
 
@@ -612,6 +614,7 @@ export type Query = {
   occurrences: Array<Occurrence>;
   poster: Poster;
   scheme: Scheme;
+  schemes: Array<Scheme>;
   stamp: Stamp;
   user: User;
   users: Array<User>;
@@ -681,7 +684,7 @@ export type QueryPosterArgs = {
 
 
 export type QuerySchemeArgs = {
-  id: Scalars['Int'];
+  id: Scalars['String'];
 };
 
 
@@ -697,16 +700,19 @@ export type QueryUserArgs = {
 export type Scheme = {
   __typename?: 'Scheme';
   _id: Scalars['ID'];
+  /** Assigned to */
+  assignee?: Maybe<User>;
+  boards?: Maybe<Array<Maybe<Board>>>;
   /** Created At */
   createdAt: Scalars['DateTime'];
   /** Created By */
-  createdBy: User;
+  createdBy?: Maybe<User>;
   /** Scheme Description */
-  description: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   /** End Date */
   endDate?: Maybe<Scalars['DateTime']>;
   /** Scheme Members */
-  members: Array<User>;
+  members?: Maybe<Array<User>>;
   /** Start Date */
   startDate?: Maybe<Scalars['DateTime']>;
   /** Scheme Title */
@@ -714,7 +720,7 @@ export type Scheme = {
   /** Updated At */
   updatedAt: Scalars['DateTime'];
   /** Updated By */
-  updatedBy: User;
+  updatedBy?: Maybe<User>;
 };
 
 export type Stamp = {
@@ -855,8 +861,8 @@ export type UpdatePosterInput = {
 };
 
 export type UpdateSchemeInput = {
-  /** Scheme Boards */
-  boards?: InputMaybe<Array<Scalars['String']>>;
+  /** Assigned ti */
+  assignee?: InputMaybe<Scalars['String']>;
   /** Created By */
   createdBy?: InputMaybe<Scalars['String']>;
   /** Scheme Description */
@@ -968,6 +974,20 @@ export type AddDscussionMutationVariables = Exact<{
 
 export type AddDscussionMutation = { __typename?: 'Mutation', createDiscussion: { __typename: 'Discussion', _id: string, content: string, createdAt: any, updatedAt: any, errand: { __typename?: 'Errand', _id: string }, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null } };
 
+export type EditDscussionMutationVariables = Exact<{
+  payload: UpdateDiscussionInput;
+}>;
+
+
+export type EditDscussionMutation = { __typename?: 'Mutation', updateDiscussion: { __typename: 'Discussion', _id: string, content: string, createdAt: any, updatedAt: any, errand: { __typename?: 'Errand', _id: string }, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null } };
+
+export type DeleteDiscussionMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type DeleteDiscussionMutation = { __typename?: 'Mutation', removeDiscussion: { __typename: 'Discussion', _id: string } };
+
 export type AddMilestoneMutationVariables = Exact<{
   payload: CreateMilestoneInput;
 }>;
@@ -988,6 +1008,20 @@ export type DeleteMilestoneMutationVariables = Exact<{
 
 
 export type DeleteMilestoneMutation = { __typename?: 'Mutation', removeMilestone: { __typename: 'Milestone', _id: string } };
+
+export type AddSchemeMutationVariables = Exact<{
+  payload: CreateSchemeInput;
+}>;
+
+
+export type AddSchemeMutation = { __typename?: 'Mutation', createScheme: { __typename: 'Scheme', _id: string, title: string, description?: string | null, startDate?: any | null, endDate?: any | null, createdAt: any, assignee?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, members?: Array<{ __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null }> | null, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null } };
+
+export type AddBoardMutationVariables = Exact<{
+  payload: CreateBoardInput;
+}>;
+
+
+export type AddBoardMutation = { __typename?: 'Mutation', createBoard: { __typename: 'Board', _id: string, title: string, description?: string | null, createdAt: any, scheme?: { __typename?: 'Scheme', _id: string, title: string } | null, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null } };
 
 export type GetErrandsQueryVariables = Exact<{
   filters: CreateErrandInput;
@@ -1037,6 +1071,18 @@ export type GetMediasQueryVariables = Exact<{
 
 
 export type GetMediasQuery = { __typename?: 'Query', medias: Array<{ __typename?: 'Media', _id: string, target?: MediaTarget | null, targetId?: string | null, destination?: string | null, encoding?: string | null, filename?: string | null, mimetype?: string | null, originalname?: string | null, path?: string | null, size?: string | null, createdAt?: any | null, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null }> };
+
+export type GetSchemesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetSchemesQuery = { __typename?: 'Query', schemes: Array<{ __typename?: 'Scheme', _id: string, title: string, description?: string | null, startDate?: any | null, endDate?: any | null, createdAt: any, assignee?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, members?: Array<{ __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null }> | null, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null }> };
+
+export type GetSchemeQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type GetSchemeQuery = { __typename?: 'Query', scheme: { __typename?: 'Scheme', _id: string, title: string, description?: string | null, startDate?: any | null, endDate?: any | null, createdAt: any, assignee?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, members?: Array<{ __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null }> | null, boards?: Array<{ __typename?: 'Board', _id: string, title: string, description?: string | null } | null> | null, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null } };
 
 
 export const AddErrandDocument = gql`
@@ -1177,6 +1223,85 @@ export function useAddDscussionMutation(baseOptions?: Apollo.MutationHookOptions
 export type AddDscussionMutationHookResult = ReturnType<typeof useAddDscussionMutation>;
 export type AddDscussionMutationResult = Apollo.MutationResult<AddDscussionMutation>;
 export type AddDscussionMutationOptions = Apollo.BaseMutationOptions<AddDscussionMutation, AddDscussionMutationVariables>;
+export const EditDscussionDocument = gql`
+    mutation editDscussion($payload: UpdateDiscussionInput!) {
+  updateDiscussion(updateDiscussionInput: $payload) {
+    __typename
+    _id
+    content
+    createdAt
+    updatedAt
+    errand {
+      _id
+    }
+    createdBy {
+      _id
+      firstName
+      lastName
+    }
+  }
+}
+    `;
+export type EditDscussionMutationFn = Apollo.MutationFunction<EditDscussionMutation, EditDscussionMutationVariables>;
+
+/**
+ * __useEditDscussionMutation__
+ *
+ * To run a mutation, you first call `useEditDscussionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditDscussionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editDscussionMutation, { data, loading, error }] = useEditDscussionMutation({
+ *   variables: {
+ *      payload: // value for 'payload'
+ *   },
+ * });
+ */
+export function useEditDscussionMutation(baseOptions?: Apollo.MutationHookOptions<EditDscussionMutation, EditDscussionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditDscussionMutation, EditDscussionMutationVariables>(EditDscussionDocument, options);
+      }
+export type EditDscussionMutationHookResult = ReturnType<typeof useEditDscussionMutation>;
+export type EditDscussionMutationResult = Apollo.MutationResult<EditDscussionMutation>;
+export type EditDscussionMutationOptions = Apollo.BaseMutationOptions<EditDscussionMutation, EditDscussionMutationVariables>;
+export const DeleteDiscussionDocument = gql`
+    mutation deleteDiscussion($id: String!) {
+  removeDiscussion(id: $id) {
+    __typename
+    _id
+  }
+}
+    `;
+export type DeleteDiscussionMutationFn = Apollo.MutationFunction<DeleteDiscussionMutation, DeleteDiscussionMutationVariables>;
+
+/**
+ * __useDeleteDiscussionMutation__
+ *
+ * To run a mutation, you first call `useDeleteDiscussionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteDiscussionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteDiscussionMutation, { data, loading, error }] = useDeleteDiscussionMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteDiscussionMutation(baseOptions?: Apollo.MutationHookOptions<DeleteDiscussionMutation, DeleteDiscussionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteDiscussionMutation, DeleteDiscussionMutationVariables>(DeleteDiscussionDocument, options);
+      }
+export type DeleteDiscussionMutationHookResult = ReturnType<typeof useDeleteDiscussionMutation>;
+export type DeleteDiscussionMutationResult = Apollo.MutationResult<DeleteDiscussionMutation>;
+export type DeleteDiscussionMutationOptions = Apollo.BaseMutationOptions<DeleteDiscussionMutation, DeleteDiscussionMutationVariables>;
 export const AddMilestoneDocument = gql`
     mutation addMilestone($payload: CreateMilestoneInput!) {
   createMilestone(createMilestoneInput: $payload) {
@@ -1313,6 +1438,106 @@ export function useDeleteMilestoneMutation(baseOptions?: Apollo.MutationHookOpti
 export type DeleteMilestoneMutationHookResult = ReturnType<typeof useDeleteMilestoneMutation>;
 export type DeleteMilestoneMutationResult = Apollo.MutationResult<DeleteMilestoneMutation>;
 export type DeleteMilestoneMutationOptions = Apollo.BaseMutationOptions<DeleteMilestoneMutation, DeleteMilestoneMutationVariables>;
+export const AddSchemeDocument = gql`
+    mutation addScheme($payload: CreateSchemeInput!) {
+  createScheme(createSchemeInput: $payload) {
+    __typename
+    _id
+    title
+    description
+    startDate
+    endDate
+    assignee {
+      _id
+      firstName
+      lastName
+    }
+    members {
+      _id
+      firstName
+      lastName
+    }
+    createdBy {
+      _id
+      firstName
+      lastName
+    }
+    createdAt
+  }
+}
+    `;
+export type AddSchemeMutationFn = Apollo.MutationFunction<AddSchemeMutation, AddSchemeMutationVariables>;
+
+/**
+ * __useAddSchemeMutation__
+ *
+ * To run a mutation, you first call `useAddSchemeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddSchemeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addSchemeMutation, { data, loading, error }] = useAddSchemeMutation({
+ *   variables: {
+ *      payload: // value for 'payload'
+ *   },
+ * });
+ */
+export function useAddSchemeMutation(baseOptions?: Apollo.MutationHookOptions<AddSchemeMutation, AddSchemeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddSchemeMutation, AddSchemeMutationVariables>(AddSchemeDocument, options);
+      }
+export type AddSchemeMutationHookResult = ReturnType<typeof useAddSchemeMutation>;
+export type AddSchemeMutationResult = Apollo.MutationResult<AddSchemeMutation>;
+export type AddSchemeMutationOptions = Apollo.BaseMutationOptions<AddSchemeMutation, AddSchemeMutationVariables>;
+export const AddBoardDocument = gql`
+    mutation addBoard($payload: CreateBoardInput!) {
+  createBoard(createBoardInput: $payload) {
+    __typename
+    _id
+    title
+    description
+    scheme {
+      _id
+      title
+    }
+    createdBy {
+      _id
+      firstName
+      lastName
+    }
+    createdAt
+  }
+}
+    `;
+export type AddBoardMutationFn = Apollo.MutationFunction<AddBoardMutation, AddBoardMutationVariables>;
+
+/**
+ * __useAddBoardMutation__
+ *
+ * To run a mutation, you first call `useAddBoardMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddBoardMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addBoardMutation, { data, loading, error }] = useAddBoardMutation({
+ *   variables: {
+ *      payload: // value for 'payload'
+ *   },
+ * });
+ */
+export function useAddBoardMutation(baseOptions?: Apollo.MutationHookOptions<AddBoardMutation, AddBoardMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddBoardMutation, AddBoardMutationVariables>(AddBoardDocument, options);
+      }
+export type AddBoardMutationHookResult = ReturnType<typeof useAddBoardMutation>;
+export type AddBoardMutationResult = Apollo.MutationResult<AddBoardMutation>;
+export type AddBoardMutationOptions = Apollo.BaseMutationOptions<AddBoardMutation, AddBoardMutationVariables>;
 export const GetErrandsDocument = gql`
     query GetErrands($filters: CreateErrandInput!) {
   errands(filters: $filters) {
@@ -1705,6 +1930,120 @@ export function useGetMediasLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type GetMediasQueryHookResult = ReturnType<typeof useGetMediasQuery>;
 export type GetMediasLazyQueryHookResult = ReturnType<typeof useGetMediasLazyQuery>;
 export type GetMediasQueryResult = Apollo.QueryResult<GetMediasQuery, GetMediasQueryVariables>;
+export const GetSchemesDocument = gql`
+    query GetSchemes {
+  schemes {
+    _id
+    title
+    description
+    startDate
+    endDate
+    assignee {
+      _id
+      firstName
+      lastName
+    }
+    members {
+      _id
+      firstName
+      lastName
+    }
+    createdBy {
+      _id
+      firstName
+      lastName
+    }
+    createdAt
+  }
+}
+    `;
+
+/**
+ * __useGetSchemesQuery__
+ *
+ * To run a query within a React component, call `useGetSchemesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSchemesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSchemesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetSchemesQuery(baseOptions?: Apollo.QueryHookOptions<GetSchemesQuery, GetSchemesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSchemesQuery, GetSchemesQueryVariables>(GetSchemesDocument, options);
+      }
+export function useGetSchemesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSchemesQuery, GetSchemesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSchemesQuery, GetSchemesQueryVariables>(GetSchemesDocument, options);
+        }
+export type GetSchemesQueryHookResult = ReturnType<typeof useGetSchemesQuery>;
+export type GetSchemesLazyQueryHookResult = ReturnType<typeof useGetSchemesLazyQuery>;
+export type GetSchemesQueryResult = Apollo.QueryResult<GetSchemesQuery, GetSchemesQueryVariables>;
+export const GetSchemeDocument = gql`
+    query GetScheme($id: String!) {
+  scheme(id: $id) {
+    _id
+    title
+    description
+    startDate
+    endDate
+    assignee {
+      _id
+      firstName
+      lastName
+    }
+    members {
+      _id
+      firstName
+      lastName
+    }
+    boards {
+      _id
+      title
+      description
+    }
+    createdBy {
+      _id
+      firstName
+      lastName
+    }
+    createdAt
+  }
+}
+    `;
+
+/**
+ * __useGetSchemeQuery__
+ *
+ * To run a query within a React component, call `useGetSchemeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSchemeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSchemeQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetSchemeQuery(baseOptions: Apollo.QueryHookOptions<GetSchemeQuery, GetSchemeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSchemeQuery, GetSchemeQueryVariables>(GetSchemeDocument, options);
+      }
+export function useGetSchemeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSchemeQuery, GetSchemeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSchemeQuery, GetSchemeQueryVariables>(GetSchemeDocument, options);
+        }
+export type GetSchemeQueryHookResult = ReturnType<typeof useGetSchemeQuery>;
+export type GetSchemeLazyQueryHookResult = ReturnType<typeof useGetSchemeLazyQuery>;
+export type GetSchemeQueryResult = Apollo.QueryResult<GetSchemeQuery, GetSchemeQueryVariables>;
 
       export interface PossibleTypesResultData {
         possibleTypes: {

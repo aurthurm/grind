@@ -3,16 +3,19 @@ import { IErrandDiscussion } from '../models/errand-discussion'
 
 interface IErrandDiscussionState {
     discussions: IErrandDiscussion[]
+    discussion: IErrandDiscussion | null
     openForm: boolean
     addDiscussion: (discussion: IErrandDiscussion) => void
     removeDiscussion: (id: string) => void
     updateDiscussion: (discussion: IErrandDiscussion) => void
     loadDiscussions: (discussions: IErrandDiscussion[]) => void
     setOpenForm: (value: boolean) => void
+    setDiscussion: (value: IErrandDiscussion | null) => any
 }
 
 const useDiscussionStore = create<IErrandDiscussionState>()((set) => ({
     discussions: [],
+    discussion: null,
     openForm: false,
     loadDiscussions: (discussions) => {
         set((state) => ({ 
@@ -37,6 +40,11 @@ const useDiscussionStore = create<IErrandDiscussionState>()((set) => ({
     setOpenForm:(value) => {
         set((state) => ({ 
             openForm: value
+        }))
+    },
+    setDiscussion: (discussion) => {
+        set((state) => ({ 
+            discussion
         }))
     },
 }));

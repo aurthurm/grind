@@ -15,6 +15,7 @@ import ErrandDiscussion from './ErrandDiscussion';
 import ErrandFiles from './ErrandFiles';
 import ErrandMeta from './ErrandMeta';
 import ErrandMileStones from './ErrandMilestone';
+import { getInitials, formatDate } from '../../../lib/utils'
 const { Text } = Typography;
 const EditorCK = dynamic(() => import("../../editors/EditorCK"), { ssr: false });
 
@@ -78,8 +79,16 @@ const ErrandDetail = () => {
                   {errandStore.errand?.title}
               </Typography.Title>
 
-              <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>AM</Avatar>
-              <Text type="secondary" className="ml-2" strong italic>Aurthur M - Oct 12 2021</Text>
+              <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
+                {getInitials(`${errandStore.errand?.createdBy?.firstName} ${errandStore.errand?.createdBy?.lastName}`)}
+              </Avatar>
+              <Text type="secondary" className="ml-2" strong italic>
+                <>
+                {errandStore.errand?.createdBy?.firstName} {errandStore.errand?.createdBy?.lastName} 
+                <span> - </span>
+                {formatDate(errandStore.errand?.createdAt, 'DD-MM-YYYY')}
+                </>
+              </Text>
             </div>
 
             <div className="mt-12 text-justify text-lg">
@@ -100,7 +109,10 @@ const ErrandDetail = () => {
             <section className="flex justify-between">
               <div></div>
               <div>
-                <Button type="dashed" icon={<MessageOutlined />} className="flex items-center" onClick={() => discussionStore.setOpenForm(true)}>
+                <Button type="dashed" icon={<MessageOutlined />} className="flex items-center" onClick={() => {
+                  discussionStore.setDiscussion(null);
+                  discussionStore.setOpenForm(true)
+                }}>
                   Reply
                 </Button>
               </div>

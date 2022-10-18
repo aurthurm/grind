@@ -1,19 +1,21 @@
 import { MoreOutlined } from '@ant-design/icons';
-import { Avatar, Divider, Dropdown, Menu, MenuProps, message, Space } from 'antd';
+import { Avatar, Divider, Dropdown, Menu, message, Space } from 'antd';
 import { Typography } from 'antd';
 import React, { useEffect } from 'react';
-import { useGetDiscussionsLazyQuery } from '../../../generated/graphql';
+import { useGetDiscussionsLazyQuery, useDeleteDiscussionMutation } from '../../../generated/graphql';
 import useDiscussionStore from '../../../stores/discussions';
 import useErrandStore from '../../../stores/errand';
 import ErrandDiscussionForm from '../../forms/ErrandDiscussionForm';
 import HtmlViewer from '../../editors/HTMLViewer';
 import { IErrandDiscussion } from '../../../models/errand-discussion';
+import { formatDate, getInitials, getTimeStamp } from '../../../lib/utils';
 const { Title, Text } = Typography;
 
 const ErrandDiscussion = () => {
   const errandStore = useErrandStore();
   const discussionStore = useDiscussionStore();
-  const [getDiscussions, {  loading: discussionsLoading, error: discussionsError }] = useGetDiscussionsLazyQuery();
+  const [getDiscussions,] = useGetDiscussionsLazyQuery();
+  const [deleteDiscussion,] = useDeleteDiscussionMutation();
 
   useEffect(() => {
     discussionStore.loadDiscussions([])
@@ -23,31 +25,38 @@ const ErrandDiscussion = () => {
       message.success(`Failed to fetch errand data`);
       console.log(err);
     })
-  }, [getDiscussions, errandStore.errand])
+  }, [errandStore.errand])
    
-  const onCardMenuClick: MenuProps['onClick'] = ({ key }) => {
-    message.info(`Click on item ${key}`);
+  const onCardMenuClick = (discussion:IErrandDiscussion, { key }: any) => {
+    if(key === 'edit') {
+      discussionStore.setDiscussion(discussion);
+      discussionStore.setOpenForm(true);
+    } else {
+      deleteDiscussion({ variables: { id: discussion._id }}).then(result => {
+        discussionStore.removeDiscussion(result.data?.removeDiscussion?._id as string)
+        message.success(`Deleted discussion success`);
+      }).catch(err => {
+        message.success(`deletng discussion failed ${err.message}`);
+      })
+    }
   };
 
-  const cardMenu = (
-    <Menu
-      onClick={onCardMenuClick}
-      items={[
-        {
-          label: '1st menu item',
-          key: '1',
-        },
-        {
-          label: '2nd menu item',
-          key: '2',
-        },
-        {
-          label: '3rd menu item',
-          key: '3',
-        },
-      ]}
-    />
-  );
+  const cardMenu = (discussion: IErrandDiscussion) => {
+    return (
+      <Menu
+        onClick={(v: any) => onCardMenuClick(discussion, v)}
+        items={[
+          {
+            label: 'Edit',
+            key: 'edit',
+          },
+          {
+            label: 'Delete',
+            key: 'delete',
+          },
+        ]}
+      />)
+  };
 
   return (
     <>
@@ -58,18 +67,26 @@ const ErrandDiscussion = () => {
             <div className="flex-none ml-4">
               <div className="flex items-center">
                 <div  className="flex flex-col items-center mr-16">
-                  <Text type="warning">Today</Text>
-                  <Text type="warning">08:30 AM</Text>
+                  <Text type="warning">
+                  {formatDate(errandStore.errand?.createdAt, 'dddd DD-MM-YYYY')}
+                  </Text>
+                  <Text type="warning">
+                  {getTimeStamp(errandStore.errand?.createdAt)}
+                  </Text>
                 </div>
-                <Avatar size={42} style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>AM</Avatar>
+                <Avatar size={42} style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
+                {getInitials(`${discussion.createdBy?.firstName} ${discussion.createdBy?.lastName}`)}
+                </Avatar>
               </div>
             </div>
             <div className="grow ml-4">
-                <Title level={5}>{discussion.createdBy?.firstName} {discussion.createdBy?.lastName} - <span className="text-gray-400 italic">Software Developer</span></Title>
+                <Title level={5}>{discussion.createdBy?.firstName} {discussion.createdBy?.lastName} 
+                {/* - <span className="text-gray-400 italic">Software Developer</span> */}
+                </Title>
                 <HtmlViewer content={discussion.content} />
             </div>
             <div className="flex-none ml-4">
-              <Dropdown overlay={cardMenu}>
+              <Dropdown overlay={cardMenu(discussion)}>
                 <a onClick={e => e.preventDefault()}>
                   <Space>
                     <MoreOutlined className="text-xl" />

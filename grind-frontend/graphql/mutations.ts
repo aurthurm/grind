@@ -63,6 +63,34 @@ export const CREATE_DISCUSSION = gql`
   }
   `
 
+  export const EDIT_DISCUSSION = gql`
+  mutation editDscussion($payload: UpdateDiscussionInput!) {
+    updateDiscussion(updateDiscussionInput: $payload) {
+      __typename
+      _id
+      content
+      createdAt
+      updatedAt
+      errand {
+        _id
+      }
+      createdBy {
+        _id
+        firstName
+        lastName
+      }
+    }
+  }
+  `
+
+  export const DELETE_DISCUSSION = gql`
+  mutation deleteDiscussion($id: String!) {
+    removeDiscussion(id: $id) {
+      __typename
+      _id
+    }
+  }`
+
   export const CREATE_MILESTONE = gql`
   mutation addMilestone($payload: CreateMilestoneInput!) {
     createMilestone(createMilestoneInput: $payload) {
@@ -121,4 +149,54 @@ export const UPDATE_MILESTONE = gql`
         _id
       }
     }
+  `
+
+  export const CREATE_SCHEME = gql`
+  mutation addScheme($payload: CreateSchemeInput!) {
+    createScheme(createSchemeInput: $payload) {
+      __typename
+      _id
+      title
+      description
+      startDate
+      endDate
+      assignee {
+        _id
+        firstName
+        lastName
+      }
+      members {
+        _id
+        firstName
+        lastName
+      }
+      createdBy {
+        _id
+        firstName
+        lastName
+      }
+      createdAt
+    }
+  }
+  `
+
+  export const CREATE_BOARD = gql`
+  mutation addBoard($payload: CreateBoardInput!) {
+    createBoard(createBoardInput: $payload) {
+      __typename
+      _id
+      title
+      description
+      scheme {
+        _id
+        title
+      }
+      createdBy {
+        _id
+        firstName
+        lastName
+      }
+      createdAt
+    }
+  }
   `
