@@ -48,7 +48,7 @@ export class DiscussionResolver {
   }
 
   @Mutation(() => Discussion)
-  async removeDiscussion(@Args('id', { type: () => Int }) id: string) {
+  async removeDiscussion(@Args('id', { type: () => String }) id: string) {
     return await this.discussionService.remove(id);
   }
 }

@@ -48,10 +48,6 @@ export class Errand {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Poster.name })
   poster?: Poster;
 
-  @Field(() => User, { description: 'Created By', nullable: true })
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  createdBy?: User;
-
   @Field(() => User, { description: 'Reported By', nullable: true })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   reporter?: User;
@@ -76,9 +72,17 @@ export class Errand {
   @Field(() => Date, { description: 'Created At' })
   createdAt?: Date;
 
+  @Field(() => User, { description: 'Created By', nullable: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  createdBy?: User;
+
   @Prop()
   @Field(() => Date, { description: 'Updated At' })
   updatedAt?: Date;
+
+  @Field(() => User, { description: 'Updated By', nullable: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  updatedBy?: User;
 }
 
 export const ErrandSchema = SchemaFactory.createForClass(Errand);

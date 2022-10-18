@@ -24,7 +24,11 @@ export class Board {
   description?: string;
 
   @Field(() => Scheme, { description: 'Board Scheme', nullable: true })
-  @Prop({ unique: false })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Scheme.name,
+    unique: false,
+  })
   scheme?: Scheme;
 
   @Field(() => User, { description: 'Created By', nullable: true })

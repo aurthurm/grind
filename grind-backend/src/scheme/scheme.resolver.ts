@@ -24,13 +24,13 @@ export class SchemeResolver {
     });
   }
 
-  @Query(() => [Scheme], { name: 'scheme' })
+  @Query(() => [Scheme], { name: 'schemes' })
   async findAll() {
     return await this.schemeService.findAll();
   }
 
   @Query(() => Scheme, { name: 'scheme' })
-  async findOne(@Args('id', { type: () => Int }) id: string) {
+  async findOne(@Args('id', { type: () => String }) id: string) {
     return await this.schemeService.findOne(id);
   }
 
@@ -46,7 +46,7 @@ export class SchemeResolver {
   }
 
   @Mutation(() => Scheme)
-  async removeScheme(@Args('id', { type: () => Int }) id: string) {
+  async removeScheme(@Args('id', { type: () => String }) id: string) {
     return await this.schemeService.remove(id);
   }
 }

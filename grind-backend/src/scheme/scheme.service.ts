@@ -13,22 +13,40 @@ export class SchemeService {
   ) {}
 
   async create(createSchemeInput: CreateSchemeInput) {
-    const scheme = new this.schemeModel(createSchemeInput);
-    return scheme.save();
+    let scheme = new this.schemeModel(createSchemeInput);
+    scheme = await scheme.save();
+    return await this.findOne(scheme._id);
   }
 
   async findAll() {
-    return await this.schemeModel.find().exec();
+    return await this.schemeModel
+      .find()
+      .populate('assignee')
+      .populate('members')
+      .populate('createdBy')
+      .populate('updatedBy')
+      .exec();
   }
 
   async findOne(id: string) {
-    return await this.schemeModel.findById(id);
+    return await this.schemeModel
+      .findById(id)
+      .populate('assignee')
+      .populate('members')
+      .populate('createdBy')
+      .populate('updatedBy')
+      .exec();
   }
 
   async update(id: string, updateSchemeInput: UpdateSchemeInput) {
     const scheme = await this.schemeModel
       .findByIdAndUpdate(id, updateSchemeInput)
-      .setOptions({ new: true });
+      .setOptions({ new: true })
+      .populate('assignee')
+      .populate('members')
+      .populate('createdBy')
+      .populate('updatedBy')
+      .exec();
     if (!scheme) {
       throw new NotFoundException();
     }

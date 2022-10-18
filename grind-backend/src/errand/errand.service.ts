@@ -45,6 +45,8 @@ export class ErrandService {
       .populate('assignee')
       .populate('members')
       .populate('reporter')
+      .populate('updatedBy')
+      .populate('createdBy')
       .exec();
   }
 
@@ -56,6 +58,8 @@ export class ErrandService {
       .populate('assignee')
       .populate('members')
       .populate('reporter')
+      .populate('updatedBy')
+      .populate('createdBy')
       .exec();
     if (!errand) {
       throw new NotFoundException();
@@ -87,11 +91,12 @@ export class ErrandService {
       const keys = Object.keys(payload);
 
       keys.forEach((key) => {
-        if (['id', 'startDate', 'endDate'].includes(key)) return;
+        if (['id', 'startDate', 'endDate', 'updatedBy'].includes(key)) return;
         let description =
-          `updated ${key}` + previous[key]
+          `updated ${key}` +
+          (previous[key]
             ? ` from ${previous[key]} to ${payload[key]}`
-            : ` to ${payload[key]}`;
+            : ` to ${payload[key]}`);
         if (key === 'description') description = 'updated errand description';
         if (['assignee', 'reporter'].includes(key)) {
           description = `updated ${key} to ${updated[key]?.firstName} ${updated[key]?.lastName}`;

@@ -13,22 +13,25 @@ export class BoardService {
   ) {}
 
   async create(createBoardInput: CreateBoardInput) {
-    const board = new this.boardModel(createBoardInput);
-    return board.save();
+    let board = new this.boardModel(createBoardInput);
+    board = await board.save();
+    return this.findOne(board._id);
   }
 
   async findAll() {
-    return await this.boardModel.find().exec();
+    return await this.boardModel.find().populate('scheme').exec();
   }
 
   async findOne(id: string) {
-    return await this.boardModel.findById(id);
+    return await this.boardModel.findById(id).populate('scheme').exec();
   }
 
   async update(id: string, updateBoardInput: UpdateBoardInput) {
     const board = await this.boardModel
       .findByIdAndUpdate(id, updateBoardInput)
-      .setOptions({ new: true });
+      .setOptions({ new: true })
+      .populate('scheme')
+      .exec();
     if (!board) {
       throw new NotFoundException();
     }

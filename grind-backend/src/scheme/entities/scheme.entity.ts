@@ -4,6 +4,7 @@ import { Transform } from 'class-transformer';
 import { ObjectId, Document } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { User, UserSchema } from 'src/user/entities/user.entity';
+import { Board } from 'src/board/entities/board.entity';
 
 export type SchemeDocument = Scheme & Document;
 
@@ -18,21 +19,21 @@ export class Scheme {
   @Prop()
   title: string;
 
-  @Field(() => String, { description: 'Scheme Description' })
+  @Field(() => String, { description: 'Scheme Description', nullable: true })
   @Prop()
   description: string;
 
-  @Field(() => User, { description: 'Created By' })
+  @Field(() => User, { description: 'Assigned to', nullable: true })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  createdBy: User;
+  assignee: User;
 
-  @Field(() => User, { description: 'Updated By' })
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  updatedBy: User;
-
-  @Field(() => [User], { description: 'Scheme Members' })
+  @Field(() => [User], { description: 'Scheme Members', nullable: true })
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: User.name }] })
   members: User[];
+
+  // @Field(() => [Board], { nullable: 'itemsAndList' })
+  // @Prop()
+  // boards: Board[];
 
   @Prop()
   @Field(() => Date, { description: 'Start Date', nullable: true })
@@ -49,6 +50,14 @@ export class Scheme {
   @Prop()
   @Field(() => Date, { description: 'Updated At' })
   updatedAt?: Date;
+
+  @Field(() => User, { description: 'Created By', nullable: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  createdBy: User;
+
+  @Field(() => User, { description: 'Updated By', nullable: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  updatedBy: User;
 }
 
 export const SchemeSchema = SchemaFactory.createForClass(Scheme);

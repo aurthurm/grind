@@ -211,20 +211,20 @@ input CreatePosterInput {
 }
 
 input CreateSchemeInput {
-  """Scheme Boards"""
-  boards: [String!]!
+  """Assigned ti"""
+  assignee: String
 
   """Created By"""
-  createdBy: String!
+  createdBy: String
 
   """Scheme Description"""
-  description: String!
+  description: String
 
   """End Date"""
   endDate: DateTime
 
   """Scheme Members"""
-  members: [String!]!
+  members: [String!]
 
   """Start Date"""
   startDate: DateTime
@@ -233,7 +233,7 @@ input CreateSchemeInput {
   title: String!
 
   """Updated By"""
-  updatedBy: String!
+  updatedBy: String
 }
 
 input CreateStampInput {
@@ -342,6 +342,9 @@ type Errand {
 
   """Updated At"""
   updatedAt: DateTime!
+
+  """Updated By"""
+  updatedBy: User
 }
 
 enum ErrandCategory {
@@ -462,12 +465,12 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   removeBoard(id: Int!): Board!
   removeCommunity(id: Int!): Community!
-  removeDiscussion(id: Int!): Discussion!
+  removeDiscussion(id: String!): Discussion!
   removeErrand(id: Int!): Errand!
   removeLabel(id: Int!): Label!
   removeMilestone(id: String!): Milestone!
   removePoster(id: Int!): Poster!
-  removeScheme(id: Int!): Scheme!
+  removeScheme(id: String!): Scheme!
   removeStamp(id: Int!): Stamp!
   removeUser(id: Int!): User!
   updateBoard(updateBoardInput: UpdateBoardInput!): Board!
@@ -567,7 +570,8 @@ type Query {
   milestones(errand: String!): [Milestone!]!
   occurrences(target: String!, targetId: String!): [Occurrence!]!
   poster(id: Int!): Poster!
-  scheme(id: Int!): Scheme!
+  scheme(id: String!): Scheme!
+  schemes: [Scheme!]!
   stamp(id: Int!): Stamp!
   user(id: Int!): User!
   users: [User!]!
@@ -576,20 +580,23 @@ type Query {
 type Scheme {
   _id: ID!
 
+  """Assigned to"""
+  assignee: User
+
   """Created At"""
   createdAt: DateTime!
 
   """Created By"""
-  createdBy: User!
+  createdBy: User
 
   """Scheme Description"""
-  description: String!
+  description: String
 
   """End Date"""
   endDate: DateTime
 
   """Scheme Members"""
-  members: [User!]!
+  members: [User!]
 
   """Start Date"""
   startDate: DateTime
@@ -601,7 +608,7 @@ type Scheme {
   updatedAt: DateTime!
 
   """Updated By"""
-  updatedBy: User!
+  updatedBy: User
 }
 
 type Stamp {
@@ -786,8 +793,8 @@ input UpdatePosterInput {
 }
 
 input UpdateSchemeInput {
-  """Scheme Boards"""
-  boards: [String!]
+  """Assigned ti"""
+  assignee: String
 
   """Created By"""
   createdBy: String

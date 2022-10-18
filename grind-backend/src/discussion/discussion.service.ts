@@ -14,25 +14,31 @@ export class DiscussionService {
 
   async create(createDiscussionInput: CreateDiscussionInput) {
     const discussion = new this.discussionModel(createDiscussionInput);
-    return discussion.save();
+    await discussion.save();
+    return await this.findOne(discussion._id);
   }
 
   async findByErrand(errandId: string) {
-    return await this.discussionModel.find({ errand: errandId }).exec();
+    return await this.discussionModel
+      .find({ errand: errandId })
+      .populate('createdBy')
+      .exec();
   }
 
   async findAll() {
-    return await this.discussionModel.find().exec();
+    return await this.discussionModel.find().populate('createdBy').exec();
   }
 
   async findOne(id: string) {
-    return await this.discussionModel.findById(id);
+    return await this.discussionModel.findById(id).populate('createdBy').exec();
   }
 
   async update(id: string, updateDiscussionInput: UpdateDiscussionInput) {
     const discussion = await this.discussionModel
       .findByIdAndUpdate(id, updateDiscussionInput)
-      .setOptions({ new: true });
+      .setOptions({ new: true })
+      .populate('createdBy')
+      .exec();
     if (!discussion) {
       throw new NotFoundException();
     }
