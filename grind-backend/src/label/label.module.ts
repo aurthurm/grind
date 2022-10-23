@@ -9,5 +9,6 @@ import { MongooseModule } from '@nestjs/mongoose';
     MongooseModule.forFeature([{ name: Label.name, schema: LabelSchema }]),
   ],
   providers: [LabelResolver, LabelService],
+  exports: [LabelService],
 })
 export class LabelModule {}

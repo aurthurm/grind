@@ -9,5 +9,6 @@ import { MongooseModule } from '@nestjs/mongoose';
     MongooseModule.forFeature([{ name: Stamp.name, schema: StampSchema }]),
   ],
   providers: [StampResolver, StampService],
+  exports: [StampService],
 })
 export class StampModule {}

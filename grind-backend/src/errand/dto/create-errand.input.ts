@@ -25,10 +25,16 @@ export class CreateErrandInput {
   assignee?: string;
 
   @Field(() => String, {
-    description: 'Errand Status',
+    description: 'Errand Label | Status',
     nullable: true,
   })
-  status?: string;
+  label?: string;
+
+  @Field(() => [String], {
+    description: 'Errand Stamps | Tags',
+    nullable: true,
+  })
+  stamps?: string[];
 
   @Field(() => String, { description: 'Errand Priority', nullable: true })
   priority?: string;

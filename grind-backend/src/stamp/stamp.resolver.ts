@@ -24,9 +24,14 @@ export class StampResolver {
     });
   }
 
-  @Query(() => [Stamp], { name: 'stamp' })
+  @Query(() => [Stamp], { name: 'stamps' })
   async findAll() {
     return await this.stampService.findAll();
+  }
+
+  @Query(() => [Stamp], { name: 'query' })
+  async query(@Args('category', { type: () => String }) category?: string) {
+    return await this.stampService.findAll({ category });
   }
 
   @Query(() => Stamp, { name: 'stamp' })

@@ -5,7 +5,10 @@ export class CreateLabelInput {
   @Field(() => String, { description: 'Label title' })
   title: string;
 
-  @Field(() => String, { description: 'Created By' })
+  @Field(() => String, { description: 'Label category' })
+  category: string;
+
+  @Field(() => String, { description: 'Created By', nullable: true })
   createdBy: string;
 
   @Field(() => String, { description: 'Updated By', nullable: true })

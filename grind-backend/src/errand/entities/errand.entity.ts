@@ -1,4 +1,4 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field, ID, Int } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Transform } from 'class-transformer';
 import { ObjectId, Document } from 'mongoose';
@@ -7,6 +7,7 @@ import { ErrandCategory } from 'src/helpers/constants';
 import { Poster } from 'src/poster/entities/poster.entity';
 import { Stamp } from 'src/stamp/entities/stamp.entity';
 import { User } from 'src/user/entities/user.entity';
+import { Label } from 'src/label/entities/label.entity';
 
 export type ErrandDocument = Errand & Document;
 
@@ -36,9 +37,9 @@ export class Errand {
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: Stamp.name }] })
   stamps?: Stamp[];
 
-  @Field(() => String, { description: 'Errand status', nullable: true })
-  @Prop({ default: 'open' })
-  status?: string;
+  @Field(() => Label, { description: 'Errand label | Status', nullable: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Label.name })
+  label?: Label;
 
   @Field(() => String, { description: 'Errand priority', nullable: true })
   @Prop({ default: 'normal' })
@@ -83,6 +84,9 @@ export class Errand {
   @Field(() => User, { description: 'Updated By', nullable: true })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   updatedBy?: User;
+
+  @Field(() => Int, { description: 'Errand Progress', nullable: true })
+  progress?: number;
 }
 
 export const ErrandSchema = SchemaFactory.createForClass(Errand);

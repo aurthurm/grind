@@ -26,6 +26,8 @@ import { AuthModule } from './auth/auth.module';
 import { OccurrenceModule } from './occurrence/occurrence.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { GqlAuthGuard } from './auth/gql-auth.guard';
+import { WorkFlowModule } from './work-flow/work-flow.module';
+import { PosterFlowModule } from './poster-flow/poster-flow.module';
 
 @Module({
   imports: [
@@ -80,6 +82,8 @@ import { GqlAuthGuard } from './auth/gql-auth.guard';
     SchemeModule,
     MilestoneModule,
     OccurrenceModule,
+    WorkFlowModule,
+    PosterFlowModule,
   ],
   controllers: [AppController],
   providers: [

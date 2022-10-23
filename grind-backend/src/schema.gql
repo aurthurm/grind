@@ -116,6 +116,9 @@ input CreateErrandInput {
   """End Date"""
   endDate: DateTime
 
+  """Errand Label | Status"""
+  label: String
+
   """Errand Members"""
   members: [String!]
 
@@ -131,11 +134,11 @@ input CreateErrandInput {
   """Assigned To"""
   reporter: String
 
+  """Errand Stamps | Tags"""
+  stamps: [String!]
+
   """Start Date"""
   startDate: DateTime
-
-  """Errand Status"""
-  status: String
 
   """Errand Title"""
   title: String
@@ -145,8 +148,11 @@ input CreateErrandInput {
 }
 
 input CreateLabelInput {
+  """Label category"""
+  category: String!
+
   """Created By"""
-  createdBy: String!
+  createdBy: String
 
   """Label title"""
   title: String!
@@ -178,33 +184,41 @@ input CreateMilestoneInput {
   updatedBy: String
 }
 
+input CreatePosterFlowInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 input CreatePosterInput {
   """Assigned To"""
-  assignedTo: String!
+  assignee: String
+
+  """Poster Board"""
+  board: String
 
   """Poster category"""
-  category: PosterCategory!
+  category: PosterCategory
 
   """Poster Communities"""
-  communities: [String!]!
+  communities: [String!]
 
   """Created By"""
-  createdBy: String!
+  createdBy: String
 
   """Poster description"""
-  description: String!
+  description: String
 
   """Poster Members"""
-  members: [String!]!
+  members: [String!]
 
   """Poster label"""
-  stamps: String!
+  stamps: String
 
   """Poster status"""
-  status: String!
+  status: String
 
   """Poster Title"""
-  title: String!
+  title: String
 
   """Updated By"""
   updatedBy: String
@@ -237,8 +251,11 @@ input CreateSchemeInput {
 }
 
 input CreateStampInput {
+  """Stamp category"""
+  category: String!
+
   """Created By"""
-  createdBy: String!
+  createdBy: String
 
   """Stamp title"""
   title: String!
@@ -269,6 +286,11 @@ input CreateUserInput {
   status: String!
   updatedBy: String!
   userName: String!
+}
+
+input CreateWorkFlowInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
 }
 
 """
@@ -316,6 +338,9 @@ type Errand {
   """End Date"""
   endDate: DateTime
 
+  """Errand label | Status"""
+  label: Label
+
   """Errand Members"""
   members: [User!]
 
@@ -325,6 +350,9 @@ type Errand {
   """Errand priority"""
   priority: String
 
+  """Errand Progress"""
+  progress: Int
+
   """Reported By"""
   reporter: User
 
@@ -333,9 +361,6 @@ type Errand {
 
   """Start Date"""
   startDate: DateTime
-
-  """Errand status"""
-  status: String
 
   """Errand Title"""
   title: String
@@ -358,20 +383,27 @@ enum ErrandCategory {
 type Label {
   _id: ID!
 
+  """Label category"""
+  category: LabelCategory
+
   """Created At"""
-  createdAt: DateTime!
+  createdAt: DateTime
 
   """Created By"""
-  createdBy: User!
+  createdBy: User
 
   """Label title"""
   title: String!
 
   """Updated At"""
-  updatedAt: DateTime!
+  updatedAt: DateTime
 
   """Updated By"""
-  updatedBy: User!
+  updatedBy: User
+}
+
+enum LabelCategory {
+  TICKET
 }
 
 type Media {
@@ -460,9 +492,11 @@ type Mutation {
   createLabel(createLabelInput: CreateLabelInput!): Label!
   createMilestone(createMilestoneInput: CreateMilestoneInput!): Milestone!
   createPoster(createPosterInput: CreatePosterInput!): Poster!
+  createPosterFlow(createPosterFlowInput: CreatePosterFlowInput!): PosterFlow!
   createScheme(createSchemeInput: CreateSchemeInput!): Scheme!
   createStamp(createStampInput: CreateStampInput!): Stamp!
   createUser(createUserInput: CreateUserInput!): User!
+  createWorkFlow(createWorkFlowInput: CreateWorkFlowInput!): WorkFlow!
   removeBoard(id: Int!): Board!
   removeCommunity(id: Int!): Community!
   removeDiscussion(id: String!): Discussion!
@@ -470,9 +504,11 @@ type Mutation {
   removeLabel(id: Int!): Label!
   removeMilestone(id: String!): Milestone!
   removePoster(id: Int!): Poster!
+  removePosterFlow(id: Int!): PosterFlow!
   removeScheme(id: String!): Scheme!
   removeStamp(id: Int!): Stamp!
   removeUser(id: Int!): User!
+  removeWorkFlow(id: Int!): WorkFlow!
   updateBoard(updateBoardInput: UpdateBoardInput!): Board!
   updateCommunity(updateCommunityInput: UpdateCommunityInput!): Community!
   updateDiscussion(updateDiscussionInput: UpdateDiscussionInput!): Discussion!
@@ -480,9 +516,11 @@ type Mutation {
   updateLabel(updateLabelInput: UpdateLabelInput!): Label!
   updateMilestone(updateMilestoneInput: UpdateMilestoneInput!): Milestone!
   updatePoster(updatePosterInput: UpdatePosterInput!): Poster!
+  updatePosterFlow(updatePosterFlowInput: UpdatePosterFlowInput!): PosterFlow!
   updateScheme(updateSchemeInput: UpdateSchemeInput!): Scheme!
   updateStamp(updateStampInput: UpdateStampInput!): Stamp!
   updateUser(updateUserInput: UpdateUserInput!): User!
+  updateWorkFlow(updateWorkFlowInput: UpdateWorkFlowInput!): WorkFlow!
 }
 
 type Occurrence {
@@ -515,37 +553,44 @@ type Poster {
   _id: ID!
 
   """Assigned To"""
-  assignedTo: User!
+  assignee: User
+
+  """Poster Board"""
+  board: Board
 
   """Poster category"""
-  category: PosterCategory!
+  category: PosterCategory
 
   """Created At"""
-  createdAt: DateTime!
+  createdAt: DateTime
 
   """Created By"""
-  createdBy: User!
+  createdBy: User
 
   """Poster description"""
-  description: String!
+  description: String
+  errands: [Errand]
 
   """Poster Members"""
-  members: [User!]!
+  members: [User!]
 
   """Poster label"""
-  stamps: [Stamp!]!
+  stamps: [Stamp!]
 
   """Poster status"""
-  status: String!
+  status: String
 
   """Poster Title"""
-  title: String!
+  title: String
 
   """Updated At"""
-  updatedAt: DateTime!
+  updatedAt: DateTime
 
   """Updated By"""
-  updatedBy: User!
+  updatedBy: User
+
+  """Poster Work Flow"""
+  workflow: [PosterFlow!]
 }
 
 enum PosterCategory {
@@ -553,6 +598,11 @@ enum PosterCategory {
   LISTING
   MESAGE
   TODO
+}
+
+type PosterFlow {
+  """Example field (placeholder)"""
+  exampleField: Int!
 }
 
 type Query {
@@ -565,16 +615,22 @@ type Query {
   errand(id: String!): Errand!
   errands(filters: CreateErrandInput!): [Errand!]!
   label(id: Int!): Label!
+  labels: [Label!]!
   medias(target: String!, targetId: String!): [Media!]!
   milestone(id: Int!): Milestone!
   milestones(errand: String!): [Milestone!]!
   occurrences(target: String!, targetId: String!): [Occurrence!]!
   poster(id: Int!): Poster!
+  posterFlow(id: Int!): PosterFlow!
+  posters(board: String!): [Poster!]!
+  query(category: String!): [Label!]!
   scheme(id: String!): Scheme!
   schemes: [Scheme!]!
   stamp(id: Int!): Stamp!
+  stamps: [Stamp!]!
   user(id: Int!): User!
   users: [User!]!
+  workFlow(id: Int!): WorkFlow!
 }
 
 type Scheme {
@@ -582,6 +638,7 @@ type Scheme {
 
   """Assigned to"""
   assignee: User
+  boards: [Board]
 
   """Created At"""
   createdAt: DateTime!
@@ -614,20 +671,28 @@ type Scheme {
 type Stamp {
   _id: ID!
 
+  """Stamp category"""
+  category: StampCategory
+
   """Created At"""
-  createdAt: DateTime!
+  createdAt: DateTime
 
   """Created By"""
-  createdBy: User!
+  createdBy: User
 
   """Stamp title"""
   title: String!
 
   """Updated At"""
-  updatedAt: DateTime!
+  updatedAt: DateTime
 
   """Updated By"""
-  updatedBy: User!
+  updatedBy: User
+}
+
+enum StampCategory {
+  PROJECT
+  TICKET
 }
 
 input UpdateBoardInput {
@@ -695,6 +760,9 @@ input UpdateErrandInput {
   endDate: DateTime
   id: String!
 
+  """Errand Label | Status"""
+  label: String
+
   """Errand Members"""
   members: [String!]
 
@@ -710,11 +778,11 @@ input UpdateErrandInput {
   """Assigned To"""
   reporter: String
 
+  """Errand Stamps | Tags"""
+  stamps: [String!]
+
   """Start Date"""
   startDate: DateTime
-
-  """Errand Status"""
-  status: String
 
   """Errand Title"""
   title: String
@@ -724,6 +792,9 @@ input UpdateErrandInput {
 }
 
 input UpdateLabelInput {
+  """Label category"""
+  category: String
+
   """Created By"""
   createdBy: String
   id: String!
@@ -759,9 +830,18 @@ input UpdateMilestoneInput {
   updatedBy: String
 }
 
+input UpdatePosterFlowInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
 input UpdatePosterInput {
   """Assigned To"""
-  assignedTo: String
+  assignee: String
+
+  """Poster Board"""
+  board: String
 
   """Poster category"""
   category: PosterCategory
@@ -820,6 +900,9 @@ input UpdateSchemeInput {
 }
 
 input UpdateStampInput {
+  """Stamp category"""
+  category: String
+
   """Created By"""
   createdBy: String
   id: String!
@@ -854,6 +937,12 @@ input UpdateUserInput {
   status: String
   updatedBy: String
   userName: String
+}
+
+input UpdateWorkFlowInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }
 
 type User {
@@ -893,4 +982,38 @@ enum UserRole {
   ADMIN
   SU_ADMIN
   USER
+}
+
+type WorkFlow {
+  _id: ID!
+
+  """Created At"""
+  createdAt: DateTime
+
+  """Created By"""
+  createdBy: User
+
+  """WorkFlow description"""
+  description: String
+
+  """WorkFlow status"""
+  status: String
+
+  """WorkFlow category"""
+  target: WorkFlowTarget
+
+  """WorkFlow Title"""
+  title: String
+
+  """Updated At"""
+  updatedAt: DateTime
+
+  """Updated By"""
+  updatedBy: User
+}
+
+enum WorkFlowTarget {
+  POSTER
+  TICKET
+  TODO
 }

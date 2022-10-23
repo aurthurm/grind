@@ -12,13 +12,13 @@ export class StampService {
     private stampModel: Model<StampDocument>,
   ) {}
 
-  async create(createStampInput: CreateStampInput) {
+  async create(createStampInput: CreateStampInput | any) {
     const stamp = new this.stampModel(createStampInput);
     return stamp.save();
   }
 
-  async findAll() {
-    return await this.stampModel.find().exec();
+  async findAll(query = {}) {
+    return await this.stampModel.find(query).exec();
   }
 
   async findOne(id: string) {

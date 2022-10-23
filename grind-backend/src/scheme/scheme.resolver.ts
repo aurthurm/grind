@@ -1,4 +1,11 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { SchemeService } from './scheme.service';
 import { Scheme } from './entities/scheme.entity';
 import { CreateSchemeInput } from './dto/create-scheme.input';
@@ -6,11 +13,15 @@ import { UpdateSchemeInput } from './dto/update-scheme.input';
 import { GqlCurrentUser, GqlAuthGuard } from 'src/auth/gql-auth.guard';
 import { User } from 'src/user/entities/user.entity';
 import { UseGuards } from '@nestjs/common';
+import { BoardService } from 'src/board/board.service';
 
 @Resolver(() => Scheme)
 @UseGuards(GqlAuthGuard)
 export class SchemeResolver {
-  constructor(private readonly schemeService: SchemeService) {}
+  constructor(
+    private readonly schemeService: SchemeService,
+    private readonly boardsService: BoardService,
+  ) {}
 
   @Mutation(() => Scheme)
   async createScheme(
@@ -48,5 +59,11 @@ export class SchemeResolver {
   @Mutation(() => Scheme)
   async removeScheme(@Args('id', { type: () => String }) id: string) {
     return await this.schemeService.remove(id);
+  }
+
+  @ResolveField()
+  async boards(@Parent() scheme: Scheme) {
+    const { _id } = scheme;
+    return this.boardsService.query({ scheme: _id });
   }
 }

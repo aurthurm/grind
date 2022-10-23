@@ -31,9 +31,8 @@ export class Scheme {
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: User.name }] })
   members: User[];
 
-  // @Field(() => [Board], { nullable: 'itemsAndList' })
-  // @Prop()
-  // boards: Board[];
+  @Field(() => [Board], { nullable: 'itemsAndList' })
+  boards: Board[];
 
   @Prop()
   @Field(() => Date, { description: 'Start Date', nullable: true })

@@ -27,8 +27,12 @@ export class Milestone {
   @Prop()
   description?: string;
 
-  @Field(() => Boolean, { description: 'Milestone progress', nullable: true })
-  @Prop()
+  @Field(() => Boolean, {
+    description: 'Milestone progress',
+    nullable: true,
+    defaultValue: false,
+  })
+  @Prop({ defaultValue: false })
   complete?: boolean;
 
   @Field(() => User, { description: 'Assigned to', nullable: true })

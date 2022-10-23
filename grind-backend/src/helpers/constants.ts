@@ -68,3 +68,36 @@ export enum MediaTarget {
 registerEnumType(MediaTarget, {
   name: 'MediaTarget',
 });
+
+export const WORKFLOW_TARGETS = ['ticket', 'todo', 'poster'];
+
+export enum WorkFlowTarget {
+  TICKET = 'ticket',
+  TODO = 'todo',
+  POSTER = 'poster',
+}
+
+registerEnumType(WorkFlowTarget, {
+  name: 'WorkFlowTarget',
+});
+
+export const LABEL_CATEGORIES = ['ticket'];
+
+export enum LabelCategory {
+  TICKET = 'ticket',
+}
+
+registerEnumType(LabelCategory, {
+  name: 'LabelCategory',
+});
+
+export const STAMP_CATEGORIES = ['project', 'ticket'];
+
+export enum StampCategory {
+  PROJECT = 'project',
+  TICKET = 'ticket',
+}
+
+registerEnumType(StampCategory, {
+  name: 'StampCategory',
+});

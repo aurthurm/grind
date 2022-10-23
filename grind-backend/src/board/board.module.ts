@@ -9,5 +9,6 @@ import { Board, BoardSchema } from './entities/board.entity';
     MongooseModule.forFeature([{ name: Board.name, schema: BoardSchema }]),
   ],
   providers: [BoardResolver, BoardService],
+  exports: [BoardService],
 })
 export class BoardModule {}

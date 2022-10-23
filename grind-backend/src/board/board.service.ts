@@ -22,6 +22,10 @@ export class BoardService {
     return await this.boardModel.find().populate('scheme').exec();
   }
 
+  async query(query = {}) {
+    return await this.boardModel.find(query).populate('scheme').exec();
+  }
+
   async findOne(id: string) {
     return await this.boardModel.findById(id).populate('scheme').exec();
   }

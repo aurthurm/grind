@@ -4,6 +4,7 @@ import { Transform } from 'class-transformer';
 import { ObjectId, Document } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { User } from 'src/user/entities/user.entity';
+import { StampCategory } from 'src/helpers/constants';
 
 export type StampDocument = Stamp & Document;
 
@@ -18,20 +19,27 @@ export class Stamp {
   @Prop()
   title: string;
 
-  @Field(() => User, { description: 'Created By' })
+  @Field(() => StampCategory, {
+    description: 'Stamp category',
+    nullable: true,
+  })
+  @Prop({ type: String, enum: StampCategory })
+  category?: StampCategory;
+
+  @Field(() => User, { description: 'Created By', nullable: true })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   createdBy: User;
 
-  @Field(() => User, { description: 'Updated By' })
+  @Field(() => User, { description: 'Updated By', nullable: true })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   updatedBy: User;
 
   @Prop()
-  @Field(() => Date, { description: 'Created At' })
+  @Field(() => Date, { description: 'Created At', nullable: true })
   createdAt?: Date;
 
   @Prop()
-  @Field(() => Date, { description: 'Updated At' })
+  @Field(() => Date, { description: 'Updated At', nullable: true })
   updatedAt?: Date;
 }
 

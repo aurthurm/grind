@@ -1,6 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Parent, ResolveField } from '@nestjs/graphql';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { Errand } from 'src/errand/entities/errand.entity';
 import { CreatePosterInput } from './dto/create-poster.input';
 import { UpdatePosterInput } from './dto/update-poster.input';
 import { Poster, PosterDocument } from './entities/poster.entity';
@@ -17,8 +19,8 @@ export class PosterService {
     return poster.save();
   }
 
-  async findAll() {
-    return await this.posterModel.find().exec();
+  async findAll(filters = {}) {
+    return await this.posterModel.find(filters).exec();
   }
 
   async findOne(id: string) {

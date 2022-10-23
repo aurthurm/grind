@@ -11,5 +11,6 @@ import { Milestone, MilestoneSchema } from './entities/milestone.entity';
     ]),
   ],
   providers: [MilestoneResolver, MilestoneService],
+  exports: [MilestoneService],
 })
 export class MilestoneModule {}

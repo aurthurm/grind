@@ -14,7 +14,9 @@ export class User {
   _id: ObjectId;
 
   @Field(() => String, { nullable: true })
-  @Prop()
+  @Prop({
+    unique: true,
+  })
   userName: string;
 
   @Field(() => String, { nullable: true })
@@ -34,7 +36,9 @@ export class User {
   name: string;
 
   @Field(() => String, { nullable: true })
-  @Prop()
+  @Prop({
+    unique: true,
+  })
   email: string;
 
   @Field(() => [UserRole], { nullable: true })
@@ -83,6 +87,7 @@ export class User {
   @Field(() => String, { nullable: true })
   @Prop({
     unique: true,
+    nullable: true,
   })
   phone: string;
 

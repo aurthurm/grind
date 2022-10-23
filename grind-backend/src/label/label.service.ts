@@ -12,13 +12,13 @@ export class LabelService {
     private labrlModel: Model<LabelDocument>,
   ) {}
 
-  async create(createLabelInput: CreateLabelInput) {
+  async create(createLabelInput: CreateLabelInput | any) {
     const labrl = new this.labrlModel(createLabelInput);
     return labrl.save();
   }
 
-  async findAll() {
-    return await this.labrlModel.find().exec();
+  async findAll(query = {}) {
+    return await this.labrlModel.find(query).exec();
   }
 
   async findOne(id: string) {

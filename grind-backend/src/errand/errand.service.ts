@@ -12,12 +12,11 @@ export class ErrandService {
   constructor(
     @InjectModel(Errand.name)
     private errandModel: Model<ErrandDocument>,
-    private occurrenceService: OccurrenceService,
+    private readonly occurrenceService: OccurrenceService,
   ) {}
 
   async create(createErrandInput: CreateErrandInput) {
     const errand = new this.errandModel(createErrandInput);
-    errand.status = errand.status ?? 'open';
     const created = await errand.save();
     this._addOccurrence(
       created._id.toString(),
@@ -36,6 +35,9 @@ export class ErrandService {
       .populate('assignee')
       .populate('members')
       .populate('reporter')
+      .populate('poster')
+      .populate('label')
+      .populate('stamps')
       .exec();
   }
 
@@ -45,6 +47,9 @@ export class ErrandService {
       .populate('assignee')
       .populate('members')
       .populate('reporter')
+      .populate('poster')
+      .populate('label')
+      .populate('stamps')
       .populate('updatedBy')
       .populate('createdBy')
       .exec();
@@ -58,6 +63,9 @@ export class ErrandService {
       .populate('assignee')
       .populate('members')
       .populate('reporter')
+      .populate('poster')
+      .populate('label')
+      .populate('stamps')
       .populate('updatedBy')
       .populate('createdBy')
       .exec();
@@ -125,6 +133,31 @@ export class ErrandService {
             });
           }
           description += `members`;
+        }
+        if (['stamps'].includes(key)) {
+          description = '';
+          if (previous[key].length > updated[key].length) {
+            previous[key].forEach((stamp) => {
+              if (
+                updated[key].some(
+                  (x) => x._id.toString() === stamp._id.toString(),
+                )
+              ) {
+                description = `removed ${stamp?.title} from `;
+              }
+            });
+          } else {
+            updated[key].forEach((stamp) => {
+              if (
+                !previous[key].some(
+                  (x) => x._id.toString() === stamp._id.toString(),
+                )
+              ) {
+                description += `added ${stamp?.title} to `;
+              }
+            });
+          }
+          description += `stamps`;
         }
         this.occurrenceService.create({
           target,

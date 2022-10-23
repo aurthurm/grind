@@ -24,9 +24,14 @@ export class LabelResolver {
     });
   }
 
-  @Query(() => [Label], { name: 'label' })
+  @Query(() => [Label], { name: 'labels' })
   async findAll() {
     return await this.labelService.findAll();
+  }
+
+  @Query(() => [Label], { name: 'query' })
+  async query(@Args('category', { type: () => String }) category?: string) {
+    return await this.labelService.findAll({ category });
   }
 
   @Query(() => Label, { name: 'label' })
