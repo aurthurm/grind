@@ -39,8 +39,8 @@ const useTicketStore = create<IErrandState>()((set) => ({
         set((state) => {
             let filtered = state.tickets
             const keys = Object.keys(filters);
-            if(keys.includes('status')) {
-                filtered = state.tickets.filter((t)  => t.status  === filters['status']);
+            if(keys.includes('label')) {
+                filtered = state.tickets.filter((t)  => t.label?._id  === filters['label']);
             }
             if(keys.includes('priority')) {
                 filtered = state.tickets.filter((t)  => t.priority  === filters['priority']);
@@ -58,16 +58,15 @@ const useTicketStore = create<IErrandState>()((set) => ({
                     filtered = state.tickets.filter((t)  => {
                         if(!!!t.endDate) return false;
                         return (
-                            t.status !== 'closed') && 
-                            (+(new Date(t.endDate)) <= +(new Date(new Date().setHours(24,0,0,0))) && 
-                            (+(new Date(t.endDate)) >= +(new Date(new Date().setHours(0,0,0,0))))
+                            +(new Date(t.endDate)) <= +(new Date(new Date().setHours(24,0,0,0))) && 
+                            +(new Date(t.endDate)) >= +(new Date(new Date().setHours(0,0,0,0)))
                         )
                     });
                 }
                 if(filters['other'] === 'over-due') {
                     filtered = state.tickets.filter((t)  => {
                         if(!t.endDate) return false;
-                        return (t.status !== 'closed') && (+(new Date()) >= +(new Date(t.endDate)))
+                        return +(new Date()) >= +(new Date(t.endDate))
                     });
                 }
             }

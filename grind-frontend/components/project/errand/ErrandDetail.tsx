@@ -48,7 +48,7 @@ const ErrandDetail = () => {
   }
 
   let tabs: any[] = [];
-  if(errandStore.errand?.category === "TICKET") {
+  if(['TICKET','PROJECT'].includes(errandStore.errand?.category ?? '')) {
     tabs = [
       { label: 'Milestones', key: 'milestone', children: <ErrandMileStones /> },
       { label: 'Activity Stream', key: 'activity', children: <ErrandActivity target='errand' targetId={errandStore.errand._id} /> },

@@ -90,7 +90,7 @@ const Dashboard: NextPage = () => {
         
         <div className="flex items-center">
           <div className="grow">
-            <Divider>Communities  </Divider>
+            <Divider>Communities </Divider>
           </div>
           <div className="flex-none">
             <Dropdown.Button overlay={teamsMenu}>More</Dropdown.Button>

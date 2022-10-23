@@ -6,6 +6,9 @@ export const CREATE_ERRAND = gql`
       _id
       title
       description
+      poster {
+        _id
+      }
     }
 }
   `
@@ -17,7 +20,6 @@ export const UPDATE_ERRAND = gql`
       title
       description
       category
-      status
       priority
       startDate
       endDate
@@ -25,6 +27,9 @@ export const UPDATE_ERRAND = gql`
         _id
       }
       stamps {
+        _id
+      }
+      label {
         _id
       }
       assignee {
@@ -180,6 +185,34 @@ export const UPDATE_MILESTONE = gql`
   }
   `
 
+export const UPDATE_SCHEME = gql`
+  mutation editScheme($payload: UpdateSchemeInput!) {
+    updateScheme(updateSchemeInput: $payload){
+      _id
+      title
+      description
+      startDate
+      endDate
+      assignee {
+        _id
+        firstName
+        lastName
+      }
+      members {
+        _id
+        firstName
+        lastName
+      }
+      createdBy {
+        _id
+        firstName
+        lastName
+      }
+      createdAt
+    }
+}`
+  
+
   export const CREATE_BOARD = gql`
   mutation addBoard($payload: CreateBoardInput!) {
     createBoard(createBoardInput: $payload) {
@@ -200,3 +233,38 @@ export const UPDATE_MILESTONE = gql`
     }
   }
   `
+
+export const CREATE_POSTER = gql`
+  mutation addPoster($payload: CreatePosterInput!) {
+    createPoster(createPosterInput: $payload) {
+      __typename
+      _id
+      title
+      errands {
+        _id
+      }
+    }
+  }
+`
+
+export const CREATE_LABEL = gql`
+  mutation addLabel($payload: CreateLabelInput!) {
+    createLabel(createLabelInput: $payload) {
+      __typename
+      _id
+      title
+      category
+    }
+  }
+`
+
+export const CREATE_STAMP = gql`
+  mutation addStamp($payload: CreateStampInput!) {
+    createStamp(createStampInput: $payload) {
+      __typename
+      _id
+      title
+      category
+    }
+  }
+`

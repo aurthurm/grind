@@ -9,7 +9,6 @@ import { getSession } from "next-auth/react";
 
   const authLink = setContext(async (_, { headers }) => {
     const session = await getSession();
-    console.log(session);
     return {
       headers: {
         ...headers,

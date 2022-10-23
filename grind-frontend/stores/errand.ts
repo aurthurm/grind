@@ -16,6 +16,7 @@ const useErrandStore = create<IErrandState>()((set) => ({
             errand: { 
                 ...errand, 
                 memberIds: errand.members?.map(t => (t as any)._id),
+                stampIds: errand.stamps?.map(t => (t as any)._id),
                 startDate: toMomentDate(errand?.startDate),
                 endDate: toMomentDate(errand?.endDate),
             }

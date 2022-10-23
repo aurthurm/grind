@@ -8,11 +8,12 @@ export interface IScheme {
   description: string;
   assignee?: IUser;
   members?: IUser[];
+  memberIds?:  string[]
   boards?: IBoard[];
   startDate?: Date | string | any;
   endDate?: Date | string | any;
   createdAt?: Date | string | any;
   updatedAt?: Date | string | any;
-  createdBy: IUser;
-  updatedBy: IUser;
+  createdBy?: IUser;
+  updatedBy?: IUser;
 }

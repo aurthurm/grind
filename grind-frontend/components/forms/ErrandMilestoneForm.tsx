@@ -40,9 +40,6 @@ const ErrandMilestoneForm = ({ errand }: { errand: IErrand }) => {
                 name="basic"
                 labelCol={{ span: 5 }}
                 initialValues={{ 
-                    remember: false,  
-                    title: '',
-                    description: '', 
                     complete: false
                 }}
                 onFinish={onFinish}
@@ -50,8 +47,7 @@ const ErrandMilestoneForm = ({ errand }: { errand: IErrand }) => {
                 autoComplete="off"
                 layout="horizontal"
                 >
-                <Form.Item name="title" label="Title"
-                rules={[{ required: true, message: 'Title is required!' }]}>
+                <Form.Item name="title" label="Title" rules={[{ required: true, message: 'Title is required!' }]}>
                     <Input />
                 </Form.Item>
                 <Form.Item name="description" label="Description">
@@ -62,7 +58,7 @@ const ErrandMilestoneForm = ({ errand }: { errand: IErrand }) => {
                         {users.map(user => (<Select.Option value={user._id} key={user._id}>{user.firstName} {user.lastName}</Select.Option>))}
                     </Select>
                 </Form.Item>
-                <Form.Item name="complete" label="Complete">
+                <Form.Item name="complete" valuePropName="checked" label="Complete">
                     <Checkbox />
                 </Form.Item>
                 <Button type="primary" htmlType="submit" block className="bg-blue-500">

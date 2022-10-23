@@ -5,7 +5,7 @@ import AdminLayout from '../../components/layouts/admin';
 const ClientPage: NextPage = () => {
 
   return (
-    <p>Hello ClientPage</p>
+    <p>Hello Client Page</p>
   )
 }
 

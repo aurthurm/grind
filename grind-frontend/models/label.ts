@@ -1,6 +1,6 @@
 import { IUser } from "./user"
 
-export interface IStamp {
+export interface ILabel {
     _id:string
     title: string
     category: string

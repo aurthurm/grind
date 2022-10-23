@@ -6,14 +6,14 @@ import dynamic from "next/dynamic";
 import { useRouter } from 'next/router';
 const EditorCK = dynamic(() => import("../../components/editors/EditorCK"), { ssr: false });
 
-const AddErrandForm = ({ open, setOpen, goTo, category, handleResponse }: any) => {
+const AddErrandForm = ({ open, setOpen, goTo, category, extras, handleResponse }: any) => {
     const router = useRouter()
     const [saveErrandMutation, _] = useAddErrandMutation();
 
     const handleCancel = (e: React.MouseEvent<HTMLElement>) => setOpen(false);
 
     const onFinish = (values: any) => {
-        saveErrandMutation({ variables: { payload: {...values, category } }}).then(result => {
+        saveErrandMutation({ variables: { payload: {...values, category, ...extras } }}).then(result => {
             message.success(`Errand Added`);
             handleResponse(result.data?.createErrand as IErrand)
             if(goTo && result.data?.createErrand._id) {

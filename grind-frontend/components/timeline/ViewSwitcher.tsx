@@ -24,9 +24,7 @@ export const ViewSwitcher: React.FC<ViewSwitcherProps> = ({
         <Radio.Button value="d" onClick={() => onViewModeChange(ViewMode.Month)}>Month</Radio.Button>
         <Radio.Button value="d" onClick={() => onViewModeChange(ViewMode.Year)}>Year</Radio.Button>
       </Radio.Group>
-
-
- 
+      
       <div className="ml-4 flex items-center ">
         Show Task List
         <Switch

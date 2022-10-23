@@ -104,6 +104,8 @@ export type CreateErrandInput = {
   description?: InputMaybe<Scalars['String']>;
   /** End Date */
   endDate?: InputMaybe<Scalars['DateTime']>;
+  /** Errand Label | Status */
+  label?: InputMaybe<Scalars['String']>;
   /** Errand Members */
   members?: InputMaybe<Array<Scalars['String']>>;
   /** Errand Milestone */
@@ -114,10 +116,10 @@ export type CreateErrandInput = {
   priority?: InputMaybe<Scalars['String']>;
   /** Assigned To */
   reporter?: InputMaybe<Scalars['String']>;
+  /** Errand Stamps | Tags */
+  stamps?: InputMaybe<Array<Scalars['String']>>;
   /** Start Date */
   startDate?: InputMaybe<Scalars['DateTime']>;
-  /** Errand Status */
-  status?: InputMaybe<Scalars['String']>;
   /** Errand Title */
   title?: InputMaybe<Scalars['String']>;
   /** Updated By */
@@ -125,8 +127,10 @@ export type CreateErrandInput = {
 };
 
 export type CreateLabelInput = {
+  /** Label category */
+  category: Scalars['String'];
   /** Created By */
-  createdBy: Scalars['String'];
+  createdBy?: InputMaybe<Scalars['String']>;
   /** Label title */
   title: Scalars['String'];
   /** Updated By */
@@ -150,25 +154,32 @@ export type CreateMilestoneInput = {
   updatedBy?: InputMaybe<Scalars['String']>;
 };
 
+export type CreatePosterFlowInput = {
+  /** Example field (placeholder) */
+  exampleField: Scalars['Int'];
+};
+
 export type CreatePosterInput = {
   /** Assigned To */
-  assignedTo: Scalars['String'];
+  assignee?: InputMaybe<Scalars['String']>;
+  /** Poster Board */
+  board?: InputMaybe<Scalars['String']>;
   /** Poster category */
-  category: PosterCategory;
+  category?: InputMaybe<PosterCategory>;
   /** Poster Communities */
-  communities: Array<Scalars['String']>;
+  communities?: InputMaybe<Array<Scalars['String']>>;
   /** Created By */
-  createdBy: Scalars['String'];
+  createdBy?: InputMaybe<Scalars['String']>;
   /** Poster description */
-  description: Scalars['String'];
+  description?: InputMaybe<Scalars['String']>;
   /** Poster Members */
-  members: Array<Scalars['String']>;
+  members?: InputMaybe<Array<Scalars['String']>>;
   /** Poster label */
-  stamps: Scalars['String'];
+  stamps?: InputMaybe<Scalars['String']>;
   /** Poster status */
-  status: Scalars['String'];
+  status?: InputMaybe<Scalars['String']>;
   /** Poster Title */
-  title: Scalars['String'];
+  title?: InputMaybe<Scalars['String']>;
   /** Updated By */
   updatedBy?: InputMaybe<Scalars['String']>;
 };
@@ -193,8 +204,10 @@ export type CreateSchemeInput = {
 };
 
 export type CreateStampInput = {
+  /** Stamp category */
+  category: Scalars['String'];
   /** Created By */
-  createdBy: Scalars['String'];
+  createdBy?: InputMaybe<Scalars['String']>;
   /** Stamp title */
   title: Scalars['String'];
   /** Updated By */
@@ -223,6 +236,11 @@ export type CreateUserInput = {
   status: Scalars['String'];
   updatedBy: Scalars['String'];
   userName: Scalars['String'];
+};
+
+export type CreateWorkFlowInput = {
+  /** Example field (placeholder) */
+  exampleField: Scalars['Int'];
 };
 
 export type Discussion = {
@@ -255,20 +273,22 @@ export type Errand = {
   description?: Maybe<Scalars['String']>;
   /** End Date */
   endDate?: Maybe<Scalars['DateTime']>;
+  /** Errand label | Status */
+  label?: Maybe<Label>;
   /** Errand Members */
   members?: Maybe<Array<User>>;
   /** Errand Poster */
   poster?: Maybe<Poster>;
   /** Errand priority */
   priority?: Maybe<Scalars['String']>;
+  /** Errand Progress */
+  progress?: Maybe<Scalars['Int']>;
   /** Reported By */
   reporter?: Maybe<User>;
   /** Errand stamps */
   stamps?: Maybe<Array<Stamp>>;
   /** Start Date */
   startDate?: Maybe<Scalars['DateTime']>;
-  /** Errand status */
-  status?: Maybe<Scalars['String']>;
   /** Errand Title */
   title?: Maybe<Scalars['String']>;
   /** Updated At */
@@ -288,17 +308,23 @@ export enum ErrandCategory {
 export type Label = {
   __typename?: 'Label';
   _id: Scalars['ID'];
+  /** Label category */
+  category?: Maybe<LabelCategory>;
   /** Created At */
-  createdAt: Scalars['DateTime'];
+  createdAt?: Maybe<Scalars['DateTime']>;
   /** Created By */
-  createdBy: User;
+  createdBy?: Maybe<User>;
   /** Label title */
   title: Scalars['String'];
   /** Updated At */
-  updatedAt: Scalars['DateTime'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
   /** Updated By */
-  updatedBy: User;
+  updatedBy?: Maybe<User>;
 };
+
+export enum LabelCategory {
+  Ticket = 'TICKET'
+}
 
 export type Media = {
   __typename?: 'Media';
@@ -367,9 +393,11 @@ export type Mutation = {
   createLabel: Label;
   createMilestone: Milestone;
   createPoster: Poster;
+  createPosterFlow: PosterFlow;
   createScheme: Scheme;
   createStamp: Stamp;
   createUser: User;
+  createWorkFlow: WorkFlow;
   removeBoard: Board;
   removeCommunity: Community;
   removeDiscussion: Discussion;
@@ -377,9 +405,11 @@ export type Mutation = {
   removeLabel: Label;
   removeMilestone: Milestone;
   removePoster: Poster;
+  removePosterFlow: PosterFlow;
   removeScheme: Scheme;
   removeStamp: Stamp;
   removeUser: User;
+  removeWorkFlow: WorkFlow;
   updateBoard: Board;
   updateCommunity: Community;
   updateDiscussion: Discussion;
@@ -387,9 +417,11 @@ export type Mutation = {
   updateLabel: Label;
   updateMilestone: Milestone;
   updatePoster: Poster;
+  updatePosterFlow: PosterFlow;
   updateScheme: Scheme;
   updateStamp: Stamp;
   updateUser: User;
+  updateWorkFlow: WorkFlow;
 };
 
 
@@ -428,6 +460,11 @@ export type MutationCreatePosterArgs = {
 };
 
 
+export type MutationCreatePosterFlowArgs = {
+  createPosterFlowInput: CreatePosterFlowInput;
+};
+
+
 export type MutationCreateSchemeArgs = {
   createSchemeInput: CreateSchemeInput;
 };
@@ -440,6 +477,11 @@ export type MutationCreateStampArgs = {
 
 export type MutationCreateUserArgs = {
   createUserInput: CreateUserInput;
+};
+
+
+export type MutationCreateWorkFlowArgs = {
+  createWorkFlowInput: CreateWorkFlowInput;
 };
 
 
@@ -478,6 +520,11 @@ export type MutationRemovePosterArgs = {
 };
 
 
+export type MutationRemovePosterFlowArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type MutationRemoveSchemeArgs = {
   id: Scalars['String'];
 };
@@ -489,6 +536,11 @@ export type MutationRemoveStampArgs = {
 
 
 export type MutationRemoveUserArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationRemoveWorkFlowArgs = {
   id: Scalars['Int'];
 };
 
@@ -528,6 +580,11 @@ export type MutationUpdatePosterArgs = {
 };
 
 
+export type MutationUpdatePosterFlowArgs = {
+  updatePosterFlowInput: UpdatePosterFlowInput;
+};
+
+
 export type MutationUpdateSchemeArgs = {
   updateSchemeInput: UpdateSchemeInput;
 };
@@ -540,6 +597,11 @@ export type MutationUpdateStampArgs = {
 
 export type MutationUpdateUserArgs = {
   updateUserInput: UpdateUserInput;
+};
+
+
+export type MutationUpdateWorkFlowArgs = {
+  updateWorkFlowInput: UpdateWorkFlowInput;
 };
 
 export type Occurrence = {
@@ -567,27 +629,32 @@ export type Poster = {
   __typename?: 'Poster';
   _id: Scalars['ID'];
   /** Assigned To */
-  assignedTo: User;
+  assignee?: Maybe<User>;
+  /** Poster Board */
+  board?: Maybe<Board>;
   /** Poster category */
-  category: PosterCategory;
+  category?: Maybe<PosterCategory>;
   /** Created At */
-  createdAt: Scalars['DateTime'];
+  createdAt?: Maybe<Scalars['DateTime']>;
   /** Created By */
-  createdBy: User;
+  createdBy?: Maybe<User>;
   /** Poster description */
-  description: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  errands?: Maybe<Array<Maybe<Errand>>>;
   /** Poster Members */
-  members: Array<User>;
+  members?: Maybe<Array<User>>;
   /** Poster label */
-  stamps: Array<Stamp>;
+  stamps?: Maybe<Array<Stamp>>;
   /** Poster status */
-  status: Scalars['String'];
+  status?: Maybe<Scalars['String']>;
   /** Poster Title */
-  title: Scalars['String'];
+  title?: Maybe<Scalars['String']>;
   /** Updated At */
-  updatedAt: Scalars['DateTime'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
   /** Updated By */
-  updatedBy: User;
+  updatedBy?: Maybe<User>;
+  /** Poster Work Flow */
+  workflow?: Maybe<Array<PosterFlow>>;
 };
 
 export enum PosterCategory {
@@ -596,6 +663,12 @@ export enum PosterCategory {
   Mesage = 'MESAGE',
   Todo = 'TODO'
 }
+
+export type PosterFlow = {
+  __typename?: 'PosterFlow';
+  /** Example field (placeholder) */
+  exampleField: Scalars['Int'];
+};
 
 export type Query = {
   __typename?: 'Query';
@@ -608,16 +681,22 @@ export type Query = {
   errand: Errand;
   errands: Array<Errand>;
   label: Label;
+  labels: Array<Label>;
   medias: Array<Media>;
   milestone: Milestone;
   milestones: Array<Milestone>;
   occurrences: Array<Occurrence>;
   poster: Poster;
+  posterFlow: PosterFlow;
+  posters: Array<Poster>;
+  query: Array<Label>;
   scheme: Scheme;
   schemes: Array<Scheme>;
   stamp: Stamp;
+  stamps: Array<Stamp>;
   user: User;
   users: Array<User>;
+  workFlow: WorkFlow;
 };
 
 
@@ -683,6 +762,21 @@ export type QueryPosterArgs = {
 };
 
 
+export type QueryPosterFlowArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryPostersArgs = {
+  board: Scalars['String'];
+};
+
+
+export type QueryQueryArgs = {
+  category: Scalars['String'];
+};
+
+
 export type QuerySchemeArgs = {
   id: Scalars['String'];
 };
@@ -694,6 +788,11 @@ export type QueryStampArgs = {
 
 
 export type QueryUserArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryWorkFlowArgs = {
   id: Scalars['Int'];
 };
 
@@ -726,17 +825,24 @@ export type Scheme = {
 export type Stamp = {
   __typename?: 'Stamp';
   _id: Scalars['ID'];
+  /** Stamp category */
+  category?: Maybe<StampCategory>;
   /** Created At */
-  createdAt: Scalars['DateTime'];
+  createdAt?: Maybe<Scalars['DateTime']>;
   /** Created By */
-  createdBy: User;
+  createdBy?: Maybe<User>;
   /** Stamp title */
   title: Scalars['String'];
   /** Updated At */
-  updatedAt: Scalars['DateTime'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
   /** Updated By */
-  updatedBy: User;
+  updatedBy?: Maybe<User>;
 };
+
+export enum StampCategory {
+  Project = 'PROJECT',
+  Ticket = 'TICKET'
+}
 
 export type UpdateBoardInput = {
   /** Created By */
@@ -788,6 +894,8 @@ export type UpdateErrandInput = {
   /** End Date */
   endDate?: InputMaybe<Scalars['DateTime']>;
   id: Scalars['String'];
+  /** Errand Label | Status */
+  label?: InputMaybe<Scalars['String']>;
   /** Errand Members */
   members?: InputMaybe<Array<Scalars['String']>>;
   /** Errand Milestone */
@@ -798,10 +906,10 @@ export type UpdateErrandInput = {
   priority?: InputMaybe<Scalars['String']>;
   /** Assigned To */
   reporter?: InputMaybe<Scalars['String']>;
+  /** Errand Stamps | Tags */
+  stamps?: InputMaybe<Array<Scalars['String']>>;
   /** Start Date */
   startDate?: InputMaybe<Scalars['DateTime']>;
-  /** Errand Status */
-  status?: InputMaybe<Scalars['String']>;
   /** Errand Title */
   title?: InputMaybe<Scalars['String']>;
   /** Updated By */
@@ -809,6 +917,8 @@ export type UpdateErrandInput = {
 };
 
 export type UpdateLabelInput = {
+  /** Label category */
+  category?: InputMaybe<Scalars['String']>;
   /** Created By */
   createdBy?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
@@ -836,9 +946,17 @@ export type UpdateMilestoneInput = {
   updatedBy?: InputMaybe<Scalars['String']>;
 };
 
+export type UpdatePosterFlowInput = {
+  /** Example field (placeholder) */
+  exampleField?: InputMaybe<Scalars['Int']>;
+  id: Scalars['Int'];
+};
+
 export type UpdatePosterInput = {
   /** Assigned To */
-  assignedTo?: InputMaybe<Scalars['String']>;
+  assignee?: InputMaybe<Scalars['String']>;
+  /** Poster Board */
+  board?: InputMaybe<Scalars['String']>;
   /** Poster category */
   category?: InputMaybe<PosterCategory>;
   /** Poster Communities */
@@ -881,6 +999,8 @@ export type UpdateSchemeInput = {
 };
 
 export type UpdateStampInput = {
+  /** Stamp category */
+  category?: InputMaybe<Scalars['String']>;
   /** Created By */
   createdBy?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
@@ -913,6 +1033,12 @@ export type UpdateUserInput = {
   status?: InputMaybe<Scalars['String']>;
   updatedBy?: InputMaybe<Scalars['String']>;
   userName?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateWorkFlowInput = {
+  /** Example field (placeholder) */
+  exampleField?: InputMaybe<Scalars['Int']>;
+  id: Scalars['Int'];
 };
 
 export type User = {
@@ -953,19 +1079,46 @@ export enum UserRole {
   User = 'USER'
 }
 
+export type WorkFlow = {
+  __typename?: 'WorkFlow';
+  _id: Scalars['ID'];
+  /** Created At */
+  createdAt?: Maybe<Scalars['DateTime']>;
+  /** Created By */
+  createdBy?: Maybe<User>;
+  /** WorkFlow description */
+  description?: Maybe<Scalars['String']>;
+  /** WorkFlow status */
+  status?: Maybe<Scalars['String']>;
+  /** WorkFlow category */
+  target?: Maybe<WorkFlowTarget>;
+  /** WorkFlow Title */
+  title?: Maybe<Scalars['String']>;
+  /** Updated At */
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  /** Updated By */
+  updatedBy?: Maybe<User>;
+};
+
+export enum WorkFlowTarget {
+  Poster = 'POSTER',
+  Ticket = 'TICKET',
+  Todo = 'TODO'
+}
+
 export type AddErrandMutationVariables = Exact<{
   payload: CreateErrandInput;
 }>;
 
 
-export type AddErrandMutation = { __typename?: 'Mutation', createErrand: { __typename?: 'Errand', _id: string, title?: string | null, description?: string | null } };
+export type AddErrandMutation = { __typename?: 'Mutation', createErrand: { __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, poster?: { __typename?: 'Poster', _id: string } | null } };
 
 export type EditErrandMutationVariables = Exact<{
   payload: UpdateErrandInput;
 }>;
 
 
-export type EditErrandMutation = { __typename?: 'Mutation', updateErrand: { __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, category?: ErrandCategory | null, status?: string | null, priority?: string | null, startDate?: any | null, endDate?: any | null, poster?: { __typename?: 'Poster', _id: string } | null, stamps?: Array<{ __typename?: 'Stamp', _id: string }> | null, assignee?: { __typename?: 'User', _id: string } | null, reporter?: { __typename?: 'User', _id: string } | null, members?: Array<{ __typename?: 'User', _id: string }> | null, createdBy?: { __typename?: 'User', _id: string } | null } };
+export type EditErrandMutation = { __typename?: 'Mutation', updateErrand: { __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, category?: ErrandCategory | null, priority?: string | null, startDate?: any | null, endDate?: any | null, poster?: { __typename?: 'Poster', _id: string } | null, stamps?: Array<{ __typename?: 'Stamp', _id: string }> | null, label?: { __typename?: 'Label', _id: string } | null, assignee?: { __typename?: 'User', _id: string } | null, reporter?: { __typename?: 'User', _id: string } | null, members?: Array<{ __typename?: 'User', _id: string }> | null, createdBy?: { __typename?: 'User', _id: string } | null } };
 
 export type AddDscussionMutationVariables = Exact<{
   payload: CreateDiscussionInput;
@@ -1016,6 +1169,13 @@ export type AddSchemeMutationVariables = Exact<{
 
 export type AddSchemeMutation = { __typename?: 'Mutation', createScheme: { __typename: 'Scheme', _id: string, title: string, description?: string | null, startDate?: any | null, endDate?: any | null, createdAt: any, assignee?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, members?: Array<{ __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null }> | null, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null } };
 
+export type EditSchemeMutationVariables = Exact<{
+  payload: UpdateSchemeInput;
+}>;
+
+
+export type EditSchemeMutation = { __typename?: 'Mutation', updateScheme: { __typename?: 'Scheme', _id: string, title: string, description?: string | null, startDate?: any | null, endDate?: any | null, createdAt: any, assignee?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, members?: Array<{ __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null }> | null, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null } };
+
 export type AddBoardMutationVariables = Exact<{
   payload: CreateBoardInput;
 }>;
@@ -1023,19 +1183,40 @@ export type AddBoardMutationVariables = Exact<{
 
 export type AddBoardMutation = { __typename?: 'Mutation', createBoard: { __typename: 'Board', _id: string, title: string, description?: string | null, createdAt: any, scheme?: { __typename?: 'Scheme', _id: string, title: string } | null, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null } };
 
+export type AddPosterMutationVariables = Exact<{
+  payload: CreatePosterInput;
+}>;
+
+
+export type AddPosterMutation = { __typename?: 'Mutation', createPoster: { __typename: 'Poster', _id: string, title?: string | null, errands?: Array<{ __typename?: 'Errand', _id: string } | null> | null } };
+
+export type AddLabelMutationVariables = Exact<{
+  payload: CreateLabelInput;
+}>;
+
+
+export type AddLabelMutation = { __typename?: 'Mutation', createLabel: { __typename: 'Label', _id: string, title: string, category?: LabelCategory | null } };
+
+export type AddStampMutationVariables = Exact<{
+  payload: CreateStampInput;
+}>;
+
+
+export type AddStampMutation = { __typename?: 'Mutation', createStamp: { __typename: 'Stamp', _id: string, title: string, category?: StampCategory | null } };
+
 export type GetErrandsQueryVariables = Exact<{
   filters: CreateErrandInput;
 }>;
 
 
-export type GetErrandsQuery = { __typename?: 'Query', errands: Array<{ __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, category?: ErrandCategory | null, status?: string | null, priority?: string | null, startDate?: any | null, endDate?: any | null, createdAt: any, poster?: { __typename?: 'Poster', _id: string } | null, stamps?: Array<{ __typename?: 'Stamp', _id: string }> | null, createdBy?: { __typename?: 'User', _id: string } | null, assignee?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, reporter?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, members?: Array<{ __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null }> | null }> };
+export type GetErrandsQuery = { __typename?: 'Query', errands: Array<{ __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, category?: ErrandCategory | null, priority?: string | null, startDate?: any | null, endDate?: any | null, createdAt: any, poster?: { __typename?: 'Poster', _id: string } | null, stamps?: Array<{ __typename?: 'Stamp', _id: string }> | null, label?: { __typename?: 'Label', _id: string } | null, createdBy?: { __typename?: 'User', _id: string } | null, assignee?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, reporter?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, members?: Array<{ __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null }> | null }> };
 
 export type GetErrandQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type GetErrandQuery = { __typename?: 'Query', errand: { __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, category?: ErrandCategory | null, status?: string | null, priority?: string | null, startDate?: any | null, endDate?: any | null, createdAt: any, poster?: { __typename?: 'Poster', _id: string, category: PosterCategory, description: string, status: string, title: string } | null, stamps?: Array<{ __typename?: 'Stamp', _id: string, title: string }> | null, assignee?: { __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null } | null, reporter?: { __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null } | null, members?: Array<{ __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null }> | null, createdBy?: { __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null } | null } };
+export type GetErrandQuery = { __typename?: 'Query', errand: { __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, category?: ErrandCategory | null, priority?: string | null, startDate?: any | null, endDate?: any | null, createdAt: any, poster?: { __typename?: 'Poster', _id: string, category?: PosterCategory | null, description?: string | null, status?: string | null, title?: string | null } | null, stamps?: Array<{ __typename?: 'Stamp', _id: string, title: string }> | null, label?: { __typename?: 'Label', _id: string, title: string } | null, assignee?: { __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null } | null, reporter?: { __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null } | null, members?: Array<{ __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null }> | null, createdBy?: { __typename?: 'User', _id: string, email?: string | null, firstName?: string | null, lastName?: string | null, middleName?: string | null, name?: string | null } | null } };
 
 export type GetOccurrenciesQueryVariables = Exact<{
   target: Scalars['String'];
@@ -1084,6 +1265,23 @@ export type GetSchemeQueryVariables = Exact<{
 
 export type GetSchemeQuery = { __typename?: 'Query', scheme: { __typename?: 'Scheme', _id: string, title: string, description?: string | null, startDate?: any | null, endDate?: any | null, createdAt: any, assignee?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, members?: Array<{ __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null }> | null, boards?: Array<{ __typename?: 'Board', _id: string, title: string, description?: string | null } | null> | null, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null } };
 
+export type GetPostersQueryVariables = Exact<{
+  board: Scalars['String'];
+}>;
+
+
+export type GetPostersQuery = { __typename?: 'Query', posters: Array<{ __typename?: 'Poster', _id: string, title?: string | null, board?: { __typename?: 'Board', _id: string } | null, errands?: Array<{ __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, priority?: string | null, startDate?: any | null, endDate?: any | null, progress?: number | null, poster?: { __typename?: 'Poster', _id: string } | null, stamps?: Array<{ __typename?: 'Stamp', _id: string, title: string }> | null, label?: { __typename?: 'Label', _id: string } | null, assignee?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, members?: Array<{ __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null }> | null } | null> | null }> };
+
+export type GetStampsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetStampsQuery = { __typename?: 'Query', stamps: Array<{ __typename?: 'Stamp', _id: string, title: string, category?: StampCategory | null }> };
+
+export type GetLabelsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetLabelsQuery = { __typename?: 'Query', labels: Array<{ __typename?: 'Label', _id: string, title: string, category?: LabelCategory | null }> };
+
 
 export const AddErrandDocument = gql`
     mutation addErrand($payload: CreateErrandInput!) {
@@ -1091,6 +1289,9 @@ export const AddErrandDocument = gql`
     _id
     title
     description
+    poster {
+      _id
+    }
   }
 }
     `;
@@ -1127,7 +1328,6 @@ export const EditErrandDocument = gql`
     title
     description
     category
-    status
     priority
     startDate
     endDate
@@ -1135,6 +1335,9 @@ export const EditErrandDocument = gql`
       _id
     }
     stamps {
+      _id
+    }
+    label {
       _id
     }
     assignee {
@@ -1492,6 +1695,59 @@ export function useAddSchemeMutation(baseOptions?: Apollo.MutationHookOptions<Ad
 export type AddSchemeMutationHookResult = ReturnType<typeof useAddSchemeMutation>;
 export type AddSchemeMutationResult = Apollo.MutationResult<AddSchemeMutation>;
 export type AddSchemeMutationOptions = Apollo.BaseMutationOptions<AddSchemeMutation, AddSchemeMutationVariables>;
+export const EditSchemeDocument = gql`
+    mutation editScheme($payload: UpdateSchemeInput!) {
+  updateScheme(updateSchemeInput: $payload) {
+    _id
+    title
+    description
+    startDate
+    endDate
+    assignee {
+      _id
+      firstName
+      lastName
+    }
+    members {
+      _id
+      firstName
+      lastName
+    }
+    createdBy {
+      _id
+      firstName
+      lastName
+    }
+    createdAt
+  }
+}
+    `;
+export type EditSchemeMutationFn = Apollo.MutationFunction<EditSchemeMutation, EditSchemeMutationVariables>;
+
+/**
+ * __useEditSchemeMutation__
+ *
+ * To run a mutation, you first call `useEditSchemeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditSchemeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editSchemeMutation, { data, loading, error }] = useEditSchemeMutation({
+ *   variables: {
+ *      payload: // value for 'payload'
+ *   },
+ * });
+ */
+export function useEditSchemeMutation(baseOptions?: Apollo.MutationHookOptions<EditSchemeMutation, EditSchemeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditSchemeMutation, EditSchemeMutationVariables>(EditSchemeDocument, options);
+      }
+export type EditSchemeMutationHookResult = ReturnType<typeof useEditSchemeMutation>;
+export type EditSchemeMutationResult = Apollo.MutationResult<EditSchemeMutation>;
+export type EditSchemeMutationOptions = Apollo.BaseMutationOptions<EditSchemeMutation, EditSchemeMutationVariables>;
 export const AddBoardDocument = gql`
     mutation addBoard($payload: CreateBoardInput!) {
   createBoard(createBoardInput: $payload) {
@@ -1538,6 +1794,116 @@ export function useAddBoardMutation(baseOptions?: Apollo.MutationHookOptions<Add
 export type AddBoardMutationHookResult = ReturnType<typeof useAddBoardMutation>;
 export type AddBoardMutationResult = Apollo.MutationResult<AddBoardMutation>;
 export type AddBoardMutationOptions = Apollo.BaseMutationOptions<AddBoardMutation, AddBoardMutationVariables>;
+export const AddPosterDocument = gql`
+    mutation addPoster($payload: CreatePosterInput!) {
+  createPoster(createPosterInput: $payload) {
+    __typename
+    _id
+    title
+    errands {
+      _id
+    }
+  }
+}
+    `;
+export type AddPosterMutationFn = Apollo.MutationFunction<AddPosterMutation, AddPosterMutationVariables>;
+
+/**
+ * __useAddPosterMutation__
+ *
+ * To run a mutation, you first call `useAddPosterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddPosterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addPosterMutation, { data, loading, error }] = useAddPosterMutation({
+ *   variables: {
+ *      payload: // value for 'payload'
+ *   },
+ * });
+ */
+export function useAddPosterMutation(baseOptions?: Apollo.MutationHookOptions<AddPosterMutation, AddPosterMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddPosterMutation, AddPosterMutationVariables>(AddPosterDocument, options);
+      }
+export type AddPosterMutationHookResult = ReturnType<typeof useAddPosterMutation>;
+export type AddPosterMutationResult = Apollo.MutationResult<AddPosterMutation>;
+export type AddPosterMutationOptions = Apollo.BaseMutationOptions<AddPosterMutation, AddPosterMutationVariables>;
+export const AddLabelDocument = gql`
+    mutation addLabel($payload: CreateLabelInput!) {
+  createLabel(createLabelInput: $payload) {
+    __typename
+    _id
+    title
+    category
+  }
+}
+    `;
+export type AddLabelMutationFn = Apollo.MutationFunction<AddLabelMutation, AddLabelMutationVariables>;
+
+/**
+ * __useAddLabelMutation__
+ *
+ * To run a mutation, you first call `useAddLabelMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddLabelMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addLabelMutation, { data, loading, error }] = useAddLabelMutation({
+ *   variables: {
+ *      payload: // value for 'payload'
+ *   },
+ * });
+ */
+export function useAddLabelMutation(baseOptions?: Apollo.MutationHookOptions<AddLabelMutation, AddLabelMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddLabelMutation, AddLabelMutationVariables>(AddLabelDocument, options);
+      }
+export type AddLabelMutationHookResult = ReturnType<typeof useAddLabelMutation>;
+export type AddLabelMutationResult = Apollo.MutationResult<AddLabelMutation>;
+export type AddLabelMutationOptions = Apollo.BaseMutationOptions<AddLabelMutation, AddLabelMutationVariables>;
+export const AddStampDocument = gql`
+    mutation addStamp($payload: CreateStampInput!) {
+  createStamp(createStampInput: $payload) {
+    __typename
+    _id
+    title
+    category
+  }
+}
+    `;
+export type AddStampMutationFn = Apollo.MutationFunction<AddStampMutation, AddStampMutationVariables>;
+
+/**
+ * __useAddStampMutation__
+ *
+ * To run a mutation, you first call `useAddStampMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddStampMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addStampMutation, { data, loading, error }] = useAddStampMutation({
+ *   variables: {
+ *      payload: // value for 'payload'
+ *   },
+ * });
+ */
+export function useAddStampMutation(baseOptions?: Apollo.MutationHookOptions<AddStampMutation, AddStampMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddStampMutation, AddStampMutationVariables>(AddStampDocument, options);
+      }
+export type AddStampMutationHookResult = ReturnType<typeof useAddStampMutation>;
+export type AddStampMutationResult = Apollo.MutationResult<AddStampMutation>;
+export type AddStampMutationOptions = Apollo.BaseMutationOptions<AddStampMutation, AddStampMutationVariables>;
 export const GetErrandsDocument = gql`
     query GetErrands($filters: CreateErrandInput!) {
   errands(filters: $filters) {
@@ -1545,7 +1911,6 @@ export const GetErrandsDocument = gql`
     title
     description
     category
-    status
     priority
     startDate
     endDate
@@ -1553,6 +1918,9 @@ export const GetErrandsDocument = gql`
       _id
     }
     stamps {
+      _id
+    }
+    label {
       _id
     }
     createdBy {
@@ -1612,7 +1980,6 @@ export const GetErrandDocument = gql`
     title
     description
     category
-    status
     priority
     startDate
     endDate
@@ -1624,6 +1991,10 @@ export const GetErrandDocument = gql`
       title
     }
     stamps {
+      _id
+      title
+    }
+    label {
       _id
       title
     }
@@ -2044,6 +2415,146 @@ export function useGetSchemeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type GetSchemeQueryHookResult = ReturnType<typeof useGetSchemeQuery>;
 export type GetSchemeLazyQueryHookResult = ReturnType<typeof useGetSchemeLazyQuery>;
 export type GetSchemeQueryResult = Apollo.QueryResult<GetSchemeQuery, GetSchemeQueryVariables>;
+export const GetPostersDocument = gql`
+    query GetPosters($board: String!) {
+  posters(board: $board) {
+    _id
+    title
+    board {
+      _id
+    }
+    errands {
+      _id
+      title
+      description
+      priority
+      startDate
+      endDate
+      progress
+      poster {
+        _id
+      }
+      stamps {
+        _id
+        title
+      }
+      label {
+        _id
+      }
+      assignee {
+        _id
+        firstName
+        lastName
+      }
+      members {
+        _id
+        firstName
+        lastName
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetPostersQuery__
+ *
+ * To run a query within a React component, call `useGetPostersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPostersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPostersQuery({
+ *   variables: {
+ *      board: // value for 'board'
+ *   },
+ * });
+ */
+export function useGetPostersQuery(baseOptions: Apollo.QueryHookOptions<GetPostersQuery, GetPostersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPostersQuery, GetPostersQueryVariables>(GetPostersDocument, options);
+      }
+export function useGetPostersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPostersQuery, GetPostersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPostersQuery, GetPostersQueryVariables>(GetPostersDocument, options);
+        }
+export type GetPostersQueryHookResult = ReturnType<typeof useGetPostersQuery>;
+export type GetPostersLazyQueryHookResult = ReturnType<typeof useGetPostersLazyQuery>;
+export type GetPostersQueryResult = Apollo.QueryResult<GetPostersQuery, GetPostersQueryVariables>;
+export const GetStampsDocument = gql`
+    query getStamps {
+  stamps {
+    _id
+    title
+    category
+  }
+}
+    `;
+
+/**
+ * __useGetStampsQuery__
+ *
+ * To run a query within a React component, call `useGetStampsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetStampsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetStampsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetStampsQuery(baseOptions?: Apollo.QueryHookOptions<GetStampsQuery, GetStampsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetStampsQuery, GetStampsQueryVariables>(GetStampsDocument, options);
+      }
+export function useGetStampsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetStampsQuery, GetStampsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetStampsQuery, GetStampsQueryVariables>(GetStampsDocument, options);
+        }
+export type GetStampsQueryHookResult = ReturnType<typeof useGetStampsQuery>;
+export type GetStampsLazyQueryHookResult = ReturnType<typeof useGetStampsLazyQuery>;
+export type GetStampsQueryResult = Apollo.QueryResult<GetStampsQuery, GetStampsQueryVariables>;
+export const GetLabelsDocument = gql`
+    query getLabels {
+  labels {
+    _id
+    title
+    category
+  }
+}
+    `;
+
+/**
+ * __useGetLabelsQuery__
+ *
+ * To run a query within a React component, call `useGetLabelsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLabelsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLabelsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetLabelsQuery(baseOptions?: Apollo.QueryHookOptions<GetLabelsQuery, GetLabelsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetLabelsQuery, GetLabelsQueryVariables>(GetLabelsDocument, options);
+      }
+export function useGetLabelsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetLabelsQuery, GetLabelsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetLabelsQuery, GetLabelsQueryVariables>(GetLabelsDocument, options);
+        }
+export type GetLabelsQueryHookResult = ReturnType<typeof useGetLabelsQuery>;
+export type GetLabelsLazyQueryHookResult = ReturnType<typeof useGetLabelsLazyQuery>;
+export type GetLabelsQueryResult = Apollo.QueryResult<GetLabelsQuery, GetLabelsQueryVariables>;
 
       export interface PossibleTypesResultData {
         possibleTypes: {

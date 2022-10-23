@@ -63,7 +63,7 @@ const ErrandDiscussion = () => {
     {discussionStore.discussions.map((discussion) => {
       return (
         <>
-          <div className="flex items-center">
+          <div className="flex">
             <div className="flex-none ml-4">
               <div className="flex items-center">
                 <div  className="flex flex-col items-center mr-16">

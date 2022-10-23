@@ -1,4 +1,5 @@
 import create from 'zustand'
+import { toMomentDate } from '../lib/utils'
 import { IBoard } from '../models/board'
 import { IScheme } from '../models/scheme'
 
@@ -9,7 +10,7 @@ interface ISchemeState {
     addScheme: (scheme: IScheme) => void
     setScheme: (scheme: IScheme| null) => void
     removeScheme: (id: string) => void
-    updateScheme: (scheme: IScheme) => void
+    updateScheme: (values: any) => void
     loadSchemes: (schemes: IScheme[]) => void
     setOpenForm: (value: boolean) => void
     addBoard: (board: IBoard) => void
@@ -31,8 +32,12 @@ const useSchemeStore = create<ISchemeState>()((set) => ({
     },
     setScheme: (scheme) => {
         set((state) => ({ 
-            scheme,
-            openForm: true
+            scheme: scheme ? { 
+                ...scheme, 
+                memberIds: scheme.members?.map(t => (t as any)._id),
+                startDate: toMomentDate(scheme?.startDate),
+                endDate: toMomentDate(scheme?.endDate),
+            } : scheme
         }))
     },
     removeScheme: (id) => {
@@ -42,7 +47,8 @@ const useSchemeStore = create<ISchemeState>()((set) => ({
     },
     updateScheme: (scheme) => {
         set((state) => ({
-            schemes: state.schemes.map((t) => t._id === scheme._id ? {...t, ...scheme} : t)
+            schemes: state.schemes.map((t) => t._id === scheme._id ? {...t, ...scheme} : t),
+            scheme: {... state.scheme, ...scheme}
         }))
     },
     setOpenForm:(value) => {
@@ -54,7 +60,7 @@ const useSchemeStore = create<ISchemeState>()((set) => ({
         set((state) => {
             let scheme = state.scheme;
             if(!!scheme?.boards) {
-                scheme.boards.push(board);
+                scheme = { ...scheme!, boards: [...scheme.boards, board]}
             } else {
                 scheme = { ...scheme!, boards: [board]}
             }

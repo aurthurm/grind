@@ -1,5 +1,5 @@
-import { AntDesignOutlined, EllipsisOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Card, Divider, Dropdown, Menu, MenuProps, message, Space, Tooltip } from 'antd';
+import { EllipsisOutlined } from '@ant-design/icons';
+import { Avatar, Button, Card, Divider, Dropdown, Menu, MenuProps, message, Space } from 'antd';
 import { Typography } from 'antd';
 import type { NextPage } from 'next'
 import AdminLayout from '../../../components/layouts/admin';
@@ -17,7 +17,7 @@ const { Title, Text } = Typography;
 const ProjectsPage: NextPage = () => {
   const { data } = useSession()
   const schemeStore = useSchemeStore();
-  const [getSchemes, { loading, error, data: schemes }] = useGetSchemesLazyQuery();
+  const [getSchemes, { loading, error }] = useGetSchemesLazyQuery();
 
   useEffect(() => {
     getSchemes({ variables: {}}).then(result => {
@@ -27,7 +27,7 @@ const ProjectsPage: NextPage = () => {
       message.success(`Failed to fetch schemes`);
       console.log(err);
     })
-  }, []);
+  },[]);
 
   if (loading) {
     return (
@@ -93,8 +93,8 @@ const ProjectsPage: NextPage = () => {
         
         <section className="flex flex-wrap justify-start items-center gap-4 mt-6">
           {schemeStore.schemes?.map(scheme => {
-            return (<>
-              <Link href={`/admin/projects/${scheme._id}`}>
+            return (
+              <Link href={`/admin/projects/${scheme._id}`} key={scheme._id}>
                   <Card className="w-80" bodyStyle={{ padding: 4 }}>
                     <div className="flex justify-between items-center">
                       <Title level={5}>{scheme?.title}</Title>
@@ -114,18 +114,16 @@ const ProjectsPage: NextPage = () => {
                         </Avatar> : ''}
                         {scheme.members?.map(member => {
                           return (
-                            <>
-                              <Avatar style={{ backgroundColor: '#f56a00' }}>
-                                {getInitials(`${member?.firstName} ${member?.lastName}`)}
-                              </Avatar>
-                            </>
+                            <Avatar style={{ backgroundColor: '#f56a00' }} key={member._id}>
+                              {getInitials(`${member?.firstName} ${member?.lastName}`)}
+                            </Avatar>
                           )
                         })}
                       
                     </Avatar.Group>
                   </Card>
                 </Link>
-              </>)
+              )
           })}
         </section>
 

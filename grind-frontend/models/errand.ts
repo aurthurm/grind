@@ -1,3 +1,4 @@
+import { ILabel } from "./label"
 import { IPoster } from "./poster"
 import { IStamp } from "./stamp"
 import { IUser } from "./user"
@@ -5,12 +6,12 @@ import { IUser } from "./user"
 export interface IErrand {
   __typename?: string
   _id: string
-  // category: ErrandCategory
   title: string
   description?: string
   category?: string
   stamps?: IStamp[]
-  status?: string
+  stampIds?: string[]
+  label?: ILabel
   priority?: string
   poster?: IPoster
   createdBy?: IUser
@@ -21,4 +22,5 @@ export interface IErrand {
   startDate?: Date | string | any,
   endDate?: Date | string | any
   createdAt?: Date | string | any;
+  progress?: number
 }

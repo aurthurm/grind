@@ -32,6 +32,7 @@ const ProjectForm = ({ goTo }: IProjectFormProps ) => {
     
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
+        schemeStore.setOpenForm(false);
     };
 
     return (

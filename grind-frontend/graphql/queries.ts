@@ -7,7 +7,6 @@ export const ERRANDS_QUERY = gql`
       title
       description
       category
-      status
       priority
       startDate
       endDate
@@ -15,6 +14,9 @@ export const ERRANDS_QUERY = gql`
         _id
       }
       stamps {
+        _id
+      }
+      label {
         _id
       }
       createdBy {
@@ -47,7 +49,6 @@ export const ERRAND_QUERY = gql`
       title
       description
       category
-      status
       priority
       startDate
       endDate
@@ -59,6 +60,10 @@ export const ERRAND_QUERY = gql`
         title
       }
       stamps {
+        _id
+        title
+      }
+      label {
         _id
         title
       }
@@ -248,6 +253,11 @@ export const SCHEME_QUERY = gql`
         firstName
         lastName
       }
+      boards {
+        _id
+        title
+        description
+      }
       createdBy {
         _id
         firstName
@@ -257,3 +267,63 @@ export const SCHEME_QUERY = gql`
     }
   }
 `
+
+export const POSTERS_QUERY = gql`
+  query GetPosters($board: String!) {
+    posters(board: $board) {
+      _id
+      title
+      board {
+        _id
+      }
+      errands {
+        _id
+        title
+        description
+        priority
+        startDate
+        endDate
+        progress
+        poster {
+          _id
+        }
+        stamps {
+          _id
+          title
+        }
+        label {
+          _id
+        }
+        assignee {
+          _id
+          firstName
+          lastName
+        }
+        members {
+          _id
+          firstName
+          lastName
+        }        
+      }
+    }
+  }
+`
+
+export const STAMPS_QUERY = gql`
+  query getStamps {
+    stamps {
+      _id
+      title
+      category
+    }
+  }
+`
+
+export const LABELS_QUERY = gql`
+  query getLabels {
+    labels {
+      _id
+      title
+      category
+    }
+  }`

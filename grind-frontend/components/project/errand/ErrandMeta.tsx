@@ -3,20 +3,30 @@ import React, { useEffect } from 'react';
 import { DatePicker } from 'antd';
 import useErrandStore from '../../../stores/errand';
 import useUserStore from '../../../stores/users';
-import { useEditErrandMutation, useGetUsersLazyQuery } from '../../../generated/graphql';
+import { useEditErrandMutation, useGetUsersLazyQuery, useGetStampsLazyQuery, useGetLabelsLazyQuery } from '../../../generated/graphql';
 import { IErrand } from '../../../models/errand';
 import useTicketStore from '../../../stores/tickets';
 import { IUser } from '../../../models/user';
 import type { RangePickerProps } from 'antd/lib/date-picker';
 import useMilestoneStore from '../../../stores/milestones';
+import useBoardStore from '../../../stores/board';
+import useLabelStore from '../../../stores/labels';
+import useStampStore from '../../../stores/stamps';
+import { ILabel } from '../../../models/label';
+import { IStamp } from '../../../models/stamp';
 const { RangePicker } = DatePicker;
 
 const ErrandMeta = () => {
   const users = useUserStore((state) => state.users);
   const loadUsers = useUserStore((state) => state.loadUsers);
+  const labelStore = useLabelStore();
+  const stampStore = useStampStore();
   const errandStore = useErrandStore();
-  const [updateErrandMutation, { loading, data, error }] = useEditErrandMutation();
+  const boardStore = useBoardStore();
+  const [updateErrandMutation,] = useEditErrandMutation();
   const [queryUsers] = useGetUsersLazyQuery()
+  const [queryStamps] = useGetStampsLazyQuery()
+  const [queryLabel] = useGetLabelsLazyQuery()
   const updateTicket = useTicketStore((state) => state.updateTicket);
   const milestones = useMilestoneStore((state) => state.milestones);
 
@@ -24,6 +34,16 @@ const ErrandMeta = () => {
     if(!users.length){
       queryUsers().then(result => {
         loadUsers(result.data?.users as IUser[])
+      })
+    }
+    if(!labelStore.labels?.length){
+      queryLabel().then(result => {
+        labelStore.loadLabels(result.data?.labels as ILabel[])
+      })
+    }
+    if(!stampStore.stamps?.length){
+      queryStamps().then(result => {
+        stampStore.loadStamps(result.data?.stamps as IStamp[])
       })
     }
   },[]);
@@ -53,13 +73,19 @@ const ErrandMeta = () => {
     updateErrand({ members: memberIds })
   }
 
+  const updateStamps = (stampIds: any[]) => {
+    const payload = { stampIds, stamps: stampIds.map(t => stampStore.stamps.find(x => x._id === t)) }
+    errandStore.updateErrand(payload);
+    updateErrand({ stamps: stampIds })
+  }
+
   if(!errandStore.errand._id) {
     return (<>Cannot Load Errand</>);
   };
  
   return (
     <>
-      {['TICKET'].includes(errandStore.errand?.category ?? '') === false ? '' : (
+      {['TICKET','PROJECT'].includes(errandStore.errand?.category ?? '') === false ? '' : (
         <RangePicker className="my-4" onChange={onChangeDates} value={[errandStore.errand?.startDate, errandStore.errand?.endDate]}/>
       )}
 
@@ -67,16 +93,25 @@ const ErrandMeta = () => {
         <div className="grid grid-cols-3 mb-4">
           <div className="col-span-1 mt-2">Status</div>
           <div>
-            <Select defaultValue={errandStore.errand.status} style={{ width: 120 }} onChange={(status) => updateErrand({ status })} showArrow={false} bordered={false}>
-              <Select.Option value="open">Open</Select.Option>
-              <Select.Option value="in progress">In Progress</Select.Option>
-              <Select.Option value="closed">Closed</Select.Option>
+            <Select defaultValue={errandStore.errand.label?._id} style={{ width: 120 }} onChange={(label) => updateErrand({ label })} showArrow={false} bordered={false}>
+              {labelStore?.labels?.map(label => (<Select.Option value={label._id} key={label._id}>{label?.title}</Select.Option>))}
             </Select>
           </div>
         </div>
       )}
 
-      {['TICKET'].includes(errandStore.errand?.category ?? '') === false ? '' : (
+      {['PROJECT'].includes(errandStore.errand?.category ?? '') === false ? '' : (
+        <div className="grid grid-cols-3 mb-4">
+          <div className="col-span-1 mt-2">Status</div>
+          <div>
+            <Select defaultValue={errandStore.errand.poster?._id} style={{ width: 120 }} onChange={(poster) => updateErrand({ poster })} showArrow={false} bordered={false}>
+              {boardStore?.board?.posters?.map(poster => (<Select.Option value={poster._id} key={poster._id}>{poster?.title}</Select.Option>))}
+            </Select>
+          </div>
+        </div>
+      )}
+
+      {['TICKET','PROJECT'].includes(errandStore.errand?.category ?? '') === false ? '' : (
         <div className="grid grid-cols-3 mb-4">
           <div className="col-span-1 mt-2">Assignee</div>
           <div>
@@ -87,7 +122,7 @@ const ErrandMeta = () => {
         </div>
       )}
 
-      {['TICKET'].includes(errandStore.errand?.category ?? '') === false ? '' : (
+      {['TICKET','PROJECT'].includes(errandStore.errand?.category ?? '') === false ? '' : (
         <div className="grid grid-cols-3 mb-4">
           <div className="col-span-1 mt-2">Reporter</div>
           <div>
@@ -98,7 +133,7 @@ const ErrandMeta = () => {
         </div>
       )}
 
-      {['TICKET', 'ENGAGEMENT'].includes(errandStore.errand?.category ?? '') === false ? '' : (
+      {['TICKET','PROJECT', 'ENGAGEMENT'].includes(errandStore.errand?.category ?? '') === false ? '' : (
         <div className="mb-4">
           <div className="mb-2">Team Members</div>
           <div>
@@ -119,7 +154,7 @@ const ErrandMeta = () => {
         </div>
       )}
 
-      {['TICKET', 'ENGAGEMENT'].includes(errandStore.errand?.category ?? '') === false ? '' : (
+      {['TICKET','PROJECT', 'ENGAGEMENT'].includes(errandStore.errand?.category ?? '') === false ? '' : (
         <div className="grid grid-cols-3">
           <div className="col-span-1 mt-2">Priority</div>
           <div>
@@ -133,7 +168,28 @@ const ErrandMeta = () => {
         </div>
       )}
 
-      {['TICKET'].includes(errandStore.errand?.category ?? '') === false ? '' : (
+      {['TICKET','PROJECT'].includes(errandStore.errand?.category ?? '') === false ? '' : (
+        <div className="mt-4">
+          <div className="mb-2">Tags</div>
+          <div>
+            <Select
+              mode="multiple"
+              placeholder="Inserted are removed"
+              value={errandStore.errand.stampIds}
+              onChange={updateStamps}
+              style={{ width: '100%' }}
+            >
+              {stampStore.stamps.map(stamp => (
+                <Select.Option key={stamp._id} value={stamp._id}>
+                  {stamp.title} 
+                </Select.Option>
+              ))}
+            </Select>
+          </div>
+        </div>
+      )}
+
+      {['TICKET','PROJECT'].includes(errandStore.errand?.category ?? '') === false ? '' : (
         <div>
           <Progress percent={(() => {
             const perc = milestones.filter(m => m.complete).length/milestones.length * 100;

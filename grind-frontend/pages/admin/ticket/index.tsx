@@ -11,6 +11,7 @@ import { IErrand } from '../../../models/errand';
 import useTicketStore from '../../../stores/tickets';
 import { useSession } from 'next-auth/react';
 import { toMomentDate } from '../../../lib/utils';
+import useLabelStore from '../../../stores/labels';
 
 const { Title } = Typography;
 
@@ -21,9 +22,11 @@ const columns: ColumnsType<IErrand> = [
     key: 'title',
     render: (text, record) => {
       let color = 'green';
-      if(record.priority === 'high') {
+      if(record.priority === 'critical') {
         color = 'red';
-      } else if(record.priority === 'low') {
+      } else if(record.priority === 'high') {
+        color = 'orange';
+      } else if (record.priority === 'low') {
         color = 'grey'
       }
       return (
@@ -38,13 +41,13 @@ const columns: ColumnsType<IErrand> = [
   },
   {
     title: 'Status',
-    dataIndex: 'status',
-    key: 'status',
+    dataIndex: 'label?.title',
+    key: 'label?.title',
     render: (text, record) => {
       let color = 'blue';
-      if(record.status === 'in progress') {
+      if(record.label?.title === 'in progress') {
         color = 'orange';
-      } else if(record.status === 'closed') {
+      } else if(record.label?.title === 'closed') {
         color = 'green'
       }
       return (<Tag color={color}>{text}</Tag>);
@@ -91,8 +94,9 @@ const columns: ColumnsType<IErrand> = [
 const TicketPage: NextPage = () => {
   const { data } = useSession()
   const ticketStore = useTicketStore();
+  const labelStore = useLabelStore();
   const [openErrandForm, setOpenErrandForm] = useState(false);
-  const [getErrands, { loading: errandsLoading, error: errandsError, data: errandData }] = useGetErrandsLazyQuery();
+  const [getErrands, { loading: errandsLoading, error: errandsError }] = useGetErrandsLazyQuery();
 
   useEffect(() => {
     getErrands({ variables: { filters: { category: ErrandCategory.Ticket }  }}).then(result => {
@@ -134,18 +138,24 @@ const TicketPage: NextPage = () => {
         <Divider className="my-6" />
         <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({})}>Clear Filters</Button>
         <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ assignee: (data?.user as any)?._id  })}>Mine</Button>
-        <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ status: 'open' })}>Open</Button>
-        <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ status: 'in progress' })}>In Progress</Button>
-        <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ status: 'closed' })}>Closed</Button>
-        <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ status: 'stuck' })}>Stuck</Button>
+
+        {labelStore.labels?.map(label => (
+          <Button 
+          key={label?._id}
+          type="dashed" 
+          className="mb-2 text-left" 
+          block onClick={() => filter({ label: label?._id })}>{ label?.title }</Button>
+        ))}
+
         <Divider className="my-6" />
         <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ other: 'new-today' })}>New Today</Button>
         <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ other: 'due-today' })}>Due Today</Button>
         <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ other: 'over-due' })}>Over Due</Button>
         <Divider className="my-6" />
+        <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ priority: 'critical' })}><Badge color='red' />Critical</Button>
+        <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ priority: 'high' })}><Badge color='orange' />High Priority</Button>
         <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ priority: 'normal' })}><Badge color='green' />Normal Priority</Button>
         <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ priority: 'low' })}><Badge color='grey' />Low Priority</Button>
-        <Button type="dashed" className="mb-2 text-left" block onClick={() => filter({ priority: 'high' })}><Badge color='red' />High Priority</Button>
       </section>
 
       <AdminMain>
