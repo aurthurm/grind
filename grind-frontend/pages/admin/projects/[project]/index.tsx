@@ -106,46 +106,35 @@ const ProjectsPage: NextPage = () => {
 
   return (
     <>
-      <section className="pl-8 pt-4">
+      <section className="pl-8 pt-4 w-full">
         <Title level={2}>{schemeStore.scheme?.title}</Title>
         
         <Divider className="" />
-        <div className="flex justify-start items-center gap-6">
-          <Title level={5}>Project Owner</Title>
-          {!!schemeStore?.scheme?.assignee ? 
-          (<Avatar style={{ backgroundColor: '#f56a00' }}>
-              {getInitials(`${schemeStore?.scheme?.assignee?.firstName} ${schemeStore?.scheme?.assignee?.lastName}`)}
-          </Avatar>) : 
-          (<Select defaultValue={schemeStore?.scheme?.assignee?._id} style={{ width: 120 }} onChange={(assignee) => {}} showArrow={false} bordered={false}>
-          {users.map(user => (<Select.Option value={user._id} key={user._id}>{user.firstName} {user.lastName}</Select.Option>))}
-          </Select>)}
+        <div className="flex justify-start items-center gap-6 text">
+          <Title level={5} className="w-32">Assignee</Title>
+          <Select 
+          defaultValue={schemeStore?.scheme?.assignee?._id} 
+          className="border-b border-gray-300" 
+          style={{ minWidth: 240 }}
+          onChange={(assignee) => updateScheme({ assignee })} showArrow={false} bordered={false}>
+            {users.map(user => (<Select.Option value={user._id} key={user._id}>{user.firstName} {user.lastName}</Select.Option>))}
+          </Select>
         </div>
         <div className="flex justify-start items-center gap-6 mt-4">
-          <Title level={5}>Project Members</Title>
-          {!!schemeStore?.scheme?.members?.length ? 
-            <Avatar.Group maxCount={4} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
-              {schemeStore.scheme?.members?.map(member => {
-                  return (
-                    <Avatar style={{ backgroundColor: '#f56a00' }} key={member._id}>
-                      {getInitials(`${member?.firstName} ${member?.lastName}`)}
-                    </Avatar>
-                  )
-              })}
-            </Avatar.Group> :
-            <Select
-                mode="multiple"
-                placeholder="Inserted are removed"
-                value={schemeStore?.scheme?.memberIds}
-                onChange={updateSchemeMembers}
-                style={{ width: '100%' }}
-              >
-                {users.map(user => (
-                  <Select.Option key={user._id} value={user._id}>
-                    {user.firstName} {user.lastName}
-                  </Select.Option>
-                ))}
-            </Select>
-          }
+          <Title level={5} className="w-32">Members</Title>
+          <Select
+              mode="multiple"
+              placeholder="Inserted are removed"
+              value={schemeStore?.scheme?.memberIds}
+              onChange={updateSchemeMembers}
+              style={{ minWidth: 240 }}
+            >
+              {users.map(user => (
+                <Select.Option key={user._id} value={user._id}>
+                  {user.firstName} {user.lastName}
+                </Select.Option>
+              ))}
+          </Select>
         </div>
         <Divider />
 

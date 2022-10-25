@@ -7,6 +7,7 @@ import {
   QuestionOutlined,
   SettingOutlined,
   UnorderedListOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Button, message } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -61,11 +62,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         label: 'Overview',
                     },
                     {
-                        key: 'todo',
-                        icon: <UnorderedListOutlined />,
-                        label: 'TODO',
-                    },
-                    {
                         key: 'messages',
                         icon: <MessageOutlined />,
                         label: 'Message Board',
@@ -86,13 +82,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         label: 'Tickets',
                     },
                     {
-                        key: 'help',
-                        icon: <QuestionOutlined />,
-                        label: 'Help',
-                    },
-                    {
                         key: 'user',
-                        icon: <QuestionOutlined />,
+                        icon: <UserOutlined />,
                         label: 'Users',
                     },
                     {
