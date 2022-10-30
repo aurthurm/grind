@@ -15,6 +15,12 @@ const UsersPage: NextPage = () => {
   const userStore = useUserStore();
   const { data , loading, error } = useGetUsersQuery();
 
+  useEffect(() => {
+    if (data && userStore.users?.length === 0) {
+      userStore.loadUsers(data?.users as IUser[])
+    }
+  }, [data]);
+
   if (loading) {
     return (
       <h2>
@@ -32,10 +38,6 @@ const UsersPage: NextPage = () => {
   if (error) {
     console.error(error);
     return null;
-  }
-
-  if (data && userStore.users?.length === 0) {
-    userStore.loadUsers(data?.users as IUser[])
   }
 
   const onCardMenuClick: MenuProps['onClick'] = ({ key }) => {
@@ -108,7 +110,7 @@ const UsersPage: NextPage = () => {
         <Input placeholder="Type to search ..." className="w-64 mr-4" />
         <Button type="dashed" className="flex items-center" onClick={() => userStore.setOpenForm(true)} icon={<PlusOutlined />}>Add New</Button>
       </div>
-      <Table columns={columns} dataSource={data?.users as IUser[]} />
+      <Table columns={columns} rowKey="_id" dataSource={data?.users as IUser[]} />
     </div>
     {/* User Form Drawer */}
     <UserForm />
