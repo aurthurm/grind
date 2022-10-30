@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { MoreOutlined } from '@ant-design/icons';
 import AddErrandForm from '../../../forms/AddErrandForm';
 import useBoardStore from '../../../../stores/board';
+import { IErrand } from '../../../../models/errand';
 
 const Poster = ({ poster, index, children }: any) => {
     const {isOver, setNodeRef} = useDroppable({ id: poster?._id, data: { index } });
@@ -35,11 +36,7 @@ const Poster = ({ poster, index, children }: any) => {
     );
 
     return (
-      <>
-        <Card
-        className="relative w-72"
-        bodyStyle={{ padding: 10 }}
-        > 
+        <div className="w-72 p-2 bg-gray-100"> 
           <div className="flex justify-between items-center mb-1">
             <div className="flex justify-start items-center">
               <Badge status="success" />
@@ -63,23 +60,20 @@ const Poster = ({ poster, index, children }: any) => {
           onClick={() => setOpenErrandForm(true)}
           block>Add New..</Button>
 
-          <SortableContext id={poster?._id} items={poster?.errands} strategy={verticalListSortingStrategy}>
+          <SortableContext id={poster?._id} items={poster?.errands?.map((e: IErrand) => e?._id)} strategy={verticalListSortingStrategy}>
             <div ref={setNodeRef}>{children}</div>
           </SortableContext>
 
-          {isOver && (<div className="absolute top-0 left-0 h-full w-full z-10 opacity-50 bg-blue-100"/>)}
-        </Card>
-
-        {/* Modals */}
-        <AddErrandForm 
-        open={openErrandForm} 
-        setOpen={setOpenErrandForm} 
-        goTo={null} 
-        category="PROJECT"
-        extras={{ poster: poster._id }}
-        handleResponse={boardStore.addErrand}
-        />
-      </>
+          {/* Modals */}
+          <AddErrandForm 
+          open={openErrandForm} 
+          setOpen={setOpenErrandForm} 
+          goTo={null} 
+          category="PROJECT"
+          extras={{ poster: poster._id }}
+          handleResponse={boardStore.addErrand}
+          />
+        </div>
     )
 };
 

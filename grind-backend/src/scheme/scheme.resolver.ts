@@ -36,8 +36,8 @@ export class SchemeResolver {
   }
 
   @Query(() => [Scheme], { name: 'schemes' })
-  async findAll() {
-    return await this.schemeService.findAll();
+  async findAll(@GqlCurrentUser() user: User) {
+    return await this.schemeService.findAll(user);
   }
 
   @Query(() => Scheme, { name: 'scheme' })

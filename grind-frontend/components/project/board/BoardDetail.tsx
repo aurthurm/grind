@@ -3,7 +3,7 @@ import BoardListing from './BoardListing';
 import GantChart from '../../../components/timeline/GanttTask';
 import useBoardStore from '../../../stores/board';
 import BoardDiscussion from './BoardDiscussions';
-import KhabBan2 from './khanBan2/Board';
+import KhabBan2 from './khanBan/Board';
 
 const BoardDetail = () => {
   const boardStore = useBoardStore();

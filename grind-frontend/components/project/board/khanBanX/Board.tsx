@@ -6,14 +6,15 @@ import {
     closestCorners,
     PointerSensor,
     useSensor,
-    useSensors
+    useSensors,
   } from "@dnd-kit/core";
-  import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+  import { horizontalListSortingStrategy, SortableContext, sortableKeyboardCoordinates, useSortable } from "@dnd-kit/sortable";
 import { IPoster } from '../../../../models/poster';
 import { Button } from 'antd';
 import Poster from './Poster';
 import ItemCard from './ItemCard';
 import PosterForm from '../../../forms/PosterForm';
+import { CSS } from "@dnd-kit/utilities";
 
 const KhabBan2 = () => {
     const boardStore = useBoardStore();
@@ -28,6 +29,7 @@ const KhabBan2 = () => {
     );
 
     function handleDragEnd(event: any) {
+        console.log("de");
         const { over, active } = event;
         if(!over) return;
 
@@ -47,6 +49,7 @@ const KhabBan2 = () => {
     }
 
     function handleDragOver(event: any) {
+        console.log("do");
         const { over, active } = event
         if (!over?.id) {
           return;
@@ -69,36 +72,68 @@ const KhabBan2 = () => {
         }
     }
 
+    if(!posters) return;
+
     return (
         <>
             <Button type="primary" className="text-blue-500 mb-4" onClick={() => setOpenPosterForm(true)}>Add Poster</Button>
-            <DndContext 
-            sensors={sensors} 
-            collisionDetection={closestCorners}
-            onDragEnd={handleDragEnd}  
-            onDragOver={handleDragOver}>
-                <div className="flex justify-start gap-4">
-                    {posters?.map((poster: IPoster, pIndex: number) => {
-                        return (
-                            <Poster poster={poster} index={pIndex} key={poster._id}>
-                                {poster?.errands?.map((errand, index) => (
-                                    <ItemCard 
-                                    key={errand?._id}
-                                    errand={errand}
-                                    poster={poster}
-                                    posterIndex={pIndex}
-                                    index={index}
-                                    ></ItemCard>
-                                ))}
-                            </Poster>
-                        )
-                    })}
+            <div className="flex justify-start gap-4">
+                <DndContext 
+                sensors={sensors} 
+                collisionDetection={closestCorners}
+                onDragEnd={handleDragEnd}  
+                onDragOver={handleDragOver}>
+
+                    <SortableContext id={"thisitit"} items={posters?.map(p => p?._id)} strategy={horizontalListSortingStrategy}>
+                        {posters?.map((poster: IPoster, pIndex: number) => {
+                            return (
+                                <SortablePoster key={poster._id} poster={poster}>
+                                    <Poster poster={poster} index={pIndex} >
+                                        {poster?.errands?.map((errand, index) => (
+                                            <ItemCard 
+                                            key={errand?._id}
+                                            errand={errand}
+                                            poster={poster}
+                                            posterIndex={pIndex}
+                                            index={index}
+                                            ></ItemCard>
+                                        ))}
+                                    </Poster>
+                                </SortablePoster>
+                            )
+                        })}
+                    </SortableContext>
+
+                    {/* <DragOverlay>{"activeId" ? <ItemCard id={"activeId"} /> : null}</DragOverlay> */}
                     <Button type="primary" className="text-blue-500 mb-4" onClick={() => setOpenPosterForm(true)}>Add Poster</Button>
-                </div>
-            </DndContext>
+                </DndContext>
+            </div>
             <PosterForm open={openPosterForm} setOpen={setOpenPosterForm} />
         </>
     )
 };
 
 export default KhabBan2
+
+
+const SortablePoster = ({ poster, children }: any) => {    
+    const { setNodeRef, attributes, listeners, transition, transform, isDragging } = useSortable({ id: "main" , data: {
+        type: "poster"
+    } });
+
+    const style = {
+        transition,
+        transform: CSS.Transform.toString(transform),
+        opacity: isDragging ? 0.5 : 1 , 
+        background: "lightgreen",
+        textAlign: "center",
+        margin: 10, 
+        padding: 5
+    } as any
+
+    return (
+        <div className="p-2 bg-red-900" ref={setNodeRef} {...attributes} {...listeners} style={style}> 
+          {children}
+        </div>
+    )
+  };
