@@ -9,6 +9,12 @@ export const CREATE_ERRAND = gql`
       poster {
         _id
       }
+      createdBy {
+        _id
+        firstName
+        lastName
+      }
+      createdAt
     }
 }
   `
@@ -34,15 +40,23 @@ export const UPDATE_ERRAND = gql`
       }
       assignee {
         _id
+        firstName
+        lastName
       }
       reporter {
         _id
+        firstName
+        lastName
       }
       members {
         _id
+        firstName
+        lastName
       }
       createdBy {
         _id
+        firstName
+        lastName
       }
     }
 }

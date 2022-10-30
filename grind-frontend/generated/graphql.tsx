@@ -1111,14 +1111,14 @@ export type AddErrandMutationVariables = Exact<{
 }>;
 
 
-export type AddErrandMutation = { __typename?: 'Mutation', createErrand: { __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, poster?: { __typename?: 'Poster', _id: string } | null } };
+export type AddErrandMutation = { __typename?: 'Mutation', createErrand: { __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, createdAt: any, poster?: { __typename?: 'Poster', _id: string } | null, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null } };
 
 export type EditErrandMutationVariables = Exact<{
   payload: UpdateErrandInput;
 }>;
 
 
-export type EditErrandMutation = { __typename?: 'Mutation', updateErrand: { __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, category?: ErrandCategory | null, priority?: string | null, startDate?: any | null, endDate?: any | null, poster?: { __typename?: 'Poster', _id: string } | null, stamps?: Array<{ __typename?: 'Stamp', _id: string }> | null, label?: { __typename?: 'Label', _id: string } | null, assignee?: { __typename?: 'User', _id: string } | null, reporter?: { __typename?: 'User', _id: string } | null, members?: Array<{ __typename?: 'User', _id: string }> | null, createdBy?: { __typename?: 'User', _id: string } | null } };
+export type EditErrandMutation = { __typename?: 'Mutation', updateErrand: { __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, category?: ErrandCategory | null, priority?: string | null, startDate?: any | null, endDate?: any | null, poster?: { __typename?: 'Poster', _id: string } | null, stamps?: Array<{ __typename?: 'Stamp', _id: string }> | null, label?: { __typename?: 'Label', _id: string } | null, assignee?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, reporter?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, members?: Array<{ __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null }> | null, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null } };
 
 export type AddDscussionMutationVariables = Exact<{
   payload: CreateDiscussionInput;
@@ -1209,7 +1209,7 @@ export type GetErrandsQueryVariables = Exact<{
 }>;
 
 
-export type GetErrandsQuery = { __typename?: 'Query', errands: Array<{ __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, category?: ErrandCategory | null, priority?: string | null, startDate?: any | null, endDate?: any | null, createdAt: any, poster?: { __typename?: 'Poster', _id: string } | null, stamps?: Array<{ __typename?: 'Stamp', _id: string }> | null, label?: { __typename?: 'Label', _id: string } | null, createdBy?: { __typename?: 'User', _id: string } | null, assignee?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, reporter?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, members?: Array<{ __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null }> | null }> };
+export type GetErrandsQuery = { __typename?: 'Query', errands: Array<{ __typename?: 'Errand', _id: string, title?: string | null, description?: string | null, category?: ErrandCategory | null, priority?: string | null, startDate?: any | null, endDate?: any | null, createdAt: any, poster?: { __typename?: 'Poster', _id: string, title?: string | null } | null, stamps?: Array<{ __typename?: 'Stamp', _id: string, title: string }> | null, label?: { __typename?: 'Label', _id: string, title: string } | null, createdBy?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, assignee?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, reporter?: { __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null } | null, members?: Array<{ __typename?: 'User', _id: string, firstName?: string | null, lastName?: string | null }> | null }> };
 
 export type GetErrandQueryVariables = Exact<{
   id: Scalars['String'];
@@ -1292,6 +1292,12 @@ export const AddErrandDocument = gql`
     poster {
       _id
     }
+    createdBy {
+      _id
+      firstName
+      lastName
+    }
+    createdAt
   }
 }
     `;
@@ -1342,15 +1348,23 @@ export const EditErrandDocument = gql`
     }
     assignee {
       _id
+      firstName
+      lastName
     }
     reporter {
       _id
+      firstName
+      lastName
     }
     members {
       _id
+      firstName
+      lastName
     }
     createdBy {
       _id
+      firstName
+      lastName
     }
   }
 }
@@ -1916,15 +1930,20 @@ export const GetErrandsDocument = gql`
     endDate
     poster {
       _id
+      title
     }
     stamps {
       _id
+      title
     }
     label {
       _id
+      title
     }
     createdBy {
       _id
+      firstName
+      lastName
     }
     assignee {
       _id

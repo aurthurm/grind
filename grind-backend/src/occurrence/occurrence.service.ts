@@ -18,7 +18,6 @@ export class OccurrenceService {
   }
 
   async find(target: string, targetId: string) {
-    console.log(target, targetId);
     return await this.occurrenceModel
       .find({ target, targetId })
       .sort({ createdAt: -1 })

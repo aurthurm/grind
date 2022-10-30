@@ -4,19 +4,6 @@ export const jwtConstants = {
   secret: 'secretKey',
 };
 
-export const POSTER_CATEGORIES = ['listing', 'engagement', 'todo', 'message'];
-
-export enum PosterCategory {
-  LISTING = 'listing',
-  ENGAGEMENT = 'engagement',
-  TODO = 'todo',
-  MESAGE = 'message',
-}
-
-registerEnumType(PosterCategory, {
-  name: 'PosterCategory',
-});
-
 export const ERAND_CATEGORIES = [
   'message',
   'engagement',
@@ -35,6 +22,19 @@ export enum ErrandCategory {
 
 registerEnumType(ErrandCategory, {
   name: 'ErrandCategory',
+});
+
+export const POSTER_CATEGORIES = ['listing', 'engagement', 'todo', 'message'];
+
+export enum PosterCategory {
+  LISTING = 'listing',
+  ENGAGEMENT = 'engagement',
+  TODO = 'todo',
+  MESAGE = 'message',
+}
+
+registerEnumType(PosterCategory, {
+  name: 'PosterCategory',
 });
 
 export const USER_ROLES = ['SU_ADMIN', 'ADMIN', 'USER'];

@@ -91,38 +91,40 @@ const ProjectsPage: NextPage = () => {
         <Title level={2}>Projects</Title>
         <Divider className="my-6" />
         
-        <section className="flex flex-wrap justify-start items-center gap-4 mt-6">
+        <section className="flex flex-wrap justify-start gap-4 mt-6">
           {schemeStore.schemes?.map(scheme => {
             return (
-              <Link href={`/admin/projects/${scheme._id}`} key={scheme._id}>
-                  <Card className="w-80" bodyStyle={{ padding: 4 }}>
-                    <div className="flex justify-between items-center">
-                      <Title level={5}>{scheme?.title}</Title>
-                      <Dropdown overlay={cardMenu}>
-                        <a onClick={e => e.preventDefault()}>
-                          <Space>
-                            <EllipsisOutlined className="text-xl" />
-                          </Space>
-                        </a>
-                      </Dropdown>
-                    </div>
-                    <Text type="secondary" italic>{scheme?.description}</Text>
-                    <Divider  className="my-2" />
-                    <Avatar.Group maxCount={4} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
-                      {!!scheme?.assignee ? <Avatar style={{ backgroundColor: '#f56a00' }}>
-                        {getInitials(`${scheme?.assignee?.firstName} ${scheme?.assignee?.lastName}`)}
-                        </Avatar> : ''}
-                        {scheme.members?.map(member => {
-                          return (
-                            <Avatar style={{ backgroundColor: '#f56a00' }} key={member._id}>
-                              {getInitials(`${member?.firstName} ${member?.lastName}`)}
-                            </Avatar>
-                          )
-                        })}
-                      
-                    </Avatar.Group>
-                  </Card>
-                </Link>
+              <Card className="w-80 p-2" bodyStyle={{ padding: 4 }} key={scheme._id}>
+                <div className="flex justify-between items-center">
+                  <Title level={5} className="capitalize">
+                    <Link href={`/admin/projects/${scheme._id}`}>
+                      {scheme?.title}
+                    </Link>
+                  </Title>
+                  <Dropdown overlay={cardMenu}>
+                    <a onClick={e => e.preventDefault()}>
+                      <Space>
+                        <EllipsisOutlined className="text-xl" />
+                      </Space>
+                    </a>
+                  </Dropdown>
+                </div>
+                <Text type="secondary" italic>{scheme?.description}</Text>
+                <Divider  className="my-2" />
+                <Avatar.Group maxCount={4} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
+                  {!!scheme?.assignee ? <Avatar style={{ backgroundColor: '#f56a00' }}>
+                    {getInitials(`${scheme?.assignee?.firstName} ${scheme?.assignee?.lastName}`)}
+                    </Avatar> : ''}
+                    {scheme.members?.map(member => {
+                      return (
+                        <Avatar style={{ backgroundColor: '#f56a00' }} key={member._id}>
+                          {getInitials(`${member?.firstName} ${member?.lastName}`)}
+                        </Avatar>
+                      )
+                    })}
+                  
+                </Avatar.Group>
+              </Card>
               )
           })}
         </section>

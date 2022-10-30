@@ -1,6 +1,6 @@
 import { useAddErrandMutation } from '../../generated/graphql'
 import React from 'react';
-import { Button, Form, Input, message, Modal } from 'antd';
+import { Button, DatePicker, Form, Input, message, Modal } from 'antd';
 import { IErrand } from '../../models/errand';
 import dynamic from "next/dynamic";
 import { useRouter } from 'next/router';
@@ -59,6 +59,17 @@ const AddErrandForm = ({ open, setOpen, goTo, category, extras, handleResponse }
                 >
                     <EditorCK value={"description"} onChange={() => 'Start typing'} />
                 </Form.Item>
+
+                <div className="flex">
+                    {['PROJECT'].includes(category) ?
+                    <Form.Item className="w-1/2" name="startDate" label="Start Date" rules={[{ required: ['PROJECT'].includes(category), message: 'Start Date is required!' }]}>
+                        <DatePicker />
+                    </Form.Item> : null}
+                    {['PROJECT', 'TICKET'].includes(category) ?
+                    <Form.Item className="w-1/2" name="endDate" label="End Date" rules={[{ required: ['PROJECT', 'TICKET'].includes(category), message: 'End Date is required!' }]}>
+                        <DatePicker />
+                    </Form.Item> : null}
+                </div>
 
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                     <Button type="primary" htmlType="submit" className="bg-blue-700">

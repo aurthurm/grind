@@ -12,15 +12,20 @@ export const ERRANDS_QUERY = gql`
       endDate
       poster {
         _id
+        title
       }
       stamps {
         _id
+        title
       }
       label {
         _id
+        title
       }
       createdBy {
         _id
+        firstName
+        lastName
       }
       assignee {
         _id

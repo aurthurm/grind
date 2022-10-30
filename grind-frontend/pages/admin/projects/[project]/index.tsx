@@ -61,7 +61,7 @@ const ProjectsPage: NextPage = () => {
     })
   }
 
-  if (schemeLoading) {
+  if (schemeLoading || !schemeStore.scheme) {
     return (
       <h2>
         <a href="#loading" aria-hidden="true" className="aal_anchor" id="loading">
@@ -116,8 +116,8 @@ const ProjectsPage: NextPage = () => {
           defaultValue={schemeStore?.scheme?.assignee?._id} 
           className="border-b border-gray-300" 
           style={{ minWidth: 240 }}
-          onChange={(assignee) => updateScheme({ assignee })} showArrow={false} bordered={false}>
-            {users.map(user => (<Select.Option value={user._id} key={user._id}>{user.firstName} {user.lastName}</Select.Option>))}
+          onChange={(assignee) => updateScheme({ assignee })} showArrow={true} bordered={false}>
+            {users.map(user => <Select.Option value={user._id} key={user._id}>{user.firstName} {user.lastName}</Select.Option>)}
           </Select>
         </div>
         <div className="flex justify-start items-center gap-6 mt-4">

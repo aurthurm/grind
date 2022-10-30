@@ -71,7 +71,6 @@ export const imageResizer = async (file: Express.Multer.File) => {
 
 export const deleteFile = async (filePath: string) => {
   const unlinkAsync = promisify(unlink);
-  console.log(filePath);
   if (filePath?.length > 0) {
     await unlinkAsync(filePath);
     // delete thumb

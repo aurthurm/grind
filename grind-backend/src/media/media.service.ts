@@ -18,7 +18,6 @@ export class MediaService {
   }
 
   async find(target: string, targetId: string) {
-    console.log(target, targetId);
     return await this.mediaModel
       .find({ target, targetId })
       .sort({ createdAt: -1 })

@@ -29,7 +29,6 @@ export class SmsService {
         },
       });
     if (intMobiles.length > 0) {
-      console.log('fired : ', intMobiles);
       await this.sendViaClickSend(intMobiles, body).subscribe({
         next: (res) => {
           intlResponse = res;

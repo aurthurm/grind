@@ -1,6 +1,6 @@
 import { useAddSchemeMutation } from '../../generated/graphql'
 import React from 'react';
-import { Button, Form, Input, message, Modal, Select } from 'antd';
+import { Button, DatePicker, Form, Input, message, Modal, Select } from 'antd';
 import useSchemeStore from '../../stores/schemes';
 import useUserStore from '../../stores/users';
 import { useRouter } from 'next/router';
@@ -32,7 +32,6 @@ const ProjectForm = ({ goTo }: IProjectFormProps ) => {
     
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
-        schemeStore.setOpenForm(false);
     };
 
     return (
@@ -59,8 +58,7 @@ const ProjectForm = ({ goTo }: IProjectFormProps ) => {
                 autoComplete="off"
                 layout="horizontal"
                 >
-                <Form.Item name="title" label="Title"
-                rules={[{ required: true, message: 'Title is required!' }]}>
+                <Form.Item name="title" label="Title" rules={[{ required: true, message: 'Title is required!' }]}>
                     <Input />
                 </Form.Item>
                 <Form.Item name="description" label="Description">
@@ -70,6 +68,12 @@ const ProjectForm = ({ goTo }: IProjectFormProps ) => {
                     <Select >
                         {users.map(user => (<Select.Option value={user._id} key={user._id}>{user.firstName} {user.lastName}</Select.Option>))}
                     </Select>
+                </Form.Item>
+                <Form.Item name="startDate" label="Start Date" rules={[{ required: true, message: 'Start Date is required!' }]}>
+                    <DatePicker />
+                </Form.Item>
+                <Form.Item name="endDate" label="End Date" rules={[{ required: true, message: 'End Date is required!' }]}>
+                    <DatePicker />
                 </Form.Item>
                 <Button type="primary" htmlType="submit" block className="bg-blue-500">
                     Submit

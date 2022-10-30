@@ -1,5 +1,4 @@
-import { AntDesignOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Card, Divider, Tooltip,Button, message, Badge } from 'antd';
+import { Avatar, Card, Divider,Button, message } from 'antd';
 import { ErrandCategory, useGetErrandsLazyQuery } from '../../../generated/graphql';
 import { Typography } from 'antd';
 import Link from 'next/link';
@@ -10,7 +9,6 @@ import AdminLayout from '../../../components/layouts/admin';
 import { IErrand } from '../../../models/errand';
 import useEngagementStore from '../../../stores/engagements';
 import HtmlViewer from '../../../components/editors/HTMLViewer';
-import { IUser } from '../../../models/user';
 import { getInitials } from '../../../lib/utils'
 
 const { Title, Text } = Typography;

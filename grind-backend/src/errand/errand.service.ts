@@ -32,6 +32,7 @@ export class ErrandService {
     return await this.errandModel
       .find(filters)
       .sort({ createdAt: -1 })
+      .populate('createdBy')
       .populate('assignee')
       .populate('members')
       .populate('reporter')
@@ -44,6 +45,7 @@ export class ErrandService {
   async findOne(id: string) {
     return await this.errandModel
       .findById(id)
+      .populate('createdBy')
       .populate('assignee')
       .populate('members')
       .populate('reporter')
@@ -60,6 +62,7 @@ export class ErrandService {
     const errand = await this.errandModel
       .findByIdAndUpdate(id, updateErrandInput)
       .setOptions({ new: true })
+      .populate('createdBy')
       .populate('assignee')
       .populate('members')
       .populate('reporter')
