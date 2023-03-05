@@ -13,7 +13,7 @@ interface IBoardState {
     setPosters: (posters: IPoster[]) => void
     addErrand: (errand: IErrand) => void
     setErrands: (poster: IPoster, errands: IErrand[]) => any
-    switchErrandPoster: (errandIndex: number, fromPotser: string, toPotser: string) => void
+    switchErrandPoster: (errandId: string, fromPotser: string, toPotser: string, updated: IErrand & any) => void
     switchErrandPosition: (posterIdx: number, from: number, to: number) => void
     switchPosterPosition: (errands: IErrand[], from: IPoster, to: string) => void
 }
@@ -86,15 +86,13 @@ const useBoardStore = create<IBoardState>()((set) => ({
             }
         })
     },
-    switchErrandPoster: (errandIndex, fromPotser, toPotser) => {
+    switchErrandPoster: (errandId, fromPotser, toPotser, updated) => {
         set((state) => {
             const board = state.board;
             const fromPotserIndex = board?.posters.findIndex(p => p?._id === fromPotser) ?? -1;
             const toPotserIndex = board?.posters.findIndex(p => p?._id === toPotser) ?? -1;
-            const errand = board?.posters![fromPotserIndex]?.errands![errandIndex];
-            board!.posters[fromPotserIndex] = { ...board?.posters[fromPotserIndex], errands: board?.posters[fromPotserIndex]?.errands?.filter(e => e?._id !== errand?._id) } as IPoster
-            board!.posters[toPotserIndex] = { ...board?.posters[toPotserIndex], errands: [errand!, ...board!.posters[toPotserIndex].errands!] } as IPoster
-            console.log(errand, fromPotserIndex, toPotserIndex);
+            board!.posters[fromPotserIndex] = { ...board?.posters[fromPotserIndex], errands: board?.posters[fromPotserIndex]?.errands?.filter(e => e?._id !== errandId) } as IPoster
+            board!.posters[toPotserIndex] = { ...board?.posters[toPotserIndex], errands: [updated!, ...board!.posters[toPotserIndex].errands!] } as IPoster
             return {
                 board
             }
