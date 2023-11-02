@@ -79,7 +79,7 @@ const ErrandDiscussion = () => {
                 </Avatar>
               </div>
             </div>
-            <div className="grow ml-4">
+            <div className="grow ml-4 text-gray-600">
                 <Title level={5}>{discussion.createdBy?.firstName} {discussion.createdBy?.lastName} 
                 {/* - <span className="text-gray-400 italic">Software Developer</span> */}
                 </Title>

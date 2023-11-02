@@ -108,7 +108,7 @@ const ErrandDetail = () => {
               {!isEditing ? (
                 <article
                   onDoubleClick={() => setIsEditing(true)}
-                  className="hover:bg-gray-100 p-4 hover:rounded-md"
+                  className="hover:bg-gray-100 p-4 hover:rounded-md text-gray-600"
                 >
                   <HtmlViewer content={errandStore.errand?.description} />
                 </article>

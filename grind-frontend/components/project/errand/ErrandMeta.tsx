@@ -91,7 +91,7 @@ const ErrandMeta = () => {
 
       {['TICKET', 'ENGAGEMENT'].includes(errandStore.errand?.category ?? '') === false ? '' : (
         <div className="grid grid-cols-3 mb-4">
-          <div className="col-span-1 mt-2">Status</div>
+          <div className="col-span-1 mt-2 text-gray-600 font-semibold">Status</div>
           <div>
             <Select defaultValue={errandStore.errand.label?._id} style={{ width: 120 }} onChange={(label) => updateErrand({ label })} showArrow={false} bordered={false}>
               {labelStore?.labels?.map(label => (<Select.Option value={label._id} key={label._id}>{label?.title}</Select.Option>))}
@@ -102,7 +102,7 @@ const ErrandMeta = () => {
 
       {['PROJECT'].includes(errandStore.errand?.category ?? '') === false ? '' : (
         <div className="grid grid-cols-3 mb-4">
-          <div className="col-span-1 mt-2">Status</div>
+          <div className="col-span-1 mt-2 text-gray-600 font-semibold">Status</div>
           <div>
             <Select defaultValue={errandStore.errand.poster?._id} style={{ width: 120 }} onChange={(poster) => updateErrand({ poster })} showArrow={false} bordered={false}>
               {boardStore?.board?.posters?.map(poster => (<Select.Option value={poster._id} key={poster._id}>{poster?.title}</Select.Option>))}
@@ -113,7 +113,7 @@ const ErrandMeta = () => {
 
       {['TICKET','PROJECT'].includes(errandStore.errand?.category ?? '') === false ? '' : (
         <div className="grid grid-cols-3 mb-4">
-          <div className="col-span-1 mt-2">Assignee</div>
+          <div className="col-span-1 mt-2 text-gray-600 font-semibold">Assignee</div>
           <div>
             <Select defaultValue={errandStore.errand?.assignee?._id} style={{ width: 120 }} onChange={(assignee) => updateErrand({ assignee })} showArrow={false} bordered={false}>
               {users.map(user => (<Select.Option value={user._id} key={user._id}>{user.firstName} {user.lastName}</Select.Option>))}
@@ -124,7 +124,7 @@ const ErrandMeta = () => {
 
       {['TICKET','PROJECT'].includes(errandStore.errand?.category ?? '') === false ? '' : (
         <div className="grid grid-cols-3 mb-4">
-          <div className="col-span-1 mt-2">Reporter</div>
+          <div className="col-span-1 mt-2 text-gray-600 font-semibold">Reporter</div>
           <div>
             <Select defaultValue={errandStore.errand?.reporter?._id} style={{ width: 120 }} onChange={(reporter) => updateErrand({ reporter })} showArrow={false} bordered={false}>
               {users.map(user => (<Select.Option value={user._id} key={user._id}>{user.firstName} {user.lastName}</Select.Option>))}
@@ -135,7 +135,7 @@ const ErrandMeta = () => {
 
       {['TICKET','PROJECT', 'ENGAGEMENT'].includes(errandStore.errand?.category ?? '') === false ? '' : (
         <div className="mb-4">
-          <div className="mb-2">Team Members</div>
+          <div className="mb-2 text-gray-600 font-semibold">Team Members</div>
           <div>
             <Select
               mode="multiple"
@@ -156,7 +156,7 @@ const ErrandMeta = () => {
 
       {['TICKET','PROJECT', 'ENGAGEMENT'].includes(errandStore.errand?.category ?? '') === false ? '' : (
         <div className="grid grid-cols-3">
-          <div className="col-span-1 mt-2">Priority</div>
+          <div className="col-span-1 mt-2 text-gray-600 font-semibold">Priority</div>
           <div>
             <Select defaultValue={errandStore.errand.priority} style={{ width: 120 }} onChange={(priority) => updateErrand({ priority })} showArrow={true} bordered={false}>
               <Select.Option value="critical">Critical</Select.Option>
@@ -170,7 +170,7 @@ const ErrandMeta = () => {
 
       {['TICKET','PROJECT'].includes(errandStore.errand?.category ?? '') === false ? '' : (
         <div className="mt-4">
-          <div className="mb-2">Tags</div>
+          <div className="mb-2 text-gray-600 font-semibold">Tags</div>
           <div>
             <Select
               mode="multiple"
